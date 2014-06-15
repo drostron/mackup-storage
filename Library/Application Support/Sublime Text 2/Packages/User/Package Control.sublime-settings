@@ -1,0 +1,40 @@
+{
+	"auto_upgrade_last_run": null,
+	"installed_packages":
+	[
+		"AlignTab",
+		"BracketHighlighter",
+		"Clickable URLs",
+		"CoffeeScript",
+		"ColorSchemeEditor",
+		"Dockerfile Syntax Highlighting",
+		"fish-shell",
+		"GitGutter",
+		"GoSublime",
+		"Indent XML",
+		"JsFormat",
+		"MacTerminal",
+		"Markdown Preview",
+		"MoveTab",
+		"Navigation History",
+		"nginx",
+		"Open URL",
+		"Package Control",
+		"Prolog",
+		"Puppet",
+		"Rust",
+		"Schemr",
+		"Sublime Finder",
+		"SublimeCodeIntel",
+		"SublimeREPL",
+		"Surround",
+		"SyncedSideBar",
+		"Theme - Refined",
+		"Theme - Soda",
+		"Themr"
+	],
+	"repositories":
+	[
+		"https://github.com/laughedelic/sublime-idris.git"
+	]
+}

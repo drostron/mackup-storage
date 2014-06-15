@@ -1,0 +1,13 @@
+# sublime
+Library/Application\ Support/Sublime\ Text\ 2/Installed Packages/
+Library/Application\ Support/Sublime\ Text\ 2/Pristine Packages/
+Library/Application\ Support/Sublime\ Text\ 2/Packages/*
+!Library/Application\ Support/Sublime\ Text\ 2/Packages/User/
+Library/Application\ Support/Sublime\ Text\ 2/Packages/User/*
+!Library/Application\ Support/Sublime\ Text\ 2/Packages/User/*.sublime-keymap
+!Library/Application\ Support/Sublime\ Text\ 2/Packages/User/*.sublime-settings
+Library/Application\ Support/Sublime\ Text\ 2/Packages/User/GoSublime-aux.sublime-settings
+Library/Application\ Support/Sublime\ Text\ 2/Packages/User/SublimeREPLHistory/
+
+# idea
+Library/Preferences/IdeaIC13
