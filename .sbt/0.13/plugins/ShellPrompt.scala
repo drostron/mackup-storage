@@ -2,8 +2,6 @@ import sbt._
 import Keys._
 import scala.Console._
 
-// lives at ~/.sbt/plugins/ShellPrompt.scala
-
 object ShellPrompt extends Plugin {
   override def settings = Seq(
     shellPrompt <<= name(name => { state =>
