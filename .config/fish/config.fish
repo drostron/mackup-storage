@@ -6,6 +6,9 @@ alias ga='git add'
 alias d=docker
 
 make_completion g git
+make_completion ga "git add"
+make_completion gd "git diff"
+make_completion gs "git status"
 make_completion d docker
 
 set PATH ~/opt/brew/bin ~/opt/brew/sbin $PATH ~/code/bin/ ~/code/ghar/bin ~/opt/brew/share/python
