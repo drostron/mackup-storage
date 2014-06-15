@@ -1,0 +1,17 @@
+[user]
+	name = "Dave Rostron"
+	email = "yastero@gmail.com"
+[color]
+	diff = auto
+	status = auto
+[core]
+	excludesfile = /Users/dave/.gitignore_global
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+[mergetool "sourcetree"]
+	cmd = /opt/homebrew-cask/Caskroom/sourcetree/1.9.1/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
+[alias]
+	co = checkout
+	br = branch
