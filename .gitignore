@@ -22,3 +22,7 @@ Library/Preferences/IntelliJIdea12
 
 # iterm2
 Library/Preferences/com.googlecode.iterm2.plist
+
+# keyremap4macbook
+Library/Application\ Support/KeyRemap4MacBook/
+Library/Preferences/org.pqrs.KeyRemap4MacBook.plist
