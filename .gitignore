@@ -30,3 +30,6 @@ Library/Preferences/org.pqrs.KeyRemap4MacBook.plist
 # light-table
 Library/Application\ Support/LightTable/plugins/
 Library/Preferences/com.kodowa.LightTable.plist
+
+# menumeters
+Library/Preferences/com.ragingmenace.MenuMeters.plist
