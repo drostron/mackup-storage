@@ -1,0 +1,37 @@
+;; User behaviors
+;; -----------------------------
+;; Behaviors are stored as a set of diffs that are merged together
+;; to create the final set of functionality that makes up Light Table. You can
+;; modify these diffs to either add or subtract functionality.
+;;
+;; Behaviors are added to tags, objects with those tags then automatically gain
+;; whatever logic the behavior imparts. To see a list of user-level behaviors,
+;; start typing a word related to the functionality you want in between the square
+;; brackets (e.g. "theme").
+
+{:+ {
+     ;; The app tag is kind of like global scope. You assign behaviors that affect
+     ;; all of Light Table here
+     :app [(:lt.objs.style/set-skin "dark")
+           (:lt.objs.langs.julia/julia-path "/Applications/Julia-0.3.0-prerelease-a673e4c4de.app/Contents/Resources/julia/bin/julia")]
+
+     ;; The editor tag is applied to all editors
+     :editor [:lt.objs.editor/no-wrap
+              :lt.objs.editor/scroll-past-end
+              :lt.objs.editor/line-numbers
+              (:lt.objs.style/set-theme "borealis")
+              (:lt.objs.style/font-settings "Droid Sans Mono" 11 1.2)
+              (:lt.plugins.rainbow/rainbow-parens)]
+
+     ;; Here we can add behaviors to just clojure editors
+     :editor.clojure [(:lt.objs.langs.clj/print-length 1000)]
+
+     :editor.go [(:lt.objs.editor/tab-settings true 2 2)
+                 :lt.plugins.go/eval!
+                 :lt.plugins.go/connect
+                 ]
+     }
+
+ ;; You can use the subtract key to remove behavior that may get added by
+ ;; another diff
+ :- {:app [:lt.objs.intro/show-intro]}}

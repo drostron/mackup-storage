@@ -26,3 +26,7 @@ Library/Preferences/com.googlecode.iterm2.plist
 # keyremap4macbook
 Library/Application\ Support/KeyRemap4MacBook/
 Library/Preferences/org.pqrs.KeyRemap4MacBook.plist
+
+# light-table
+Library/Application\ Support/LightTable/plugins/
+Library/Preferences/com.kodowa.LightTable.plist
