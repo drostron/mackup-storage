@@ -172,6 +172,16 @@ var focusAppAll = function(app) {
 };
 
 var commonLayout = {
+  "EchofonLite" : {
+    "operations" : [
+      S.op("corner", {
+        "direction" : "top-right",
+        "width"     : "0.475*screenSizeX",
+        "height"    : "0.7*screenSizeY",
+        "screen"    : laptopMonitorRes
+      })
+    ]
+  },
   "Emacs" : {
     "operations" : [
       halfWidthScreenWindowOps[1].dup({ "screen" : landscapeMonitor })],
@@ -199,6 +209,12 @@ var commonLayout = {
       halfWidthScreenWindowOps[0].dup({ "screen" : landscapeMonitor })],
       // resizeAndCenterWindowOps[0].dup({ "screen" : landscapeMonitor })],
     "repeat-last" : true
+  },
+  "iTerm" : {
+    "repeat-last" : true,
+    "operations" : [
+      splitSplitScreenRightWindowOps[0]
+    ]
   },
   "Sublime Text 2" : {
     "operations" : [
@@ -240,16 +256,6 @@ var twoMonitorLayout = slate.layout("twoMonitorLayout", _.extend(
         ]})
       ]
     },
-    "EchofonLite" : {
-      "operations" : [
-        S.op("corner", {
-          "direction" : "top-right",
-          "width"     : "0.475*screenSizeX",
-          "height"    : "0.7*screenSizeY",
-          "screen"    : laptopMonitorRes
-        })
-      ]
-    },
     "Adium" : {
       "main-first" : true,
       "operations" : [
@@ -277,19 +283,6 @@ var twoMonitorLayout = slate.layout("twoMonitorLayout", _.extend(
           "screen"    : laptopMonitorRes
         })
       ]
-    },
-    "iTerm" : {
-      "repeat-last" : true,
-      "operations" : [
-        splitSplitScreenRightWindowOps[0]
-        // S.op("move", {
-        //   "x" : "screenOriginX+(0.25*screenSizeX)",
-        //   "y" : "screenOriginY",
-        //   "width" : "0.5*screenSizeX",
-        //   "height" : "0.8*screenSizeY",
-        //   "screen" : landscapeMonitor
-        // })
-      ]
     }
   }, commonLayout));
 
@@ -316,16 +309,6 @@ var laptopLayout = S.layout("laptopLayout", _.extend({
       })
     ]
   },
-  "EchofonLite" : {
-    "operations" : [
-      S.op("corner", {
-        "direction" : "top-right",
-        "width"     : "0.475*screenSizeX",
-        "height"    : "0.7*screenSizeY",
-        "screen"    : laptopMonitorRes
-      })
-    ]
-  },
   "Emacs" : {
     "operations" : [
       halfWidthScreenWindowOps[1]],
@@ -341,20 +324,11 @@ var laptopLayout = S.layout("laptopLayout", _.extend({
       resizeAndCenterWindowOps[0]],
     "repeat-last" : true
   },
-  // "iTerm" : {
-  //   "operations" : rotate(quarterScreenWindowOps),
-  //   "repeat-last" : true
-  // },
   "Messages" : {
     "operations" : [
       quarterScreenWindowOps[2]
     ]
-  }//,
-  // "Sublime Text 2" : {
-  //   "operations" : [
-  //     resizeAndCenterWindowOps[2]],
-  //   "repeat-last" : true
-  // }
+  }
 }, commonLayout));
 
 S.default([laptopMonitorRes, landscapeMonitor], twoMonitorLayout);
