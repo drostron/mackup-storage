@@ -2,7 +2,7 @@ import sbt._, Keys._
 
 object ClearScreen extends Plugin {
 
-  override def settings = Seq(commands ++= Seq(
+  override val settings = Seq(commands ++= Seq(
     Command.command("clear-screen") { state ⇒
       print("\033c")
       state
