@@ -1,5 +1,4 @@
-import sbt._
-import Keys._
+import sbt._, Keys._
 import scala.Console._
 
 object ShellPrompt extends Plugin {
