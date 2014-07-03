@@ -8,9 +8,6 @@
   { "keys": ["ctrl+shift+f"], "command": "show_panel", "args": {"panel": "find_in_files"} },
   { "keys": ["super+alt+up"], "command": "swap_line_up" },
   { "keys": ["super+alt+down"], "command": "swap_line_down" },
-  { "keys": ["super+`"], "command": "insert_snippet", "args" : {"contents": "~~${0:$SELECTION}~~" } },
-  { "keys": ["super+shift+`"], "command": "surround_change_text", "args" : {"match": "~~", "replacement": ""} },
   { "keys": ["super+i"], "command": "insert_snippet", "args" : {"contents": "◇ ${0:$SELECTION} ◇" } },
   { "keys": ["super+shift+i"], "command": "surround_change_text", "args" : {"match": "(◇ | ◇)", "replacement": ""} }
-
 ]
