@@ -11,7 +11,8 @@ make_completion gd "git diff"
 make_completion gs "git status"
 make_completion d docker
 
-set PATH ~/opt/brew/bin ~/opt/brew/sbin $PATH ~/code/bin/ ~/code/ghar/bin ~/opt/brew/share/python
+set PATH ~/opt/brew/bin ~/opt/brew/sbin ~/Library/Haskell/bin $PATH ~/code/bin ~/code/ghar/bin \
+   ~/opt/brew/share/python ~/anaconda/bin
 
 set -x MANPATH (cat /etc/manpaths /etc/manpaths.d/**) ~/opt/brew/share/man
 

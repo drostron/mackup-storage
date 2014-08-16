@@ -383,8 +383,12 @@ S.bindAll({
   "left:ctrl;alt;cmd"   : S.op("resize", { "width" : "-10%", "height" : "+0"  }),
   "right:ctrl;alt;cmd"  : S.op("resize", { "width" : "+10%", "height" : "+0"  }),
   "end:ctrl;alt;cmd"    : S.op("resize", { "width" : "-10%", "height" : "+0", "anchor" : "bottom-right"   }),
-  "home:ctrl;alt;cmd"   : S.op("resize", { "width" : "+10%", "height" : "+0", "anchor" : "bottom-right"   }),
-  "pageUp:ctrl;alt;cmd"   : S.op("resize", { "width" : "+0", "height" : "+10%", "anchor" : "bottom-right" }),
+  "home:ctrl;alt;cmd"   : S.op("sequence", { "operations" : [
+    S.op("nudge", { "x" : "-10%", "y" : "+0"  }),
+    S.op("resize", { "width" : "+10%", "height" : "+0" })]}),
+  "pageUp:ctrl;alt;cmd"   : S.op("sequence", { "operations" : [
+    S.op("nudge", { "x" : "+0", "y" : "-10%"  }),
+    S.op("resize", { "width" : "+0", "height" : "+10%" })]}),
   "pageDown:ctrl;alt;cmd" : S.op("resize", { "width" : "+0", "height" : "-10%", "anchor" : "bottom-right" }),
   "up:shift;ctrl;alt;cmd"    : S.op("resize", { "width" : "+0",  "height" : "-2%" }),
   "down:shift;ctrl;alt;cmd"  : S.op("resize", { "width" : "+0",  "height" : "+2%" }),
@@ -411,7 +415,7 @@ S.bindAll({
   // "c:shift;ctrl;cmd" : focusApp("Google Chrome", { "screenId" : 0, "window" : "inbox" }),
   "a:ctrl;cmd" : appCycleFocus("Adium"),
   "d:ctrl;cmd" : appCycleFocus("Dash"),
-  "e:ctrl;cmd" : appCycleFocus("Evernote"),
+  "e:ctrl;cmd" : appCycleFocus("Emacs"),
   // "f:ctrl;cmd" : appCycleFocus("EchofonLite"),
   "f:ctrl;cmd" : appCycleFocus("Finder"),
   "g:ctrl;cmd" : appCycleFocus("SourceTree"), // appCycleFocus("GitX"),
