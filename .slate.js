@@ -204,22 +204,25 @@ var commonLayout = {
       resizeAndCenterWindowOps[4].dup({ "screen" : landscapeMonitor })],
     "repeat-last" : true
   },
+  "Firefox" : {
+    "operations" : [
+      resizeAndCenterWindowOps[4].dup({ "screen" : landscapeMonitor })],
+    "repeat-last" : true
+  },
   "IntelliJ IDEA" : {
     "operations" : [
       halfWidthScreenWindowOps[0].dup({ "screen" : landscapeMonitor })],
-      // resizeAndCenterWindowOps[0].dup({ "screen" : landscapeMonitor })],
     "repeat-last" : true
   },
   "iTerm" : {
     "repeat-last" : true,
     "operations" : [
-      splitSplitScreenRightWindowOps[0]
+      halfWidthScreenWindowOps[1]
     ]
   },
   "Sublime Text 2" : {
     "operations" : [
       halfWidthScreenWindowOps[0].dup({ "screen" : landscapeMonitor })],
-      // resizeAndCenterWindowOps[4].dup({ "screen" : landscapeMonitor })],
     "repeat-last" : true
   },
   "Rdio" : {
@@ -235,12 +238,7 @@ var commonLayout = {
   },
   "YoruFukurou" : {
     "operations" : [
-      S.op("corner", {
-        "direction" : "top-right",
-        "width"     : "0.5*screenSizeX",
-        "height"    : "0.76*screenSizeY",
-        "screen"    : laptopMonitorRes
-      })
+      halfWidthScreenWindowOps[1]
     ]
   }
 };
@@ -335,15 +333,6 @@ S.default([laptopMonitorRes, landscapeMonitor], twoMonitorLayout);
 S.default(1, laptopLayout);
 
 S.bindAll({
-  // Layout Bindings
-  //"space:ctrl" : universalLayout,
-
-  // Push Bindings
-  // NOTE: some of these may *not* work if you have not removed the expose/spaces/mission control bindings
-  // "right:ctrl;shift" : S.op("push", { "direction" : "right", "style" : "bar-resize:screenSizeX/3" }),
-  // "left:ctrl;shift"  : S.op("push", { "direction" : "left",  "style" : "bar-resize:screenSizeX/3" }),
-  // "up:ctrl;shift"    : S.op("push", { "direction" : "up",    "style" : "bar-resize:screenSizeY/2" }),
-  // "down:ctrl;shift"  : S.op("push", { "direction" : "down",  "style" : "bar-resize:screenSizeY/2" }),
 
   // Focus Bindings
   "home:ctrl"     : S.op("focus", { "direction" : "left"   }),
@@ -351,15 +340,6 @@ S.bindAll({
   "pageUp:ctrl"   : S.op("focus", { "direction" : "up"     }),
   "pageDown:ctrl" : S.op("focus", { "direction" : "down"   }),
   "/:ctrl"        : S.op("focus", { "direction" : "behind" }),
-
-  // Window Hints
-  // "tab:ctrl" : S.op("hint"),
-
-  // Switch currently doesn't work well so I'm commenting it out until I fix it.
-  // "tab:cmd" : S.op("switch"),
-
-  // Grid
-  // "esc:ctrl" : S.op("grid"),
 
   // emulate optimal layout, these will evolve as I continue with the slate kool-aid
   "delete:alt;cmd"       : S.op("push", { "direction" : "up", "style" : "center" }),
@@ -414,9 +394,8 @@ S.bindAll({
   "c:ctrl;cmd"       : appCycleFocus("Google Chrome"),
   // "c:shift;ctrl;cmd" : focusApp("Google Chrome", { "screenId" : 0, "window" : "inbox" }),
   "a:ctrl;cmd" : appCycleFocus("Adium"),
-  "d:ctrl;cmd" : appCycleFocus("Dash"),
+  "d:ctrl;cmd" : appCycleFocus("Firefox"),
   "e:ctrl;cmd" : appCycleFocus("Emacs"),
-  // "f:ctrl;cmd" : appCycleFocus("EchofonLite"),
   "f:ctrl;cmd" : appCycleFocus("Finder"),
   "g:ctrl;cmd" : appCycleFocus("SourceTree"), // appCycleFocus("GitX"),
   "l:ctrl;cmd" : appCycleFocus("Light Table"),
@@ -429,7 +408,6 @@ S.bindAll({
   "v:ctrl;cmd" : appCycleFocus("IntelliJ IDEA"),
   "v:shift;ctrl;cmd" : focusAppAll("IntelliJ IDEA"),
   "b:ctrl;cmd" : appCycleFocus("Emacs"),
-  "x:ctrl;cmd" : appCycleFocus("Firefox"),
   "r:ctrl;cmd" : S.op("focus", { "app" : "Rdio" }),
 
   // undo
