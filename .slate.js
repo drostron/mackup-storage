@@ -201,12 +201,12 @@ var commonLayout = {
   },
   "Google Chrome" : {
     "operations" : [
-      resizeAndCenterWindowOps[4].dup({ "screen" : landscapeMonitor })],
+      halfWidthScreenWindowOps[0].dup({ "screen" : landscapeMonitor })],
     "repeat-last" : true
   },
   "Firefox" : {
     "operations" : [
-      resizeAndCenterWindowOps[4].dup({ "screen" : landscapeMonitor })],
+      halfWidthScreenWindowOps[0].dup({ "screen" : landscapeMonitor })],
     "repeat-last" : true
   },
   "IntelliJ IDEA" : {
@@ -407,8 +407,20 @@ S.bindAll({
   "t:ctrl;cmd" : appCycleFocus("iTerm"),
   "v:ctrl;cmd" : appCycleFocus("IntelliJ IDEA"),
   "v:shift;ctrl;cmd" : focusAppAll("IntelliJ IDEA"),
-  "b:ctrl;cmd" : appCycleFocus("Emacs"),
   "r:ctrl;cmd" : S.op("focus", { "app" : "Rdio" }),
+  "b:ctrl;cmd" : S.op("focus", { "app" : "SoundCleod" }),
+  "b:shift;ctrl;cmd" : S.op("chain", { "operations" : [ 
+    S.op("corner", {
+        "direction" : "bottom-right",
+        "width"     : "0.58*screenSizeX",
+        "height"    : "0.35*screenSizeY"
+    }),
+    S.op("corner", {
+        "direction" : "bottom-right",
+        "width"     : "0.58*screenSizeX",
+        "height"    : "screenSizeY"
+    })
+  ]}),
 
   // undo
   "z:ctrl;cmd" : S.op("undo"),

@@ -12,9 +12,10 @@ make_completion gs "git status"
 make_completion d docker
 
 set PATH ~/opt/brew/bin ~/opt/brew/sbin ~/Library/Haskell/bin $PATH ~/code/bin ~/code/ghar/bin \
-   ~/opt/brew/share/python ~/anaconda/bin
+   ~/opt/brew/share/python ~/anaconda/bin ~/agda/.cabal-sandbox/bin
 
-set -x MANPATH (cat /etc/manpaths /etc/manpaths.d/**) ~/opt/brew/share/man
+set -x MANPATH (cat /etc/manpaths /etc/manpaths.d/**) ~/opt/brew/share/man \
+  /usr/share/man /usr/local/share/man /Users/dave/.opam/4.01.0/man /Applications/DiffMerge/CommandLine
 
 set fish_greeting ""
 
