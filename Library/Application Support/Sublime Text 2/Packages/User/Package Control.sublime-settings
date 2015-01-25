@@ -1,5 +1,13 @@
 {
 	"auto_upgrade_last_run": null,
+	"in_process_packages":
+	[
+	],
+	"installed_dependencies":
+	[
+		"0_package_control_loader",
+		"bz2"
+	],
 	"installed_packages":
 	[
 		"AlignTab",
@@ -15,17 +23,18 @@
 		"JsFormat",
 		"MacTerminal",
 		"Markdown Preview",
+		"MarkdownEditing",
 		"MoveTab",
 		"Navigation History",
 		"nginx",
+		"Open Finder",
 		"Open URL",
 		"Package Control",
+		"Pretty YAML",
 		"Prolog",
 		"Puppet",
 		"Rust",
 		"Schemr",
-		"Sublime Finder",
-		"SublimeCodeIntel",
 		"SublimeHaskell",
 		"SublimeREPL",
 		"Surround",

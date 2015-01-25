@@ -249,7 +249,7 @@ var twoMonitorLayout = slate.layout("twoMonitorLayout", _.extend(
       "operations" : [
         function() { S.log("_before_ twoMonitorLayout"); },
         S.op("sequence", { "operations" : [
-          S.op("shell", { "command" : "/usr/sbin/networksetup -setairportpower en0 off" }),
+          // S.op("shell", { "command" : "/usr/sbin/networksetup -setairportpower en0 off" }),
           // S.op("shell", { "command" : "/Users/dave/opt/brew/bin/blueutil power 1"}),
         ]})
       ]
@@ -293,7 +293,7 @@ var laptopLayout = S.layout("laptopLayout", _.extend({
     "operations" : [
       function() { S.log("_before_ laptopLayout"); },
       S.op("sequence", { "operations" : [
-        S.op("shell", { "command" : "/usr/sbin/networksetup -setairportpower en0 on" }),
+        // S.op("shell", { "command" : "/usr/sbin/networksetup -setairportpower en0 on" }),
         // S.op("shell", { "command" : "/Users/dave/opt/brew/bin/blueutil power 0"}),
       ]})
     ]

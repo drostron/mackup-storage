@@ -1,3 +1,7 @@
 {
-  "tab_size": 3
+  "color_scheme": "Packages/MarkdownEditing/MarkdownEditor.tmTheme",
+
+  "wrap_width": 90,
+
+  "mde.list_indent_auto_switch_bullet": false
 }
