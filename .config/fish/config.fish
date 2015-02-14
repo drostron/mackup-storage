@@ -12,7 +12,7 @@ make_completion gs "git status"
 make_completion d docker
 
 set PATH ~/opt/brew/bin ~/opt/brew/sbin ~/Library/Haskell/bin $PATH ~/code/bin ~/code/ghar/bin \
-   ~/opt/brew/share/python ~/agda/.cabal-sandbox/bin
+   ~/opt/brew/share/python ~/agda/.cabal-sandbox/bin ~/code/gocode/bin/
 
 set -x MANPATH (cat /etc/manpaths /etc/manpaths.d/**) ~/opt/brew/share/man \
   /usr/share/man /usr/local/share/man /Users/dave/.opam/4.01.0/man /Applications/DiffMerge/CommandLine
@@ -23,9 +23,11 @@ set --export EDITOR "~/code/bin/subl -w"
 
 eval (opam config env)
 
-set -x DOCKER_HOST tcp://192.168.59.104:2376
+set -x DOCKER_HOST tcp://192.168.59.103:2376
 set -x DOCKER_CERT_PATH /Users/dave/.boot2docker/certs/boot2docker-vm
 set -x DOCKER_TLS_VERIFY 1
+
+set -x GOPATH ~/code/gocode/
 
 # TODO : this might be irrelevant for the moment
 # include a few additional manpage generated completions

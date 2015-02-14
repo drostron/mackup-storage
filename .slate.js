@@ -220,6 +220,11 @@ var commonLayout = {
       halfWidthScreenWindowOps[1]
     ]
   },
+  "Atom" : {
+    "operations" : [
+      halfWidthScreenWindowOps[0].dup({ "screen" : landscapeMonitor })],
+    "repeat-last" : true
+  },
   "Sublime Text 2" : {
     "operations" : [
       halfWidthScreenWindowOps[0].dup({ "screen" : landscapeMonitor })],
@@ -258,9 +263,33 @@ var twoMonitorLayout = slate.layout("twoMonitorLayout", _.extend(
       "main-first" : true,
       "operations" : [
         S.op("move", {
-          "x" : "screenOriginX+(0.2*screenSizeX)",
+          "x" : "screenOriginX+(0.5*screenSizeX)",
           "y" : "screenOriginY",
-          "width" : "0.6*screenSizeX",
+          "width" : "0.5*screenSizeX",
+          "height" : "0.83*screenSizeY",
+         "screen"    : laptopMonitorRes
+        })
+      ]
+    },
+    "Slack" : {
+      "main-first" : true,
+      "operations" : [
+        S.op("move", {
+          "x" : "screenOriginX",
+          "y" : "screenOriginY",
+          "width" : "0.5*screenSizeX",
+          "height" : "0.83*screenSizeY",
+         "screen"    : laptopMonitorRes
+        })
+      ]
+    },
+    "Gitter" : {
+      "main-first" : true,
+      "operations" : [
+        S.op("move", {
+          "x" : "screenOriginX+(0.1*screenSizeX)",
+          "y" : "screenOriginY",
+          "width" : "0.8*screenSizeX",
           "height" : "0.8*screenSizeY",
          "screen"    : laptopMonitorRes
         })
@@ -299,6 +328,15 @@ var laptopLayout = S.layout("laptopLayout", _.extend({
     ]
   },
   "Adium" : {
+    "operations" : [
+      S.op("corner", {
+        "direction" : "top-left",
+        "width"     : "0.5*screenSizeX",
+        "height"    : "0.7*screenSizeY"
+      })
+    ]
+  },
+  "Gitter" : {
     "operations" : [
       S.op("corner", {
         "direction" : "top-left",
@@ -394,10 +432,13 @@ S.bindAll({
   "c:ctrl;cmd"       : appCycleFocus("Google Chrome"),
   // "c:shift;ctrl;cmd" : focusApp("Google Chrome", { "screenId" : 0, "window" : "inbox" }),
   "a:ctrl;cmd" : appCycleFocus("Adium"),
-  "d:ctrl;cmd" : appCycleFocus("Firefox"),
-  "e:ctrl;cmd" : appCycleFocus("Emacs"),
+  "d:ctrl;cmd" : appCycleFocus("Gitter"),
+  // "d:ctrl;cmd" : appCycleFocus("Firefox"),
+  // "e:ctrl;cmd" : appCycleFocus("Emacs"),
+  "e:ctrl;cmd" : appCycleFocus("Slack"),
   "f:ctrl;cmd" : appCycleFocus("Finder"),
   "g:ctrl;cmd" : appCycleFocus("SourceTree"), // appCycleFocus("GitX"),
+  "x:ctrl;cmd" : appCycleFocus("Atom"),
   "l:ctrl;cmd" : appCycleFocus("Light Table"),
   "m:ctrl;cmd" : appCycleFocus("Messages"),
   "p:ctrl;cmd" : appCycleFocus("Preview"),
@@ -409,7 +450,7 @@ S.bindAll({
   "v:shift;ctrl;cmd" : focusAppAll("IntelliJ IDEA"),
   "r:ctrl;cmd" : S.op("focus", { "app" : "Rdio" }),
   "b:ctrl;cmd" : S.op("focus", { "app" : "SoundCleod" }),
-  "b:shift;ctrl;cmd" : S.op("chain", { "operations" : [ 
+  "b:shift;ctrl;cmd" : S.op("chain", { "operations" : [
     S.op("corner", {
         "direction" : "bottom-right",
         "width"     : "0.58*screenSizeX",

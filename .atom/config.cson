@@ -1,0 +1,93 @@
+"*":
+  editor:
+    showInvisibles: true
+    showIndentGuide: true
+    preferredLineLength: 120
+    scrollPastEnd: true
+    invisibles: {}
+    fontSize: 12
+  core:
+    themes: [
+      "one-light-ui"
+      "solarized-light-syntax-modified-updated"
+    ]
+    disabledPackages: [
+      "ctrl-dir-scroll-updated"
+      "language-ruby-on-rails"
+      "atom-ctags"
+      "view-tail-large-files"
+    ]
+    excludeVcsIgnoredPaths: false
+    ignoredNames: [
+      ".git"
+      ".hg"
+      ".svn"
+      ".DS_Store"
+      "Thumbs.db"
+      "*.class"
+    ]
+  "exception-reporting":
+    userId: "8f738275-0954-f934-db4d-b8a8cccda829"
+  welcome:
+    showOnStartup: false
+  "base16-syntax":
+    scheme: "Twilight"
+  "spell-check":
+    grammars: [
+      "source.gfm"
+      "text.git-commit"
+      "text.plain"
+      "text.plain.null-grammar"
+      "source.scala"
+      "source.ruby"
+      "text.html.basic"
+    ]
+  linter: {}
+  "markdown-preview": {}
+  autosave:
+    enabled: true
+  "autocomplete-plus": {}
+  "atom-ctags": {}
+  "view-tail-large-files": {}
+".js.rails.source source.jquery.js":
+  editor:
+    preferredLineLength: 120
+".cucumber.rspec.ruby.source.steps":
+  editor:
+    preferredLineLength: 120
+".rails.rjs.ruby.source":
+  editor:
+    preferredLineLength: 120
+".gohtml.html.text":
+  editor:
+    preferredLineLength: 120
+".erb.html.text":
+  editor:
+    preferredLineLength: 120
+".feature.gherkin.text":
+  editor:
+    preferredLineLength: 120
+".html.ruby.text":
+  editor:
+    preferredLineLength: 120
+".rails.ruby.source":
+  editor:
+    preferredLineLength: 120
+".ruby.source.sql":
+  editor:
+    preferredLineLength: 120
+".gotemplate.source":
+  editor:
+    preferredLineLength: 120
+".go.source":
+  editor:
+    preferredLineLength: 120
+".ruby.source":
+  editor:
+    preferredLineLength: 120
+".lua.source":
+  editor:
+    preferredLineLength: 120
+".scala.source":
+  editor:
+    preferredLineLength: 120
