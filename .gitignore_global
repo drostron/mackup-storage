@@ -1,2 +1,9 @@
 *~
 .DS_Store
+.tags
+tags
+.python-version
+.vagrant
+.idea
+.ensime
+.ensime_cache/

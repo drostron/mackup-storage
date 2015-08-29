@@ -91,86 +91,6 @@ var halfWidthScreenWindowOps = [
   halfWidthScreenWindow.dup({ "direction" : "top-right" })
 ];
 
-var portraitScreenWindow = S.op("move", {
-  "x" : "screenOriginX",
-  "y" : "screenOriginY",
-  "width"  : "screenSizeX",
-  "height" : "screenSizeY*0.32",
-  "screen" : portraitMonitor
-});
-
-var portraitScreenWindowOps = [
-  portraitScreenWindow,
-  portraitScreenWindow.dup({ "y" : "screenOriginY+(screenSizeY*0.32)", "height" : "screenSizeY*0.48" }),
-  portraitScreenWindow.dup({ "y" : "screenOriginY+(screenSizeY*0.32)", "height" : "screenSizeY*0.58" }),
-  portraitScreenWindow.dup({ "y" : "screenOriginY+(screenSizeY*0.32)", "height" : "screenSizeY*0.68" })
-];
-
-var appCycleFocus = function(app) {
-  var windows = [];
-  return function() {
-    if(S.app().name() == app) {
-      var mainWindowTitle = S.app().mainWindow().title();
-      S.app().eachWindow(function(winObj) {
-        var title = winObj.title();
-        if (!winObj.isMinimizedOrHidden() &&
-            title != ""                   &&
-            title != mainWindowTitle      &&
-            !(windows).some(function(v) { return v.title() == title; })) {
-          windows.push(winObj);
-        }
-      });
-      var toFocus = windows.shift();
-      if (toFocus) toFocus.focus();
-    }
-    else {
-      windows = [];
-      S.op("focus", { "app" : app }).run();
-    }
-  };
-};
-
-// options : { "screenId" : _, "window" : _ }
-// using both options is fuzzy in some situations
-var focusApp = function(app, options) {
-  return function() {
-    S.eachApp(function(appObj) {
-      if (appObj.name() == app) {
-        appObj.eachWindow(function(winObj) {
-          if (typeof options.window != 'undefined') {
-            var title = winObj.title();
-            var windowTitleMatch = new RegExp(options.window, "i");
-            if (windowTitleMatch.test(title)) {
-              winObj.focus();
-            }
-          }
-          if (typeof options.screenId != 'undefined') {
-            if (winObj.screen().id() == options.screenId) {
-              winObj.focus();
-            }
-          }
-        });
-        S.op("focus", { "app" : app }).run();
-      }
-    });
-  };
-};
-
-// dups part of focusApp for now
-var focusAppAll = function(app) {
-  return function() {
-    S.eachApp(function(appObj) {
-      if (appObj.name() == app) {
-        appObj.eachWindow(function(winObj) {
-          // hrm, this log appeared to work around the issue, does slate support timeouts?
-          S.log("focusing: " + winObj.title());
-          winObj.focus();
-        });
-      }
-    });
-  };
-};
-
 var commonLayout = {
   "EchofonLite" : {
     "operations" : [
@@ -201,17 +121,17 @@ var commonLayout = {
   },
   "Google Chrome" : {
     "operations" : [
-      halfWidthScreenWindowOps[0].dup({ "screen" : landscapeMonitor })],
+      halfWidthScreenWindowOps[1].dup({ "screen" : laptopMonitorRes })],
     "repeat-last" : true
   },
   "Firefox" : {
     "operations" : [
-      halfWidthScreenWindowOps[0].dup({ "screen" : landscapeMonitor })],
+      halfWidthScreenWindowOps[0].dup({ "screen" : laptopMonitorRes })],
     "repeat-last" : true
   },
   "IntelliJ IDEA" : {
     "operations" : [
-      halfWidthScreenWindowOps[0].dup({ "screen" : landscapeMonitor })],
+      resizeAndCenterWindowOps[4].dup({ "screen" : landscapeMonitor })],
     "repeat-last" : true
   },
   "iTerm" : {
@@ -222,12 +142,12 @@ var commonLayout = {
   },
   "Atom" : {
     "operations" : [
-      halfWidthScreenWindowOps[0].dup({ "screen" : landscapeMonitor })],
+      halfWidthScreenWindowOps[0].dup({ "screen" : laptopMonitorRes })],
     "repeat-last" : true
   },
   "Sublime Text 2" : {
     "operations" : [
-      halfWidthScreenWindowOps[0].dup({ "screen" : landscapeMonitor })],
+      halfWidthScreenWindowOps[0].dup({ "screen" : laptopMonitorRes })],
     "repeat-last" : true
   },
   "Rdio" : {
@@ -237,13 +157,13 @@ var commonLayout = {
         "y" : "screenOriginY+screenSizeY-windowSizeY",
         "width" : "windowSizeX",
         "height" : "windowSizeY",
-        "screen" : portraitMonitor
+        "screen" : laptopMonitorRes
       })
     ]
   },
   "YoruFukurou" : {
     "operations" : [
-      halfWidthScreenWindowOps[1]
+      halfWidthScreenWindowOps[1].dup({ "screen" : laptopMonitorRes })
     ]
   }
 };
@@ -330,9 +250,18 @@ var laptopLayout = S.layout("laptopLayout", _.extend({
   "Adium" : {
     "operations" : [
       S.op("corner", {
+        "direction" : "top-right",
+        "width"     : "0.5*screenSizeX",
+        "height"    : "0.8*screenSizeY"
+      })
+    ]
+  },
+  "Slack" : {
+    "operations" : [
+      S.op("corner", {
         "direction" : "top-left",
         "width"     : "0.5*screenSizeX",
-        "height"    : "0.7*screenSizeY"
+        "height"    : "0.8*screenSizeY"
       })
     ]
   },
@@ -341,7 +270,7 @@ var laptopLayout = S.layout("laptopLayout", _.extend({
       S.op("corner", {
         "direction" : "top-left",
         "width"     : "0.5*screenSizeX",
-        "height"    : "0.7*screenSizeY"
+        "height"    : "0.8*screenSizeY"
       })
     ]
   },
@@ -372,137 +301,11 @@ S.default(1, laptopLayout);
 
 S.bindAll({
 
-  // Focus Bindings
-  "home:ctrl"     : S.op("focus", { "direction" : "left"   }),
-  "end:ctrl"      : S.op("focus", { "direction" : "right"  }),
-  "pageUp:ctrl"   : S.op("focus", { "direction" : "up"     }),
-  "pageDown:ctrl" : S.op("focus", { "direction" : "down"   }),
-  "/:ctrl"        : S.op("focus", { "direction" : "behind" }),
-
-  // emulate optimal layout, these will evolve as I continue with the slate kool-aid
-  "delete:alt;cmd"       : S.op("push", { "direction" : "up", "style" : "center" }),
-  "delete:ctrl;alt;cmd"  : S.op("chain", { "operations" : [
-    S.op("push", { "direction" : "up", "style" : "center", "screen" : laptopMonitorRes }),
-    S.op("push", { "direction" : "up", "style" : "center", "screen" : landscapeMonitor })]}),
-  "up:ctrl;cmd"          : S.op("nudge", { "x" : "+0",  "y" : "-10%" }),
-  "down:ctrl;cmd"        : S.op("nudge", { "x" : "+0",  "y" : "+10%" }),
-  "left:ctrl;cmd"        : S.op("nudge", { "x" : "-10%", "y" : "+0"  }),
-  "right:ctrl;cmd"       : S.op("nudge", { "x" : "+10%", "y" : "+0"  }),
-  "up:shift;ctrl;cmd"    : S.op("nudge", { "x" : "+0",  "y" : "-20" }),
-  "down:shift;ctrl;cmd"  : S.op("nudge", { "x" : "+0",  "y" : "+20" }),
-  "left:shift;ctrl;cmd"  : S.op("nudge", { "x" : "-20", "y" : "+0"  }),
-  "right:shift;ctrl;cmd" : S.op("nudge", { "x" : "+20", "y" : "+0"  }),
-  "pageUp:ctrl;cmd"   : S.op("push", { "direction" : "top"    }),
-  "pageDown:ctrl;cmd" : S.op("push", { "direction" : "bottom" }),
-  "home:ctrl;cmd"     : S.op("push", { "direction" : "left"   }),
-  "end:ctrl;cmd"      : S.op("push", { "direction" : "right"  }),
-  "up:ctrl;alt;cmd"     : S.op("resize", { "width" : "+0",  "height" : "-10%" }),
-  "down:ctrl;alt;cmd"   : S.op("resize", { "width" : "+0",  "height" : "+10%" }),
-  "left:ctrl;alt;cmd"   : S.op("resize", { "width" : "-10%", "height" : "+0"  }),
-  "right:ctrl;alt;cmd"  : S.op("resize", { "width" : "+10%", "height" : "+0"  }),
-  "end:ctrl;alt;cmd"    : S.op("resize", { "width" : "-10%", "height" : "+0", "anchor" : "bottom-right"   }),
-  "home:ctrl;alt;cmd"   : S.op("sequence", { "operations" : [
-    S.op("nudge", { "x" : "-10%", "y" : "+0"  }),
-    S.op("resize", { "width" : "+10%", "height" : "+0" })]}),
-  "pageUp:ctrl;alt;cmd"   : S.op("sequence", { "operations" : [
-    S.op("nudge", { "x" : "+0", "y" : "-10%"  }),
-    S.op("resize", { "width" : "+0", "height" : "+10%" })]}),
-  "pageDown:ctrl;alt;cmd" : S.op("resize", { "width" : "+0", "height" : "-10%", "anchor" : "bottom-right" }),
-  "up:shift;ctrl;alt;cmd"    : S.op("resize", { "width" : "+0",  "height" : "-2%" }),
-  "down:shift;ctrl;alt;cmd"  : S.op("resize", { "width" : "+0",  "height" : "+2%" }),
-  "left:shift;ctrl;alt;cmd"  : S.op("resize", { "width" : "-2%", "height" : "+0"  }),
-  "right:shift;ctrl;alt;cmd" : S.op("resize", { "width" : "+2%", "height" : "+0"  }),
   "`:ctrl;cmd" : S.op("chain", { "operations" : resizeAndCenterWindowOps }),
-  "1:ctrl;cmd" : resizeAndCenterWindowOps[0],
-  "2:ctrl;cmd" : resizeAndCenterWindowOps[1],
-  "3:ctrl;cmd" : resizeAndCenterWindowOps[2],
-  "4:ctrl;cmd" : resizeAndCenterWindowOps[3],
-  "5:ctrl;cmd" : resizeAndCenterWindowOps[4],
-  "6:ctrl;cmd" : resizeAndCenterWindowOps[5],
-  "7:ctrl;cmd" : resizeAndCenterWindowOps[6],
-  "2:ctrl"           : halfWidthScreenWindowOps[0],
-  "2:shift;ctrl"     : halfWidthScreenWindowOps[1],
-  "2:shift;ctrl;cmd" : halfWidthScreenWindowOps[1].dup({ "screen" : laptopMonitorRes }),
-  "3:ctrl"       : S.op("chain", { "operations" : splitSplitScreenLeftWindowOps  }),
-  "3:shift;ctrl" : S.op("chain", { "operations" : splitSplitScreenRightWindowOps }),
-  "4:ctrl"       : S.op("chain", { "operations" : quarterScreenLeftWindowOps  }),
-  "4:shift;ctrl" : S.op("chain", { "operations" : quarterScreenRightWindowOps }),
-
-  // focus applications
-  "c:ctrl;cmd"       : appCycleFocus("Google Chrome"),
-  // "c:shift;ctrl;cmd" : focusApp("Google Chrome", { "screenId" : 0, "window" : "inbox" }),
-  "a:ctrl;cmd" : appCycleFocus("Adium"),
-  "d:ctrl;cmd" : appCycleFocus("Gitter"),
-  // "d:ctrl;cmd" : appCycleFocus("Firefox"),
-  // "e:ctrl;cmd" : appCycleFocus("Emacs"),
-  "e:ctrl;cmd" : appCycleFocus("Slack"),
-  "f:ctrl;cmd" : appCycleFocus("Finder"),
-  "g:ctrl;cmd" : appCycleFocus("SourceTree"), // appCycleFocus("GitX"),
-  "x:ctrl;cmd" : appCycleFocus("Atom"),
-  "l:ctrl;cmd" : appCycleFocus("Light Table"),
-  "m:ctrl;cmd" : appCycleFocus("Messages"),
-  "p:ctrl;cmd" : appCycleFocus("Preview"),
-  "s:ctrl;cmd" : appCycleFocus("Sublime Text 2"),
-  "y:ctrl;cmd" : appCycleFocus("YoruFukurou"),
-  "i:ctrl;cmd" : appCycleFocus("iBooks"),
-  "t:ctrl;cmd" : appCycleFocus("iTerm"),
-  "v:ctrl;cmd" : appCycleFocus("IntelliJ IDEA"),
-  "v:shift;ctrl;cmd" : focusAppAll("IntelliJ IDEA"),
-  "r:ctrl;cmd" : S.op("focus", { "app" : "Rdio" }),
-  "b:ctrl;cmd" : S.op("focus", { "app" : "SoundCleod" }),
-  "b:shift;ctrl;cmd" : S.op("chain", { "operations" : [
-    S.op("corner", {
-        "direction" : "bottom-right",
-        "width"     : "0.58*screenSizeX",
-        "height"    : "0.35*screenSizeY"
-    }),
-    S.op("corner", {
-        "direction" : "bottom-right",
-        "width"     : "0.58*screenSizeX",
-        "height"    : "screenSizeY"
-    })
-  ]}),
 
   // undo
   "z:ctrl;cmd" : S.op("undo"),
 
-  // testing positioning
-  // "w:ctrl;cmd"       : S.op("layout", { "name" : twoMonitorLayout }),
-  // "w:shift;ctrl;cmd" : S.op("layout", { "name" : laptopLayout }),
-
-  // reload slate
-  "space:ctrl;cmd" : S.op("relaunch")
-});
-
-// Test Cases
-// S.src(".slate.test", true);
-// S.src(".slate.test.js", true);
-
-// events
-slate.on("windowOpened", function(event, win) {
-  switch (win.app().name()) {
-  // case "Google Chrome":
-  //   win.doOperation(portraitScreenWindowOps[2]);
-  //   break;
-  case "Firefox":
-    S.log("> Firefox : " + event);
-    var r = /^Firebug/;
-    if (r.test(win.title())) {
-      S.log("> Firefox, firebug");
-      win.doOperation(quarterScreenWindowOps[3]);
-    }
-    else if (win.title() == "HttpFox") {
-      S.log("> Firefox, HttpFox");
-      win.doOperation(quarterScreenWindowOps[0]);
-    }
-    else {
-      S.log("> Firefox, Other : " + win.title());
-      // win.doOperation(halfWidthScreenWindowOps[1]);
-    }
-    break;
-  default:
-    break;
-  }
 });
 
 S.log("-------------- Finished Loading Config --------------");

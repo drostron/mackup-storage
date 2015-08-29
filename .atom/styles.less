@@ -23,3 +23,25 @@ atom-text-editor {
 atom-text-editor::shadow .cursor {
 
 }
+
+// remove custom padding at some point to see if the defaults have been updated
+atom-pane-container atom-pane {
+  padding-top: 0.0em;
+}
+
+atom-workspace {
+  padding-right: 0.0em;
+}
+
+atom-workspace atom-panel-container.left:empty {
+  padding-left: 0.0em;
+}
+
+[data-zen="true"] {
+  atom-workspace,
+  atom-pane-container atom-pane,
+  atom-pane-container atom-pane .item-views {
+    // workaround for the default seemingly incorect @syntax-background-color
+    background: #FCFDFE !important;
+  }
+}

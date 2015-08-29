@@ -24,13 +24,30 @@
 # If you are unfamiliar with CSON, you can read more about it here:
 # https://github.com/bevry/cson#what-is-cson
 
-'.platform-darwin .workspace .editor:not(.mini)':
+'.platform-darwin atom-workspace atom-text-editor:not(.mini)':
   'cmd-up': 'ctrl-dir-scroll:scroll-up'
   'cmd-down': 'ctrl-dir-scroll:scroll-down'
+  'ctrl-alt-up': 'native!'
+
+'.platform-darwin':
+  'ctrl-shift-p': 'project-manager:toggle'
 
 'atom-text-editor':
+  'alt-b': 'native!'
   'alt-h': 'native!'
+  'home': 'unset!'
+  'end': 'unset!'
+  'ctrl-space': 'autocomplete-plus:activate'
+  'ctrl-shift-space': 'autocomplete:toggle'
 
 'atom-workspace':
   'alt-cmd-left': 'last-cursor-position:previous'
   'alt-cmd-right': 'last-cursor-position:next'
+  'alt-down': 'ensime:go-to-definition'
+
+'atom-workspace atom-text-editor':
+  'ctrl-alt-o': 'unset!'
+
+'body':
+  'home': 'core:move-to-top'
+  'end': 'core:move-to-bottom'

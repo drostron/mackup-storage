@@ -1,6 +1,0 @@
-{
-  "env": {
-    "PATH" : "$HOME/opt/brew/bin:$PATH",
-    "GOPATH" : "$HOME/code/gocode"
-  }
-}

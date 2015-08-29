@@ -1,23 +1,39 @@
 "*":
   editor:
     showInvisibles: true
-    showIndentGuide: true
     preferredLineLength: 120
     scrollPastEnd: true
     invisibles: {}
+    fontFamily: "Menlo"
+    ignoredNames: [
+      null
+      ".git"
+      ".hg"
+      ".svn"
+      ".DS_Store"
+      "Thumbs.db"
+      "*.class"
+      "*.xml"
+      "*.really"
+      "*.idea"
+      "**/*.xml"
+      ".idea"
+    ]
+    softWrap: true
+    showIndentGuide: true
     fontSize: 12
   core:
     themes: [
       "one-light-ui"
-      "solarized-light-syntax-modified-updated"
+      "base16-syntax"
     ]
     disabledPackages: [
       "ctrl-dir-scroll-updated"
       "language-ruby-on-rails"
       "atom-ctags"
       "view-tail-large-files"
+      "cursor-count"
     ]
-    excludeVcsIgnoredPaths: false
     ignoredNames: [
       ".git"
       ".hg"
@@ -26,12 +42,13 @@
       "Thumbs.db"
       "*.class"
     ]
+    excludeVcsIgnoredPaths: false
   "exception-reporting":
     userId: "8f738275-0954-f934-db4d-b8a8cccda829"
   welcome:
     showOnStartup: false
   "base16-syntax":
-    scheme: "Twilight"
+    scheme: "Ocean"
   "spell-check":
     grammars: [
       "source.gfm"
@@ -43,12 +60,51 @@
       "text.html.basic"
     ]
   linter: {}
-  "markdown-preview": {}
+  "markdown-preview":
+    openPreviewInSplitPane: false
   autosave:
     enabled: true
-  "autocomplete-plus": {}
+  "autocomplete-plus":
+    autoActivationDelay: 750
+    enableAutoActivation: false
+    confirmCompletion: "tab and enter"
   "atom-ctags": {}
   "view-tail-large-files": {}
+  "local-history":
+    difftoolCommand: "opendiff \"{current-file}\" \"{revision-file}\""
+    historyStoragePath: "/Users/dave/.atom-local-history"
+  "fuzzy-finder":
+    ignoredNames: [
+      ".idea"
+      "**/*.xml"
+      "*.really"
+      "*.xml"
+      "target/scala-2.11/api"
+      "**/target/scala-2.11/api/*"
+      "**/target/scala-2.11/api"
+      "**/target/streams"
+      "**/target/test-reports"
+    ]
+  "project-manager": {}
+  Zen:
+    fullscreen: false
+    width: 100
+  minimap:
+    plugins:
+      selection: true
+      "find-and-replace": true
+      "git-diff": true
+      "highlight-selected": false
+  "highlight-selected": {}
+  "atom-xikij": {}
+  "ide-haskell":
+    stylishHaskellPath: "/Users/dave/Library/Haskell/bin/stylish-haskell"
+    ghcModPath: "/Users/dave/Library/Haskell/bin/ghc-mod"
+  Ensime:
+    sbtExec: "/Users/dave/opt/brew/bin/sbt"
+    JAVA_HOME: "/Library/Java/JavaVirtualMachines/jdk1.7.0_79.jdk/Contents/Home/"
+  tabs:
+    usePreviewTabs: true
 ".js.rails.source source.jquery.js":
   editor:
     preferredLineLength: 120
@@ -58,6 +114,9 @@
 ".rails.rjs.ruby.source":
   editor:
     preferredLineLength: 120
+".html.mediawiki.text":
+  editor:
+    softWrap: true
 ".gohtml.html.text":
   editor:
     preferredLineLength: 120
@@ -76,6 +135,25 @@
 ".ruby.source.sql":
   editor:
     preferredLineLength: 120
+".html.mustache.text":
+  editor:
+    preferredLineLength: 90
+".mustache.source.sql":
+  editor:
+    preferredLineLength: 90
+".fsharp.source":
+  editor:
+    preferredLineLength: 120
+".rust.source":
+  editor:
+    preferredLineLength: 120
+    tabLength: 2
+".gfm.source":
+  editor:
+    softWrap: true
+".source.xikij":
+  editor:
+    preferredLineLength: 90
 ".gotemplate.source":
   editor:
     preferredLineLength: 120
@@ -89,5 +167,8 @@
   editor:
     preferredLineLength: 120
 ".scala.source":
+  editor:
+    preferredLineLength: 120
+".purescript.source":
   editor:
     preferredLineLength: 120

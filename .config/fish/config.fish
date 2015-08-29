@@ -11,15 +11,24 @@ make_completion gd "git diff"
 make_completion gs "git status"
 make_completion d docker
 
-set PATH ~/opt/brew/bin ~/opt/brew/sbin ~/Library/Haskell/bin $PATH ~/code/bin ~/code/ghar/bin \
-   ~/opt/brew/share/python ~/agda/.cabal-sandbox/bin ~/code/gocode/bin/
+set PATH ~/opt/brew/bin ~/opt/brew/sbin ~/.nix-profile/bin ~/.nix-profile/sbin \
+  ~/Library/Haskell/bin ~/opt/homebrew/opt/llvm/bin \
+  ~/opt/homebrew/opt/llvm/share/llvm $PATH ~/code/bin ~/code/ghar/bin \
+  ~/opt/brew/share/python ~/agda/.cabal-sandbox/bin ~/code/gocode/bin /opt/local/bin \
+  ~/code/purescript/.cabal-sandbox/bin
 
 set -x MANPATH (cat /etc/manpaths /etc/manpaths.d/**) ~/opt/brew/share/man \
-  /usr/share/man /usr/local/share/man /Users/dave/.opam/4.01.0/man /Applications/DiffMerge/CommandLine
+  /usr/share/man /usr/local/share/man /Users/dave/.opam/4.01.0/man /Applications/DiffMerge/CommandLine \
+  ~/.nix-profile/share/man
 
 set fish_greeting ""
 
-set --export EDITOR "~/code/bin/subl -w"
+set -x NIX_PATH nixpkgs=$HOME/.nix-defexpr/channels/nixpkgs
+
+set -x SSL_CERT_FILE ~/.nix-profile/etc/ca-bundle.crt
+
+# set --export EDITOR "~/code/bin/subl -w"
+set --export EDITOR nvim
 
 eval (opam config env)
 
@@ -28,6 +37,13 @@ set -x DOCKER_CERT_PATH /Users/dave/.boot2docker/certs/boot2docker-vm
 set -x DOCKER_TLS_VERIFY 1
 
 set -x GOPATH ~/code/gocode/
+
+# llvm
+#set -x LDFLAGS /Users/dave/opt/homebrew/opt/llvm/lib $LDFLAGS
+#set -x CPPFLAGS /Users/dave/opt/homebrew/opt/llvm/include $CPPFLAGS
+
+status --is-interactive; and . (pyenv init -|psub)
+status --is-interactive; and . (pyenv virtualenv-init -|psub)
 
 # TODO : this might be irrelevant for the moment
 # include a few additional manpage generated completions
