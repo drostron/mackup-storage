@@ -17,7 +17,10 @@ function focusApp(name)
       if app then
         app:activate()
 
-        local currentWindows = app:visibleWindows()
+        -- filter currentWindows on non-empty titles per Chrome (haven't yet investigated)
+        local currentWindows = hs.fnutils.filter(
+          app:visibleWindows(),
+          function(i) return i:title() ~= "" end)
 
         -- prune windows
         for i, v in pairs(windows) do
@@ -42,7 +45,9 @@ function focusApp(name)
           end
         end
 
-        windows[1]:focus()
+        if windows[1] then
+          windows[1]:focus()
+        end
       end
     end
   end
@@ -79,26 +84,27 @@ end
 -- check out hs.grid
 -- keep an eye out for the sizeup extension https://github.com/Hammerspoon/hammerspoon/issues/154
 
-function halfScreen(side)
+function partialWidthFullHeight(percent, side)
   return function()
+    local r = percent * 0.01
     local win = hs.window.focusedWindow()
     local sc = win:screen()
     local sf = sc:frame()
     local wf = win:frame()
 
     if side == "l" then
-      win:setFrame({ x = 0, y = 0, w = sf.w / 2, h = sf.h })
+      win:setFrame({ x = 0, y = 0, w = sf.w * r, h = sf.h })
     elseif side == "r" then
-      win:setFrame({ x = sf.w - wf.w, y = 0, w = sf.w / 2, h = sf.h })
+      win:setFrame({ x = sf.w * (1 - r), y = 0, w = sf.w * r, h = sf.h })
     end
   end
 end
 
-local halfPartial = (function()
+local halfWidthPartialHeight = (function()
   local i = 0
   local currentSide = "n"
 
-  function halfPartial(x, yPercentage, nextSide)
+  function halfWidthPartialHeight(x, yPercentage, nextSide)
     if (currentSide ~= nextSide) then
       i = 0
     end
@@ -112,10 +118,10 @@ local halfPartial = (function()
   end
 
   return {
-    left50 = function() halfPartial(0, 50, "l") end,
-    right50 = function() halfPartial(0.5, 50, "r") end,
-    left70 = function() halfPartial(0, 70, "l") end,
-    right70 = function() halfPartial(0.5, 70, "r") end,
+    left50 = function() halfWidthPartialHeight(0, 50, "l") end,
+    right50 = function() halfWidthPartialHeight(0.5, 50, "r") end,
+    left70 = function() halfWidthPartialHeight(0, 70, "l") end,
+    right70 = function() halfWidthPartialHeight(0.5, 70, "r") end,
   }
 end)()
 
@@ -203,14 +209,15 @@ function resizeAndCenter(percentage)
   end
 end
 
-bind({ "ctrl" }, "2", halfScreen("l"))
-bind({ "ctrl", "shift" }, "2", halfScreen("r"))
+bind({ "ctrl" }, "2", partialWidthFullHeight(50, "l"))
+bind({ "ctrl", "shift" }, "2", partialWidthFullHeight(50, "r"))
+bind({ "ctrl", "shift", "cmd" }, "2", partialWidthFullHeight(63.93, "r"))
 
-bind({ "ctrl" }, "3", halfPartial.left50)
-bind({ "ctrl", "shift" }, "3", halfPartial.right50)
+bind({ "ctrl" }, "3", halfWidthPartialHeight.left50)
+bind({ "ctrl", "shift" }, "3", halfWidthPartialHeight.right50)
 
-bind({ "ctrl" }, "4", halfPartial.left70)
-bind({ "ctrl", "shift" }, "4", halfPartial.right70)
+bind({ "ctrl" }, "4", halfWidthPartialHeight.left70)
+bind({ "ctrl", "shift" }, "4", halfWidthPartialHeight.right70)
 
 bind({ "alt", "cmd" }, "delete", horizontalCenter)
 
@@ -222,18 +229,18 @@ bind({ "ctrl", "cmd" }, "5", resizeAndCenter(60))
 bind({ "ctrl", "cmd" }, "6", resizeAndCenter(50))
 bind({ "ctrl", "cmd" }, "7", resizeAndCenter(40))
 
-local step = 80
-local smallStep = 40
+local step = 100
+local smallStep = 50
 
-bind({ "ctrl", "cmd" }, "up", move(0, step))
-bind({ "ctrl", "cmd" }, "down", move(0, -step))
-bind({ "ctrl", "cmd" }, "left", move(step, 0))
-bind({ "ctrl", "cmd" }, "right", move(-step, 0))
+bind({ "cmd" }, "pageUp", move(0, step))
+bind({ "cmd" }, "pageDown", move(0, -step))
+bind({ "cmd" }, "home", move(step, 0))
+bind({ "cmd" }, "end", move(-step, 0))
 
-bind({ "ctrl", "cmd", "shift" }, "up", move(0, smallStep))
-bind({ "ctrl", "cmd", "shift" }, "down", move(0, -smallStep))
-bind({ "ctrl", "cmd", "shift" }, "left", move(smallStep, 0))
-bind({ "ctrl", "cmd", "shift" }, "right", move(-smallStep, 0))
+bind({ "cmd", "shift" }, "pageUp", move(0, smallStep))
+bind({ "cmd", "shift" }, "pageDown", move(0, -smallStep))
+bind({ "cmd", "shift" }, "home", move(smallStep, 0))
+bind({ "cmd", "shift" }, "end", move(-smallStep, 0))
 
 bind({ "ctrl", "cmd" }, "pageUp", toEdge("t"))
 bind({ "ctrl", "cmd" }, "pageDown", toEdge("b"))
@@ -254,6 +261,11 @@ bind({ "ctrl", "alt", "cmd" }, "pageUp", resizeReverseAnchor(0, -step))
 bind({ "ctrl", "alt", "cmd" }, "pageDown", resizeReverseAnchor(0, step))
 bind({ "ctrl", "alt", "cmd" }, "end", resizeReverseAnchor(-step, 0))
 bind({ "ctrl", "alt", "cmd" }, "home", resizeReverseAnchor(step, 0))
+
+bind({ "ctrl", "alt", "cmd", "shift" }, "pageUp", resizeReverseAnchor(0, -smallStep))
+bind({ "ctrl", "alt", "cmd", "shift" }, "pageDown", resizeReverseAnchor(0, smallStep))
+bind({ "ctrl", "alt", "cmd", "shift" }, "end", resizeReverseAnchor(-smallStep, 0))
+bind({ "ctrl", "alt", "cmd", "shift" }, "home", resizeReverseAnchor(smallStep, 0))
 
 hs.hotkey.bind({"ctrl", "cmd"}, "space", function()
   hs.alert.show("reloading hammerspoon")

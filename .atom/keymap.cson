@@ -30,7 +30,8 @@
   'ctrl-alt-up': 'native!'
 
 '.platform-darwin':
-  'ctrl-shift-p': 'project-manager:toggle'
+  'ctrl-shift-p': 'project-manager:list-projects'
+  'cmd-shift-k': 'tabs:keep-preview-tab'
 
 'atom-text-editor':
   'alt-b': 'native!'

@@ -42,7 +42,6 @@
       "Thumbs.db"
       "*.class"
     ]
-    excludeVcsIgnoredPaths: false
   "exception-reporting":
     userId: "8f738275-0954-f934-db4d-b8a8cccda829"
   welcome:
@@ -105,6 +104,7 @@
     JAVA_HOME: "/Library/Java/JavaVirtualMachines/jdk1.7.0_79.jdk/Contents/Home/"
   tabs:
     usePreviewTabs: true
+    enableVcsColoring: true
 ".js.rails.source source.jquery.js":
   editor:
     preferredLineLength: 120
@@ -114,61 +114,61 @@
 ".rails.rjs.ruby.source":
   editor:
     preferredLineLength: 120
-".html.mediawiki.text":
+".mustache.source.sql":
   editor:
-    softWrap: true
-".gohtml.html.text":
+    preferredLineLength: 90
+".html.mustache.text":
   editor:
-    preferredLineLength: 120
-".erb.html.text":
-  editor:
-    preferredLineLength: 120
-".feature.gherkin.text":
-  editor:
-    preferredLineLength: 120
-".html.ruby.text":
+    preferredLineLength: 90
+".ruby.source.sql":
   editor:
     preferredLineLength: 120
 ".rails.ruby.source":
   editor:
     preferredLineLength: 120
-".ruby.source.sql":
+".html.ruby.text":
   editor:
     preferredLineLength: 120
-".html.mustache.text":
-  editor:
-    preferredLineLength: 90
-".mustache.source.sql":
-  editor:
-    preferredLineLength: 90
-".fsharp.source":
+".feature.gherkin.text":
   editor:
     preferredLineLength: 120
-".rust.source":
+".erb.html.text":
   editor:
     preferredLineLength: 120
-    tabLength: 2
-".gfm.source":
+".gohtml.html.text":
+  editor:
+    preferredLineLength: 120
+".html.mediawiki.text":
   editor:
     softWrap: true
-".source.xikij":
-  editor:
-    preferredLineLength: 90
-".gotemplate.source":
-  editor:
-    preferredLineLength: 120
-".go.source":
-  editor:
-    preferredLineLength: 120
-".ruby.source":
-  editor:
-    preferredLineLength: 120
-".lua.source":
+".purescript.source":
   editor:
     preferredLineLength: 120
 ".scala.source":
   editor:
     preferredLineLength: 120
-".purescript.source":
+".lua.source":
+  editor:
+    preferredLineLength: 120
+".ruby.source":
+  editor:
+    preferredLineLength: 120
+".go.source":
+  editor:
+    preferredLineLength: 120
+".gotemplate.source":
+  editor:
+    preferredLineLength: 120
+".source.xikij":
+  editor:
+    preferredLineLength: 90
+".gfm.source":
+  editor:
+    softWrap: true
+".rust.source":
+  editor:
+    preferredLineLength: 120
+    tabLength: 2
+".fsharp.source":
   editor:
     preferredLineLength: 120
