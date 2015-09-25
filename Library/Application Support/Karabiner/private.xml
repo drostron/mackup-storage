@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<root>
+  <appdef>
+    <appname>Emacs</appname>
+    <equal>org.gnu.Emacs</equal>
+  </appdef>
+
+  <symbol_map type="KeyCode" name="PIPE_KEY"  value="0x2a"   />
+
+  <item>
+    <name>backslash to option, fn for backslash</name>
+    <identifier>private.backslash_option</identifier>
+    <autogen>
+      __KeyToKey__
+      KeyCode::BACKSLASH, ModifierFlag::SHIFT_L,
+      KeyCode::PIPE_KEY, ModifierFlag::SHIFT_L
+    </autogen>
+    <autogen>
+      __KeyToKey__
+      KeyCode::BACKSLASH, ModifierFlag::SHIFT_R,
+      KeyCode::PIPE_KEY, ModifierFlag::SHIFT_R
+    </autogen>
+    <autogen>
+      __KeyToKey__
+      KeyCode::BACKSLASH, ModifierFlag::FN,
+      KeyCode::BACKSLASH
+    </autogen>
+    <autogen>
+      __KeyToKey__
+      KeyCode::BACKSLASH,
+      KeyCode::OPTION_R
+    </autogen>
+  </item>
+
+<!--
+  <item>
+    <name>Change Delete to Escape (Emacs)</name>
+    <identifier>private.delete_to_escape_emacs</identifier>
+    <only>Emacs</only>
+    <autogen>
+      __KeyToKey__
+      KeyCode::DELETE,
+      KeyCode::ESCAPE
+    </autogen>
+  </item>
+-->
+
+</root>
