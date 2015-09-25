@@ -3,6 +3,9 @@
 
 hs.window.animationDuration = 0
 
+local step = 100
+local smallStep = 50
+
 -- a touch long
 function focusApp(name)
   local windows = {}
@@ -84,46 +87,34 @@ end
 -- check out hs.grid
 -- keep an eye out for the sizeup extension https://github.com/Hammerspoon/hammerspoon/issues/154
 
-function partialWidthFullHeight(percent, side)
+function sizeAnchorSide(percentWidth, percentHeight, hSide, vSide)
   return function()
-    local r = percent * 0.01
+    local rw = percentWidth * 0.01
+    local rh = percentHeight * 0.01
     local win = hs.window.focusedWindow()
     local sc = win:screen()
     local sf = sc:frame()
+    local sff = sc:fullFrame()
     local wf = win:frame()
 
-    if side == "l" then
-      win:setFrame({ x = 0, y = 0, w = sf.w * r, h = sf.h })
-    elseif side == "r" then
-      win:setFrame({ x = sf.w * (1 - r), y = 0, w = sf.w * r, h = sf.h })
-    end
+    win:setFrame({
+      x = hSide == "l" and 0 or sff.w * (1 - rw),
+      y = vSide ~= "b" and 0 or (sf.h * (1 - rh)) + (sff.h - sf.h),
+      w = sff.w * rw,
+      h = sf.h * rh
+    })
   end
 end
 
-local halfWidthPartialHeight = (function()
-  local i = 0
-  local currentSide = "n"
+function halfWidthPartialHeight(percentHeight, hSide)
+  local vSide = "t"
 
-  function halfWidthPartialHeight(x, yPercentage, nextSide)
-    if (currentSide ~= nextSide) then
-      i = 0
-    end
+  return function()
+    sizeAnchorSide(50, percentHeight, hSide, vSide)()
 
-    currentSide = nextSide
-
-    hs.window.focusedWindow():moveToUnit(
-      { x = x, y = yPercentage * 0.01 * i, w = 0.5, h = yPercentage * 0.01 })
-
-    i = (i + 1) % 2
+    vSide = vSide == "t" and "b" or "t"
   end
-
-  return {
-    left50 = function() halfWidthPartialHeight(0, 50, "l") end,
-    right50 = function() halfWidthPartialHeight(0.5, 50, "r") end,
-    left70 = function() halfWidthPartialHeight(0, 70, "l") end,
-    right70 = function() halfWidthPartialHeight(0.5, 70, "r") end,
-  }
-end)()
+end
 
 function move(xd, yd)
   return function()
@@ -209,15 +200,16 @@ function resizeAndCenter(percentage)
   end
 end
 
-bind({ "ctrl" }, "2", partialWidthFullHeight(50, "l"))
-bind({ "ctrl", "shift" }, "2", partialWidthFullHeight(50, "r"))
-bind({ "ctrl", "shift", "cmd" }, "2", partialWidthFullHeight(63.93, "r"))
+bind({ "ctrl" }, "2", sizeAnchorSide(50, 100, "l"))
+bind({ "ctrl", "shift" }, "2", sizeAnchorSide(50, 100, "r"))
+bind({ "ctrl", "shift", "cmd" }, "2", sizeAnchorSide(64.2, 100, "r"))
 
-bind({ "ctrl" }, "3", halfWidthPartialHeight.left50)
-bind({ "ctrl", "shift" }, "3", halfWidthPartialHeight.right50)
+bind({ "ctrl" }, "3", halfWidthPartialHeight(50, "l"))
+bind({ "ctrl", "shift" }, "3", halfWidthPartialHeight(50, "r"))
+bind({ "ctrl", "shift", "cmd" }, "3", sizeAnchorSide(75, 75, "l"))
 
-bind({ "ctrl" }, "4", halfWidthPartialHeight.left70)
-bind({ "ctrl", "shift" }, "4", halfWidthPartialHeight.right70)
+bind({ "ctrl" }, "4", halfWidthPartialHeight(70, "l"))
+bind({ "ctrl", "shift" }, "4", halfWidthPartialHeight(70, "r"))
 
 bind({ "alt", "cmd" }, "delete", horizontalCenter)
 
@@ -228,9 +220,6 @@ bind({ "ctrl", "cmd" }, "4", resizeAndCenter(70))
 bind({ "ctrl", "cmd" }, "5", resizeAndCenter(60))
 bind({ "ctrl", "cmd" }, "6", resizeAndCenter(50))
 bind({ "ctrl", "cmd" }, "7", resizeAndCenter(40))
-
-local step = 100
-local smallStep = 50
 
 bind({ "cmd" }, "pageUp", move(0, step))
 bind({ "cmd" }, "pageDown", move(0, -step))

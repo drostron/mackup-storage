@@ -105,6 +105,8 @@
   tabs:
     usePreviewTabs: true
     enableVcsColoring: true
+  "language-idris":
+    pathToIdris: "/usr/local/bin/idris"
 ".js.rails.source source.jquery.js":
   editor:
     preferredLineLength: 120
@@ -114,61 +116,64 @@
 ".rails.rjs.ruby.source":
   editor:
     preferredLineLength: 120
-".mustache.source.sql":
+".html.mediawiki.text":
   editor:
-    preferredLineLength: 90
-".html.mustache.text":
-  editor:
-    preferredLineLength: 90
-".ruby.source.sql":
-  editor:
-    preferredLineLength: 120
-".rails.ruby.source":
-  editor:
-    preferredLineLength: 120
-".html.ruby.text":
-  editor:
-    preferredLineLength: 120
-".feature.gherkin.text":
+    softWrap: true
+".gohtml.html.text":
   editor:
     preferredLineLength: 120
 ".erb.html.text":
   editor:
     preferredLineLength: 120
-".gohtml.html.text":
+".feature.gherkin.text":
   editor:
     preferredLineLength: 120
-".html.mediawiki.text":
+".html.ruby.text":
+  editor:
+    preferredLineLength: 120
+".rails.ruby.source":
+  editor:
+    preferredLineLength: 120
+".ruby.source.sql":
+  editor:
+    preferredLineLength: 120
+".html.mustache.text":
+  editor:
+    preferredLineLength: 90
+".mustache.source.sql":
+  editor:
+    preferredLineLength: 90
+".idris.source":
+  editor:
+    preferredLineLength: 120
+".fsharp.source":
+  editor:
+    preferredLineLength: 120
+".rust.source":
+  editor:
+    preferredLineLength: 120
+    tabLength: 2
+".gfm.source":
   editor:
     softWrap: true
-".purescript.source":
+".source.xikij":
   editor:
-    preferredLineLength: 120
-".scala.source":
-  editor:
-    preferredLineLength: 120
-".lua.source":
-  editor:
-    preferredLineLength: 120
-".ruby.source":
+    preferredLineLength: 90
+".gotemplate.source":
   editor:
     preferredLineLength: 120
 ".go.source":
   editor:
     preferredLineLength: 120
-".gotemplate.source":
+".ruby.source":
   editor:
     preferredLineLength: 120
-".source.xikij":
-  editor:
-    preferredLineLength: 90
-".gfm.source":
-  editor:
-    softWrap: true
-".rust.source":
+".lua.source":
   editor:
     preferredLineLength: 120
-    tabLength: 2
-".fsharp.source":
+".scala.source":
+  editor:
+    preferredLineLength: 120
+".purescript.source":
   editor:
     preferredLineLength: 120

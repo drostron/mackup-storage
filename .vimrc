@@ -9,3 +9,6 @@ if has('gui_running')
 else
 "    set background=dark
 endif
+
+set backspace=indent,eol,start
+
