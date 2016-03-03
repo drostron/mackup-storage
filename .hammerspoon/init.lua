@@ -57,23 +57,23 @@ function focusApp(name)
 end
 
 appKeyMapping = {
-  ["a"] = "Adium",
+  ["a"] = "Gitter",
+  ["b"] = "SoundCleod",
   ["c"] = "Google Chrome",
-  ["d"] = "Gitter",
-  ["e"] = "Slack",
+  ["e"] = "Gitter",
   ["f"] = "Finder",
   ["g"] = "SourceTree",
   ["i"] = "iBooks",
   ["l"] = "Light Table",
   ["m"] = "Messages",
   ["p"] = "Preview",
-  ["s"] = "Sublime Text 2",
+  ["r"] = "Spotify",
+  ["s"] = "Slack",
   ["t"] = "iTerm",
   ["v"] = "IntelliJ IDEA",
   ["x"] = "Atom",
   ["y"] = "Twitter",
-  ["r"] = "Rdio",
-  ["b"] = "SoundCleod",
+  ["z"] = "Nimbus",
 }
 
 local bind = hs.hotkey.bind
@@ -92,17 +92,13 @@ function sizeAnchorSide(percentWidth, percentHeight, hSide, vSide)
     local rw = percentWidth * 0.01
     local rh = percentHeight * 0.01
     local win = hs.window.focusedWindow()
-    local sc = win:screen()
-    local sf = sc:frame()
-    local sff = sc:fullFrame()
-    local wf = win:frame()
 
-    win:setFrame({
-      x = hSide == "l" and 0 or sff.w * (1 - rw),
-      y = vSide ~= "b" and 0 or (sf.h * (1 - rh)) + (sff.h - sf.h),
-      w = sff.w * rw,
-      h = sf.h * rh
-    })
+    win:move(hs.geometry.new({
+      x = hSide == "l" and 0 or 1 - rw,
+      y = vSide ~= "b" and 0 or 1 - rh,
+      w = rw,
+      h = rh
+    }))
   end
 end
 
@@ -155,7 +151,7 @@ function toEdge(e)
   return function()
     local win = hs.window.focusedWindow()
     local sc = win:screen()
-    local sf = sc:frame()
+    local sf = sc:fullFrame()
     local wf = win:frame()
 
     if e == "t" then
@@ -173,43 +169,59 @@ function toEdge(e)
 end
 
 local horizontalCenter = function()
-  toEdge("t")()
-
   local win = hs.window.focusedWindow()
   local sc = win:screen()
   local sf = sc:frame()
   local wf = win:frame()
 
-  wf.x = (sf.w - wf.w) / 2
-
-  win:setFrame(wf)
+  win:move(hs.geometry.new({
+    x = (1 - (wf.w / sf.w)) / 2,
+    y = 0,
+    w = wf.w / sf.w,
+    h = wf.h / sf.h
+  }))
 end
 
 function resizeAndCenter(percentage)
   return function()
     local win = hs.window.focusedWindow()
-    local sc = win:screen()
-    local sf = sc:frame()
-    local wf = win:frame()
+    local wp = percentage * 0.01
 
-    wf.w = sf.w * percentage * 0.01
-    wf.h = sf.h
-    wf.x = (sf.w - wf.w) / 2
-    wf.y = 0
-    win:setFrame(wf)
+    win:move(hs.geometry.new({
+      x = (1 - wp) / 2,
+      y = 0,
+      w = wp,
+      h = 1.0
+    }))
   end
 end
 
-bind({ "ctrl" }, "2", sizeAnchorSide(50, 100, "l"))
-bind({ "ctrl", "shift" }, "2", sizeAnchorSide(50, 100, "r"))
-bind({ "ctrl", "shift", "cmd" }, "2", sizeAnchorSide(64.2, 100, "r"))
+function moveNorth()
+  local win = hs.window.focusedWindow()
+  pcall(function () win:moveOneScreenNorth() end)
+end
 
-bind({ "ctrl" }, "3", halfWidthPartialHeight(50, "l"))
-bind({ "ctrl", "shift" }, "3", halfWidthPartialHeight(50, "r"))
-bind({ "ctrl", "shift", "cmd" }, "3", sizeAnchorSide(75, 75, "l"))
+function moveSouth()
+  local win = hs.window.focusedWindow()
+  pcall(function () win:moveOneScreenSouth() end)
+end
 
-bind({ "ctrl" }, "4", halfWidthPartialHeight(70, "l"))
-bind({ "ctrl", "shift" }, "4", halfWidthPartialHeight(70, "r"))
+bind({ "ctrl" }, ",", sizeAnchorSide(50, 100, "l"))
+bind({ "ctrl" }, ".", sizeAnchorSide(50, 100, "r"))
+
+bind({ "ctrl", "shift", "cmd" }, "2", sizeAnchorSide(64.8, 100, "r"))
+
+bind({ "ctrl", "shift", "cmd" }, "3", function()
+  sizeAnchorSide(75, 70)()
+  horizontalCenter()
+end)
+
+bind({ "ctrl" }, "5", halfWidthPartialHeight(50, "l"))
+bind({ "ctrl", "shift" }, "5", halfWidthPartialHeight(50, "r"))
+bind({ "ctrl", "shift", "cmd" }, "5", sizeAnchorSide(75, 75, "l"))
+
+bind({ "ctrl" }, "6", halfWidthPartialHeight(70, "l"))
+bind({ "ctrl", "shift" }, "6", halfWidthPartialHeight(70, "r"))
 
 bind({ "alt", "cmd" }, "delete", horizontalCenter)
 
@@ -256,7 +268,10 @@ bind({ "ctrl", "alt", "cmd", "shift" }, "pageDown", resizeReverseAnchor(0, small
 bind({ "ctrl", "alt", "cmd", "shift" }, "end", resizeReverseAnchor(-smallStep, 0))
 bind({ "ctrl", "alt", "cmd", "shift" }, "home", resizeReverseAnchor(smallStep, 0))
 
-hs.hotkey.bind({"ctrl", "cmd"}, "space", function()
+bind({ "ctrl", "alt" }, "pageUp", moveNorth)
+bind({ "ctrl", "alt" }, "pageDown", moveSouth)
+
+bind({"ctrl", "cmd", "shift" }, "space", function()
   hs.alert.show("reloading hammerspoon")
   hs.reload()
 end)

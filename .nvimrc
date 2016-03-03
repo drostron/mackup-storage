@@ -12,5 +12,3 @@ endif
 
 set backspace=indent,eol,start
 
-set spell
-
