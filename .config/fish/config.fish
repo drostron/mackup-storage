@@ -11,15 +11,18 @@ make_completion gd "git diff"
 make_completion gs "git status"
 make_completion d docker
 
-set PATH ~/opt/brew/bin ~/opt/brew/sbin \
-  ~/Library/Haskell/bin ~/opt/homebrew/opt/llvm/bin \
-  ~/.local/bin \
-  ~/opt/homebrew/opt/llvm/share/llvm $PATH ~/code/bin ~/code/ghar/bin \
-  ~/opt/brew/share/python ~/agda/.cabal-sandbox/bin ~/code/gocode/bin /opt/local/bin \
+set PATH                \
+  ~/Library/Haskell/bin \
+  ~/.local/bin          \
+  $PATH                 \
   ~/code/purescript/.cabal-sandbox/bin
 
-set -x MANPATH (cat /etc/manpaths /etc/manpaths.d/**) ~/opt/brew/share/man \
-  /usr/share/man /usr/local/share/man /Users/dave/.opam/4.01.0/man /Applications/DiffMerge/CommandLine
+set -x MANPATH            \
+  (cat /etc/manpaths)     \
+  (find /etc/manpaths.d/) \
+  /usr/share/man          \
+  /usr/local/share/man    \
+  ~/.opam/system/man
 
 set fish_greeting ""
 

@@ -60,8 +60,7 @@ appKeyMapping = {
   ["a"] = "Gitter",
   ["b"] = "SoundCleod",
   ["c"] = "Google Chrome",
-  ["e"] = "Gitter",
-  ["f"] = "Finder",
+  ["e"] = "Emacs",
   ["g"] = "SourceTree",
   ["i"] = "iBooks",
   ["l"] = "Light Table",
@@ -69,7 +68,7 @@ appKeyMapping = {
   ["p"] = "Preview",
   ["r"] = "Spotify",
   ["s"] = "Slack",
-  ["t"] = "iTerm",
+  ["t"] = "iTerm2",
   ["v"] = "IntelliJ IDEA",
   ["x"] = "Atom",
   ["y"] = "Twitter",
@@ -83,6 +82,9 @@ for k, v in pairs(appKeyMapping) do
   bind({"ctrl", "cmd"}, k, f())
   bind({"ctrl", "cmd", "shift"}, k, f(true))
 end
+
+bind({"ctrl", "cmd", "shift"}, "f", focusApp("Finder")())
+
 
 -- check out hs.grid
 -- keep an eye out for the sizeup extension https://github.com/Hammerspoon/hammerspoon/issues/154
@@ -102,13 +104,13 @@ function sizeAnchorSide(percentWidth, percentHeight, hSide, vSide)
   end
 end
 
-function halfWidthPartialHeight(percentHeight, hSide)
-  local vSide = "t"
+function halfWidthPartialHeight(percentHeight, hSide, vSide)
+  local _vSide = "t"
 
   return function()
-    sizeAnchorSide(50, percentHeight, hSide, vSide)()
+    sizeAnchorSide(50, percentHeight, hSide, vSide or _vSide)()
 
-    vSide = vSide == "t" and "b" or "t"
+    _vSide = _vSide == "t" and "b" or "t"
   end
 end
 
@@ -209,19 +211,20 @@ end
 bind({ "ctrl" }, ",", sizeAnchorSide(50, 100, "l"))
 bind({ "ctrl" }, ".", sizeAnchorSide(50, 100, "r"))
 
+
+-- bind({ "ctrl" }, "5", halfWidthPartialHeight(50, "l"))
+-- bind({ "ctrl", "shift" }, "5", halfWidthPartialHeight(50, "r"))
+-- bind({ "ctrl" }, "6", halfWidthPartialHeight(70, "l", "t"))
+-- bind({ "ctrl", "shift" }, "6", halfWidthPartialHeight(70, "r", "t"))
+
+bind({ "ctrl", "shift", "cmd" }, "1", sizeAnchorSide(80, 100, "r"))
 bind({ "ctrl", "shift", "cmd" }, "2", sizeAnchorSide(64.8, 100, "r"))
+bind({ "ctrl", "shift", "cmd" }, "3", function() sizeAnchorSide(75, 70)(); horizontalCenter() end)
+bind({ "ctrl", "shift", "cmd" }, "5", sizeAnchorSide(58, 70, "l"))
+bind({ "ctrl", "shift", "cmd" }, "6", sizeAnchorSide(59, 70, "r"))
+bind({ "ctrl", "shift", "cmd" }, "7", sizeAnchorSide(42.0, 100, "l"))
+bind({ "ctrl", "shift", "cmd" }, "8", sizeAnchorSide(58.1, 100, "r"))
 
-bind({ "ctrl", "shift", "cmd" }, "3", function()
-  sizeAnchorSide(75, 70)()
-  horizontalCenter()
-end)
-
-bind({ "ctrl" }, "5", halfWidthPartialHeight(50, "l"))
-bind({ "ctrl", "shift" }, "5", halfWidthPartialHeight(50, "r"))
-bind({ "ctrl", "shift", "cmd" }, "5", sizeAnchorSide(75, 75, "l"))
-
-bind({ "ctrl" }, "6", halfWidthPartialHeight(70, "l"))
-bind({ "ctrl", "shift" }, "6", halfWidthPartialHeight(70, "r"))
 
 bind({ "alt", "cmd" }, "delete", horizontalCenter)
 
