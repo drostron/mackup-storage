@@ -1,0 +1,312 @@
+[
+  {
+    title: "pdxscala-beginner-talk-series"
+    paths: [
+      "/Users/dave/Box/pdxscala-beginner-talk-series"
+    ]
+  }
+  {
+    title: "perceptron-explorations"
+    paths: [
+      "/Users/dave/Box/code/perceptron-explorations"
+    ]
+  }
+  {
+    title: "dropbox notes"
+    paths: [
+      "/Users/dave/Dropbox/notes"
+    ]
+  }
+  {
+    title: "janrain-lunch-reading-group"
+    paths: [
+      "/Users/dave/Box/janrain-lunch-reading-group"
+    ]
+  }
+  {
+    title: "rtree-explorations"
+    paths: [
+      "/Users/dave/Box/code/rtree-explorations"
+    ]
+  }
+  {
+    title: "scala-llvm-explorations"
+    paths: [
+      "/Users/dave/Box/code/scala-llvm-explorations"
+    ]
+  }
+  {
+    title: "rust-rtree"
+    paths: [
+      "/Users/dave/Box/code/rust-rtree"
+    ]
+  }
+  {
+    title: "ndim-rtree"
+    paths: [
+      "/Users/dave/Box/code/ndim-rtree"
+    ]
+  }
+  {
+    title: "sylvestris"
+    paths: [
+      "/Users/dave/Box/code/sylvestris"
+    ]
+  }
+  {
+    title: "scalable-machine-learning"
+    paths: [
+      "/Users/dave/Box/scalable-machine-learning"
+    ]
+  }
+  {
+    title: "resume"
+    paths: [
+      "/Users/dave/Box/code/resume"
+    ]
+  }
+  {
+    title: "mackup"
+    paths: [
+      "/Users/dave/code/mackup"
+    ]
+  }
+  {
+    title: "quasar"
+    paths: [
+      "/Users/dave/code/quasar"
+    ]
+  }
+  {
+    title: "slamdata"
+    paths: [
+      "/Users/dave/code/slamdata"
+    ]
+  }
+  {
+    title: "scala-abt"
+    paths: [
+      "/Users/dave/code/scala-abt"
+    ]
+  }
+  {
+    title: "http4s"
+    paths: [
+      "/Users/dave/code/http4s"
+    ]
+  }
+  {
+    title: "wartremover"
+    paths: [
+      "/Users/dave/code/wartremover"
+    ]
+  }
+  {
+    title: "scala-pathy"
+    paths: [
+      "/Users/dave/code/scala-pathy"
+    ]
+  }
+  {
+    title: "quasar-advanced"
+    paths: [
+      "/Users/dave/code/quasar-advanced"
+    ]
+  }
+  {
+    title: "shapeless"
+    paths: [
+      "/Users/dave/code/shapeless"
+    ]
+  }
+  {
+    title: "swarm-algorithm-explorations"
+    paths: [
+      "/Users/dave/Box/code/swarm-algorithm-explorations"
+    ]
+  }
+  {
+    title: "scalaz"
+    paths: [
+      "/Users/dave/code/scalaz"
+    ]
+  }
+  {
+    title: "fs2"
+    paths: [
+      "/Users/dave/code/fs2"
+    ]
+  }
+  {
+    title: "Monocle"
+    paths: [
+      "/Users/dave/code/Monocle"
+    ]
+  }
+  {
+    title: "argonaut"
+    paths: [
+      "/Users/dave/code/argonaut"
+    ]
+  }
+  {
+    title: "scalacheck"
+    paths: [
+      "/Users/dave/code/scalacheck"
+    ]
+  }
+  {
+    title: "refined"
+    paths: [
+      "/Users/dave/code/refined"
+    ]
+  }
+  {
+    title: "specs2"
+    paths: [
+      "/Users/dave/code/specs2"
+    ]
+  }
+  {
+    title: "matryoshka"
+    paths: [
+      "/Users/dave/code/matryoshka"
+    ]
+  }
+  {
+    title: "cats"
+    paths: [
+      "/Users/dave/code/cats"
+    ]
+  }
+  {
+    title: "purescript-particle-swarm-optimization"
+    paths: [
+      "/Users/dave/Box/code/swarm-algorithm-explorations/particle-swarm-optimization/purescript"
+    ]
+    settings:
+      "goto.moreIgnoredNames": [
+        ".js"
+      ]
+  }
+  {
+    title: "devtools"
+    paths: [
+      "/Users/dave/code/devtools"
+    ]
+  }
+  {
+    title: "cloud"
+    paths: [
+      "/Users/dave/code/cloud"
+    ]
+  }
+  {
+    title: "doobie"
+    paths: [
+      "/Users/dave/code/doobie"
+    ]
+  }
+  {
+    title: "purescript"
+    paths: [
+      "/Users/dave/code/purescript"
+    ]
+  }
+  {
+    title: "figaro"
+    paths: [
+      "/Users/dave/code/figaro"
+    ]
+  }
+  {
+    title: "pfennig"
+    paths: [
+      "/Users/dave/code/pfennig"
+    ]
+  }
+  {
+    title: "quasar workspace-1"
+    paths: [
+      "/Users/dave/code/quasar-worktree/workspace-1"
+    ]
+  }
+  {
+    title: "quasar workspace-2"
+    paths: [
+      "/Users/dave/code/quasar-worktree/workspace-2"
+    ]
+  }
+  {
+    title: "quasar workspace-3"
+    paths: [
+      "/Users/dave/code/quasar-worktree/workspace-3"
+    ]
+  }
+  {
+    title: "fixr-tree"
+    paths: [
+      "/Users/dave/Dropbox/code/fixr-tree"
+    ]
+  }
+  {
+    title: "sbt-slamdata"
+    paths: [
+      "/Users/dave/code/sbt-slamdata"
+    ]
+  }
+  {
+    title: "couchbase-java-client"
+    paths: [
+      "/Users/dave/code/couchbase-java-client"
+    ]
+  }
+  {
+    title: "matryoshka-sorting-morphisms"
+    paths: [
+      "/Users/dave/Dropbox/code/matryoshka-sorting-morphisms"
+    ]
+  }
+  {
+    title: "hakaru10"
+    paths: [
+      "/Users/dave/Box/code/Hakaru10"
+    ]
+  }
+  {
+    title: "slamdata-predef"
+    paths: [
+      "/Users/dave/code/slamdata-predef"
+    ]
+  }
+  {
+    title: "sbt"
+    paths: [
+      "/Users/dave/code/sbt"
+    ]
+  }
+  {
+    title: "sakaru10"
+    paths: [
+      "/Users/dave/Box/code/Sakaru10"
+    ]
+  }
+  {
+    title: "eta"
+    paths: [
+      "/Users/dave/code/eta"
+    ]
+  }
+  {
+    title: "Eakaru10"
+    paths: [
+      "/Users/dave/Box/code/Eakaru10"
+    ]
+  }
+  {
+    title: "quasar-advanced workspace-1"
+    paths: [
+      "/Users/dave/code/quasar-advanced-worktree/workspace-1"
+    ]
+  }
+]

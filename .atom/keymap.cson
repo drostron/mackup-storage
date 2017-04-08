@@ -29,25 +29,36 @@
   'cmd-down': 'ctrl-dir-scroll:scroll-down'
   'ctrl-alt-up': 'native!'
 
+'.platform-darwin atom-text-editor':
+  'ctrl-shift-m': 'bracket-matcher:select-inside-brackets'
+
 '.platform-darwin':
   'ctrl-shift-p': 'project-manager:list-projects'
-  'cmd-shift-k': 'tabs:keep-preview-tab'
+  'cmd-shift-k': 'tabs:keep-pending-tab'
 
 'atom-text-editor':
   'alt-b': 'native!'
+  'alt-f': 'native!'
   'alt-h': 'native!'
   'home': 'unset!'
   'end': 'unset!'
+  'cmd-i': 'ensime:show-implicits'
+  'ctrl-shift-d': 'git-diff-details:toggle-git-diff-details'
   'ctrl-space': 'autocomplete-plus:activate'
   'ctrl-shift-space': 'autocomplete:toggle'
+  'cmd-shift-c': 'highlight-column:toggle'
 
 'atom-workspace':
   'alt-cmd-left': 'last-cursor-position:previous'
   'alt-cmd-right': 'last-cursor-position:next'
+  'alt--': 'unset!' # 'last-cursor-position:previous'
   'alt-down': 'ensime:go-to-definition'
 
 'atom-workspace atom-text-editor':
   'ctrl-alt-o': 'unset!'
+
+'atom-workspace, atom-workspace atom-text-editor':
+  'ctrl-shift-d': 'markdown-preview:toggle'
 
 'body':
   'home': 'core:move-to-top'

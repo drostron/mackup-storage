@@ -8,20 +8,17 @@
  * http://www.lesscss.org
  */
 
-.tree-view {
+// Custom bracket-matcher background color for the otherwise hard to see underline
+atom-text-editor.editor  .bracket-matcher .region {
+  border-bottom-style: hidden;
+  border-radius: 5px;
 
-}
+  // Calmer
+  // background-color: @syntax-color-class;
+  // opacity: 0.3;
 
-// style the background and foreground colors on the atom-text-editor-element
-// itself
-atom-text-editor {
-
-}
-
-// To style other content in the text editor's shadow DOM, use the ::shadow
-// expression
-atom-text-editor::shadow .cursor {
-
+  // More Bold. glowing-cursor default color
+  background-color: rgba(97,210,255,0.3);
 }
 
 // remove custom padding at some point to see if the defaults have been updated

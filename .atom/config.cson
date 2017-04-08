@@ -1,10 +1,62 @@
 "*":
+  Ensime:
+    JAVA_HOME: "/Library/Java/JavaVirtualMachines/jdk1.8.0_60.jdk/Contents/Home/"
+    devMode: true
+    sbtExec: "/usr/local/bin/sbt"
+    typecheckWhen: "save"
+  Zen:
+    fullscreen: false
+    width: 100
+  "atom-ctags": {}
+  "atom-xikij": {}
+  "autocomplete-plus":
+    autoActivationDelay: 750
+    confirmCompletion: "tab and enter"
+    enableAutoActivation: false
+    minimumWordLength: 2
+  autosave:
+    enabled: true
+  "base16-syntax":
+    scheme: "Ocean"
+  "bracket-matcher": {}
+  "browser-plus": {}
+  core:
+    disabledPackages: [
+      "ctrl-dir-scroll-updated"
+      "language-ruby-on-rails"
+      "atom-ctags"
+      "view-tail-large-files"
+      "language-idris"
+      "symbols-tree-view"
+      "background-tips"
+      "ide-purescript"
+      "wrap-guide"
+      "welcome"
+      "floobits"
+      "linter"
+      "glowing-cursor"
+      "Ensime"
+      "browser-plus"
+    ]
+    ignoredNames: [
+      ".git"
+      ".hg"
+      ".svn"
+      ".DS_Store"
+      "Thumbs.db"
+      "*.class"
+      "target"
+      ".tags"
+      ".targets"
+    ]
+    telemetryConsent: "limited"
+    themes: [
+      "one-light-ui"
+      "base16-syntax"
+    ]
   editor:
-    showInvisibles: true
-    preferredLineLength: 120
-    scrollPastEnd: true
-    invisibles: {}
     fontFamily: "Menlo"
+    fontSize: 13
     ignoredNames: [
       null
       ".git"
@@ -19,59 +71,16 @@
       "**/*.xml"
       ".idea"
     ]
-    softWrap: true
+    invisibles: {}
+    preferredLineLength: 120
+    scrollPastEnd: true
     showIndentGuide: true
-    fontSize: 12
-  core:
-    themes: [
-      "one-light-ui"
-      "base16-syntax"
-    ]
-    disabledPackages: [
-      "ctrl-dir-scroll-updated"
-      "language-ruby-on-rails"
-      "atom-ctags"
-      "view-tail-large-files"
-      "cursor-count"
-    ]
-    ignoredNames: [
-      ".git"
-      ".hg"
-      ".svn"
-      ".DS_Store"
-      "Thumbs.db"
-      "*.class"
-    ]
+    showInvisibles: true
+    softWrap: true
   "exception-reporting":
     userId: "8f738275-0954-f934-db4d-b8a8cccda829"
-  welcome:
-    showOnStartup: false
-  "base16-syntax":
-    scheme: "Ocean"
-  "spell-check":
-    grammars: [
-      "source.gfm"
-      "text.git-commit"
-      "text.plain"
-      "text.plain.null-grammar"
-      "source.scala"
-      "source.ruby"
-      "text.html.basic"
-    ]
-  linter: {}
-  "markdown-preview":
-    openPreviewInSplitPane: false
-  autosave:
-    enabled: true
-  "autocomplete-plus":
-    autoActivationDelay: 750
-    enableAutoActivation: false
-    confirmCompletion: "tab and enter"
-  "atom-ctags": {}
-  "view-tail-large-files": {}
-  "local-history":
-    difftoolCommand: "opendiff \"{current-file}\" \"{revision-file}\""
-    historyStoragePath: "/Users/dave/.atom-local-history"
+  floobits:
+    audioOnly: true
   "fuzzy-finder":
     ignoredNames: [
       ".idea"
@@ -84,42 +93,85 @@
       "**/target/streams"
       "**/target/test-reports"
     ]
-  "project-manager": {}
-  Zen:
-    fullscreen: false
-    width: 100
-  minimap:
-    plugins:
-      selection: true
-      "find-and-replace": true
-      "git-diff": true
-      "highlight-selected": false
+  "glowing-cursor": {}
+  goto:
+    moreIgnoredNames: [
+      ".js"
+    ]
+  "highlight-column":
+    enabled: false
+    opacity: 0.07
   "highlight-selected": {}
-  "atom-xikij": {}
   "ide-haskell":
-    stylishHaskellPath: "/Users/dave/Library/Haskell/bin/stylish-haskell"
     ghcModPath: "/Users/dave/Library/Haskell/bin/ghc-mod"
-  Ensime:
-    sbtExec: "/Users/dave/opt/brew/bin/sbt"
-    JAVA_HOME: "/Library/Java/JavaVirtualMachines/jdk1.7.0_79.jdk/Contents/Home/"
-  tabs:
-    usePreviewTabs: true
-    enableVcsColoring: true
+    stylishHaskellPath: "/Users/dave/Library/Haskell/bin/stylish-haskell"
+  "ide-purescript":
+    pscIdeServerExe: "/Users/dave/.local/bin/psc-ide-server"
+    psciCommand: "/usr/local/bin/pulp psci"
   "language-idris":
     pathToIdris: "/usr/local/bin/idris"
-".js.rails.source source.jquery.js":
+  linter: {}
+  "local-history":
+    difftoolCommand: "opendiff \"{current-file}\" \"{revision-file}\""
+    historyStoragePath: "/Users/dave/.atom-local-history"
+  "markdown-preview":
+    openPreviewInSplitPane: false
+    useGitHubStyle: true
+  minimap:
+    plugins:
+      "find-and-replace": true
+      "find-and-replaceDecorationsZIndex": 0
+      "git-diff": true
+      "git-diffDecorationsZIndex": 0
+      "highlight-selected": false
+      "highlight-selectedDecorationsZIndex": 0
+      selection: true
+      selectionDecorationsZIndex: 0
+      "split-diff": true
+      "split-diffDecorationsZIndex": 0
+  "multi-wrap-guide": {}
+  "one-light-ui": {}
+  "project-manager":
+    prettifyTitle: false
+    sortBy: "last modified"
+  "project-plus":
+    autoDiscover: false
+    notifications: false
+  "project-viewer":
+    convertOldData: false
+    statusBarVisibility: true
+  "spell-check":
+    grammars: [
+      "source.gfm"
+      "text.git-commit"
+      "text.plain"
+      "text.plain.null-grammar"
+      "source.scala"
+      "source.purescript"
+      "comment.line.double-dash.purescript"
+      "source.ruby"
+      "text.html.basic"
+    ]
+  "split-diff":
+    ignoreWhitespace: true
+  "status-bar": {}
+  swackets: {}
+  "symbols-tree-view": {}
+  "symbols-view":
+    useEditorGrammarAsCtagsLanguage: false
+  tabs:
+    enableVcsColoring: true
+    usePreviewTabs: true
+  "view-tail-large-files": {}
+  welcome:
+    showOnStartup: false
+".c2hs.source":
+  editor:
+    preferredLineLength: 120
+".cabal.source":
   editor:
     preferredLineLength: 120
 ".cucumber.rspec.ruby.source.steps":
-  editor:
-    preferredLineLength: 120
-".rails.rjs.ruby.source":
-  editor:
-    preferredLineLength: 120
-".html.mediawiki.text":
-  editor:
-    softWrap: true
-".gohtml.html.text":
   editor:
     preferredLineLength: 120
 ".erb.html.text":
@@ -128,52 +180,99 @@
 ".feature.gherkin.text":
   editor:
     preferredLineLength: 120
+".fsharp.source":
+  editor:
+    preferredLineLength: 120
+".gfm.source":
+  editor:
+    softWrap: true
+".go.source":
+  editor:
+    preferredLineLength: 120
+".gohtml.html.text":
+  editor:
+    preferredLineLength: 120
+".gotemplate.source":
+  editor:
+    preferredLineLength: 120
+".haskell.hint":
+  editor:
+    preferredLineLength: 120
+".haskell.hint.message":
+  editor:
+    preferredLineLength: 120
+".haskell.hint.type":
+  editor:
+    preferredLineLength: 120
+".haskell.latex.tex.text":
+  editor:
+    preferredLineLength: 120
+".haskell.source":
+  editor:
+    preferredLineLength: 120
+".hsc2hs.source":
+  editor:
+    preferredLineLength: 120
+".html.mediawiki.text":
+  editor:
+    softWrap: true
+".html.mustache.text":
+  editor:
+    preferredLineLength: 90
 ".html.ruby.text":
+  editor:
+    preferredLineLength: 120
+".idris.source":
+  editor:
+    preferredLineLength: 120
+".js.rails.source source.jquery.js":
+  editor:
+    preferredLineLength: 120
+".lua.source":
+  editor:
+    preferredLineLength: 120
+".mustache.source.sql":
+  editor:
+    preferredLineLength: 90
+".null-grammar.plain.text":
+  editor:
+    preferredLineLength: 80
+  "multi-wrap-guide":
+    columns: [
+      80
+    ]
+".patch.source":
+  editor:
+    preferredLineLength: 120
+".psci.purescript.source":
+  editor:
+    preferredLineLength: 120
+".purescript.source":
+  editor:
+    preferredLineLength: 120
+".rails.rjs.ruby.source":
   editor:
     preferredLineLength: 120
 ".rails.ruby.source":
   editor:
     preferredLineLength: 120
+".ruby.source":
+  editor:
+    preferredLineLength: 120
 ".ruby.source.sql":
-  editor:
-    preferredLineLength: 120
-".html.mustache.text":
-  editor:
-    preferredLineLength: 90
-".mustache.source.sql":
-  editor:
-    preferredLineLength: 90
-".idris.source":
-  editor:
-    preferredLineLength: 120
-".fsharp.source":
   editor:
     preferredLineLength: 120
 ".rust.source":
   editor:
     preferredLineLength: 120
     tabLength: 2
-".gfm.source":
+".scala.source":
   editor:
-    softWrap: true
+    preferredLineLength: 80
+  "multi-wrap-guide":
+    columns: [
+      80
+    ]
 ".source.xikij":
   editor:
     preferredLineLength: 90
-".gotemplate.source":
-  editor:
-    preferredLineLength: 120
-".go.source":
-  editor:
-    preferredLineLength: 120
-".ruby.source":
-  editor:
-    preferredLineLength: 120
-".lua.source":
-  editor:
-    preferredLineLength: 120
-".scala.source":
-  editor:
-    preferredLineLength: 120
-".purescript.source":
-  editor:
-    preferredLineLength: 120

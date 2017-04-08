@@ -12,3 +12,6 @@ endif
 
 set backspace=indent,eol,start
 
+" share with system clipboard
+set clipboard=unnamed
+

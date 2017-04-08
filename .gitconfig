@@ -1,6 +1,6 @@
 [user]
-	name = "Dave Rostron"
-	email = "yastero@gmail.com"
+	name = Dave Rostron
+	email = yastero@gmail.com
 [color]
 	diff = auto
 	status = auto
@@ -10,7 +10,7 @@
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
 	path =
 [mergetool "sourcetree"]
-	cmd = /opt/homebrew-cask/Caskroom/sourcetree/1.9.1/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
 	trustExitCode = true
 [alias]
 	co = checkout
@@ -19,3 +19,5 @@
 	default = simple
 [merge]
 	tool = opendiff
+[commit]
+	template = /Users/dave/.stCommitMsg

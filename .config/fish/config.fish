@@ -5,6 +5,8 @@ alias ga='git add'
 
 alias d=docker
 
+alias qsbt=~/code/quasar/sbt
+
 make_completion g git
 make_completion ga "git add"
 make_completion gd "git diff"
@@ -19,7 +21,8 @@ set PATH                \
 
 set -x MANPATH            \
   (cat /etc/manpaths)     \
-  (find /etc/manpaths.d/) \
+  # Appears to be stale once on Sierra
+  # (find /etc/manpaths.d/) \
   /usr/share/man          \
   /usr/local/share/man    \
   ~/.opam/system/man

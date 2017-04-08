@@ -3,6 +3,11 @@ addSbtPlugin("com.timushev.sbt" % "sbt-updates" % "0.1.9")
 addSbtPlugin("net.virtual-void" % "sbt-dependency-graph" % "0.8.0")
 
 // causing issue with scalariform configs; overriding? o_O
-addSbtPlugin("org.ensime" % "ensime-sbt" % "0.3.2")
+// commenting out due to unknown conflict with sbt-pgp
+addSbtPlugin("org.ensime" % "sbt-ensime" % "1.12.5")
 
 addSbtPlugin("com.github.alexarchambault" %% "sbt-ammonite" % "0.1.0")
+
+addSbtPlugin("com.updateimpact" % "updateimpact-sbt-plugin" % "2.1.1")
+
+addSbtPlugin("com.jsuereth" % "sbt-pgp" % "1.0.0")
