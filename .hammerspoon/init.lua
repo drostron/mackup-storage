@@ -1,6 +1,8 @@
 
 -- consider splitting into lib and config files
 
+hs.alert.show("hammerspoon loading...")
+
 hs.window.animationDuration = 0
 
 local step = 100
@@ -24,6 +26,9 @@ function focusApp(name)
         local currentWindows = hs.fnutils.filter(
           app:visibleWindows(),
           function(i) return i:title() ~= "" end)
+
+        for i, v in pairs(currentWindows) do; hs.printf(v:title()); end
+        hs.printf("")
 
         -- prune windows
         for i, v in pairs(windows) do
@@ -57,10 +62,12 @@ function focusApp(name)
 end
 
 appKeyMapping = {
-  ["a"] = "Activity Monitor",
+  -- ["a"] = "Activity Monitor",
+  ["a"] = "Emacs",
   ["b"] = "SoundCleod",
   ["c"] = "Google Chrome",
-  ["e"] = "Emacs",
+  -- ["e"] = "Emacs",
+  ["e"] = "Gitter",
   ["g"] = "SourceTree",
   ["i"] = "iBooks",
   ["l"] = "Light Table",
@@ -211,12 +218,6 @@ end
 bind({ "ctrl" }, ",", sizeAnchorSide(50, 100, "l"))
 bind({ "ctrl" }, ".", sizeAnchorSide(50, 100, "r"))
 
-
--- bind({ "ctrl" }, "5", halfWidthPartialHeight(50, "l"))
--- bind({ "ctrl", "shift" }, "5", halfWidthPartialHeight(50, "r"))
--- bind({ "ctrl" }, "6", halfWidthPartialHeight(70, "l", "t"))
--- bind({ "ctrl", "shift" }, "6", halfWidthPartialHeight(70, "r", "t"))
-
 bind({ "ctrl", "shift", "cmd" }, "1", sizeAnchorSide(80, 100, "r"))
 bind({ "ctrl", "shift", "cmd" }, "2", sizeAnchorSide(64.8, 100, "r"))
 bind({ "ctrl", "shift", "cmd" }, "3", function() sizeAnchorSide(75, 70)(); horizontalCenter() end)
@@ -225,16 +226,15 @@ bind({ "ctrl", "shift", "cmd" }, "6", sizeAnchorSide(56, 70, "r"))
 bind({ "ctrl", "shift", "cmd" }, "7", sizeAnchorSide(42.0, 100, "l"))
 bind({ "ctrl", "shift", "cmd" }, "8", sizeAnchorSide(58.1, 100, "r"))
 
-
 bind({ "alt", "cmd" }, "delete", horizontalCenter)
 
-bind({ "ctrl", "cmd" }, "1", resizeAndCenter(100))
-bind({ "ctrl", "cmd" }, "2", resizeAndCenter(90))
-bind({ "ctrl", "cmd" }, "3", resizeAndCenter(80))
-bind({ "ctrl", "cmd" }, "4", resizeAndCenter(70))
-bind({ "ctrl", "cmd" }, "5", resizeAndCenter(60))
-bind({ "ctrl", "cmd" }, "6", resizeAndCenter(50))
-bind({ "ctrl", "cmd" }, "7", resizeAndCenter(40))
+bind({ "ctrl", "shift" }, "1", resizeAndCenter(100))
+bind({ "ctrl", "shift" }, "2", resizeAndCenter(90))
+bind({ "ctrl", "shift" }, "3", resizeAndCenter(80))
+bind({ "ctrl", "shift" }, "4", resizeAndCenter(70))
+bind({ "ctrl", "shift" }, "5", resizeAndCenter(60))
+bind({ "ctrl", "shift" }, "6", resizeAndCenter(50))
+bind({ "ctrl", "shift" }, "7", resizeAndCenter(40))
 
 bind({ "cmd" }, "pageUp", move(0, step))
 bind({ "cmd" }, "pageDown", move(0, -step))
@@ -275,6 +275,5 @@ bind({ "ctrl", "alt" }, "pageUp", moveNorth)
 bind({ "ctrl", "alt" }, "pageDown", moveSouth)
 
 bind({"ctrl", "cmd", "shift" }, "space", function()
-  hs.alert.show("reloading hammerspoon")
   hs.reload()
 end)
