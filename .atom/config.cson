@@ -26,7 +26,6 @@
       "language-ruby-on-rails"
       "atom-ctags"
       "view-tail-large-files"
-      "language-idris"
       "symbols-tree-view"
       "background-tips"
       "ide-purescript"
@@ -37,6 +36,7 @@
       "glowing-cursor"
       "Ensime"
       "browser-plus"
+      "last-cursor-position"
     ]
     ignoredNames: [
       ".git"
@@ -55,7 +55,7 @@
       "base16-syntax"
     ]
   editor:
-    fontFamily: "Menlo"
+    fontFamily: "source code pro - regular"
     fontSize: 13
     ignoredNames: [
       null

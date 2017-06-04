@@ -49,8 +49,10 @@
   'cmd-shift-c': 'highlight-column:toggle'
 
 'atom-workspace':
-  'alt-cmd-left': 'last-cursor-position:previous'
-  'alt-cmd-right': 'last-cursor-position:next'
+  'alt-cmd-left': 'cursor-history:prev'
+  'alt-cmd-right': 'cursor-history:next'
+  # 'alt-cmd-left': 'last-cursor-position:previous'
+  # 'alt-cmd-right': 'last-cursor-position:next'
   'alt--': 'unset!' # 'last-cursor-position:previous'
   'alt-down': 'ensime:go-to-definition'
 
