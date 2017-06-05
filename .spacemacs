@@ -31,19 +31,20 @@ values."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
-     lua
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
      ;; <M-m f e R> (Emacs style) to install them.
      ;; ----------------------------------------------------------------
-     helm
-     ;; auto-completion
+     auto-completion
      ;; better-defaults
      emacs-lisp
-     ;; git
-     ;; markdown
+     helm
+     git
+     lua
+     markdown
      ;; org
+     scala
      ;; (shell :variables
      ;;        shell-default-height 30
      ;;        shell-default-position 'bottom)
@@ -310,8 +311,27 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
+
+  ;; User key bindings
   (global-set-key (kbd "s-<up>") 'scroll-down-line)
   (global-set-key (kbd "s-<down>") 'scroll-up-line)
+
+  ;; A more familiar and less jumpy mouse scroll
+  (setq mouse-wheel-scroll-amount '(1))
+  (setq mouse-wheel-progressive-speed nil)
+
+  ;; Don't conflict with Atom's symbols-view tag file defaults
+  (setq projectile-tags-file-name ".tags_emacs")
+
+  ;; Ignore target so ctags is more reasonble with Scala projects
+  (with-eval-after-load 'projectile
+    (add-to-list 'projectile-globally-ignored-directories "target")
+    (add-to-list 'projectile-globally-ignored-directories ".targets"))
+  (setq projectile-tags-command "env TMPDIR=/tmp ctags -Re -f \"%s\" %s")
+
+  ;; Ensime
+  (setq ensime-startup-notification nil)
+  (setq ensime-startup-snapshot-notification nil)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
