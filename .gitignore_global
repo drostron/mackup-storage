@@ -1,9 +1,10 @@
 *~
 .DS_Store
-.tags
-tags
-.python-version
-.vagrant
-.idea
 .ensime
 .ensime_cache/
+.floo
+.flooignore
+tags
+.tags
+.tags_emacs
+.idea

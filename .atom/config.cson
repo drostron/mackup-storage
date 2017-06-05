@@ -48,7 +48,10 @@
       "target"
       ".tags"
       ".targets"
+      ".ensime_cache"
+      ".tags_emacs"
     ]
+    openEmptyEditorOnStart: false
     telemetryConsent: "limited"
     themes: [
       "one-light-ui"
@@ -156,6 +159,7 @@
     ignoreWhitespace: true
   "status-bar": {}
   swackets: {}
+  "symbol-gen": {}
   "symbols-tree-view": {}
   "symbols-view":
     useEditorGrammarAsCtagsLanguage: false
