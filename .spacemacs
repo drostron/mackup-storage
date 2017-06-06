@@ -332,6 +332,32 @@ you should place your code here."
   ;; Ensime
   (setq ensime-startup-notification nil)
   (setq ensime-startup-snapshot-notification nil)
+
+  (defun auto-save-command () (save-some-buffers t))
+
+  ;; From Emacs Prelude — https://github.com/bbatsov/prelude
+  (defmacro advise-commands (advice-name commands class &rest body)
+    "Apply advice named ADVICE-NAME to multiple COMMANDS.
+
+The body of the advice is in BODY."
+    `(progn
+       ,@(mapcar (lambda (command)
+                   `(defadvice ,command (,class ,(intern (concat (symbol-name command) "-" advice-name)) activate)
+                      ,@body))
+                 commands)))
+
+  ;; From Emacs Prelude — https://github.com/bbatsov/prelude
+  ;; advise all window switching functions
+  (advise-commands "auto-save"
+                   (switch-to-buffer other-window windmove-up windmove-down windmove-left windmove-right)
+                   before
+                   (auto-save-command))
+
+  ;; Save on buffer and window switch
+  (add-hook 'focus-out-hook 'auto-save-command)
+
+  ;; Persistent undo-tree
+  (setq undo-tree-auto-save-history t)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
