@@ -43,6 +43,7 @@ values."
      git
      lua
      markdown
+     osx
      ;; org
      scala
      ;; (shell :variables
@@ -50,7 +51,8 @@ values."
      ;;        shell-default-position 'bottom)
      ;; spell-checking
      ;; syntax-checking
-     ;; version-control
+     (version-control :variables
+                      version-control-global-margin t)
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -261,7 +263,7 @@ values."
    ;;                       text-mode
    ;;   :size-limit-kb 1000)
    ;; (default nil)
-   dotspacemacs-line-numbers nil
+   dotspacemacs-line-numbers t
    ;; Code folding method. Possible values are `evil' and `origami'.
    ;; (default 'evil)
    dotspacemacs-folding-method 'evil
@@ -358,6 +360,9 @@ The body of the advice is in BODY."
 
   ;; Persistent undo-tree
   (setq undo-tree-auto-save-history t)
+
+  ;; Experimental — access math keyboard layout
+  (setq mac-option-modifier 'none)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
