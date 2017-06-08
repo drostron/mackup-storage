@@ -358,9 +358,6 @@ The body of the advice is in BODY."
   ;; Save on buffer and window switch
   (add-hook 'focus-out-hook 'auto-save-command)
 
-  ;; Persistent undo-tree
-  (setq undo-tree-auto-save-history t)
-
   ;; Experimental — access math keyboard layout
   (setq mac-option-modifier 'none)
   )
