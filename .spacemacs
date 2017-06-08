@@ -49,7 +49,7 @@ values."
      ;; (shell :variables
      ;;        shell-default-height 30
      ;;        shell-default-position 'bottom)
-     ;; spell-checking
+     spell-checking
      ;; syntax-checking
      (version-control :variables
                       version-control-global-margin t)
@@ -317,6 +317,10 @@ you should place your code here."
   ;; User key bindings
   (global-set-key (kbd "s-<up>") 'scroll-down-line)
   (global-set-key (kbd "s-<down>") 'scroll-up-line)
+  ;; Perhaps these should be left behind
+  (global-set-key (kbd "s-d") (lambda () (interactive) (backward-word) (mark-sexp)))
+  (global-set-key (kbd "s-F") 'isearch-backward)
+  (global-set-key (kbd "s-G") 'isearch-repeat-backward)
 
   ;; A more familiar and less jumpy mouse scroll
   (setq mouse-wheel-scroll-amount '(1))
@@ -360,6 +364,10 @@ The body of the advice is in BODY."
 
   ;; Experimental — access math keyboard layout
   (setq mac-option-modifier 'none)
+
+  ;; Set ensime search to the more useful ensime-helm-search
+  (spacemacs/set-leader-keys-for-major-mode 'scala-mode
+    "/"      'ensime-helm-search)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
