@@ -42,7 +42,8 @@ values."
      helm
      git
      lua
-     markdown
+     (markdown :variables
+               markdown-live-preview-engine 'vmd)
      osx
      ;; org
      scala
