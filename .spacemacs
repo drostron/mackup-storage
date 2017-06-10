@@ -106,7 +106,7 @@ values."
    ;; with `:variables' keyword (similar to layers). Check the editing styles
    ;; section of the documentation for details on available variables.
    ;; (default 'vim)
-   dotspacemacs-editing-style 'vim
+   dotspacemacs-editing-style 'hybrid
    ;; If non nil output loading progress in `*Messages*' buffer. (default nil)
    dotspacemacs-verbose-loading nil
    ;; Specify the startup banner. Default value is `official', it displays
@@ -315,13 +315,24 @@ This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
 
-  ;; User key bindings
+  ;; A few key bindings
   (global-set-key (kbd "s-<up>") 'scroll-down-line)
   (global-set-key (kbd "s-<down>") 'scroll-up-line)
   ;; Perhaps these should be left behind
   (global-set-key (kbd "s-d") (lambda () (interactive) (backward-word) (mark-sexp)))
   (global-set-key (kbd "s-F") 'isearch-backward)
   (global-set-key (kbd "s-G") 'isearch-repeat-backward)
+  ;; Too close to evil-insert-digraph's C-k
+  (global-unset-key (kbd "s-k"))
+  ;; Set C-k to evil-insert-insert for evil hybrid mode
+  (define-key evil-hybrid-state-map (kbd "C-k") 'evil-insert-digraph)
+  ;; Add familiar command left and right for beginning and end of line
+  (global-set-key (kbd "s-<left>") 'move-beginning-of-line)
+  (global-set-key (kbd "s-<right>") 'move-end-of-line)
+  ;; Add familiar end of line
+  (global-set-key (kbd "C-e") 'move-end-of-line)
+  ;; Additional evil-escape
+  (global-set-key (kbd "C-g") 'evil-escape)
 
   ;; A more familiar and less jumpy mouse scroll
   (setq mouse-wheel-scroll-amount '(1))
@@ -330,11 +341,17 @@ you should place your code here."
   ;; Don't conflict with Atom's symbols-view tag file defaults
   (setq projectile-tags-file-name ".tags_emacs")
 
-  ;; Ignore target so ctags is more reasonble with Scala projects
+  ;; Ignore target so ctags is more reasonable with Scala projects
   (with-eval-after-load 'projectile
     (add-to-list 'projectile-globally-ignored-directories "target")
     (add-to-list 'projectile-globally-ignored-directories ".targets"))
   (setq projectile-tags-command "env TMPDIR=/tmp ctags -Re -f \"%s\" %s")
+
+  ;; Never keep current list of tags tables — https://emacs.stackexchange.com/q/14802
+  (setq tags-add-tables nil)
+
+  ;; Touch of evil customization
+  (setq evil-move-cursor-back nil) ;; Maintain position upon exiting insert mode
 
   ;; Ensime
   (setq ensime-startup-notification nil)
@@ -365,6 +382,10 @@ The body of the advice is in BODY."
 
   ;; Experimental — access math keyboard layout
   (setq mac-option-modifier 'none)
+
+  ;; Experimental — left meta for word traversal etc
+  (setq ns-command-modifier 'meta)
+  (setq ns-right-command-modifier 'super)
 
   ;; Set ensime search to the more useful ensime-helm-search
   (spacemacs/set-leader-keys-for-major-mode 'scala-mode
