@@ -333,6 +333,11 @@ you should place your code here."
   (global-set-key (kbd "C-e") 'move-end-of-line)
   ;; Additional evil-escape
   (global-set-key (kbd "C-g") 'evil-escape)
+  ;; Hybrid (as in Vim mode) — execute next command in normal state
+  (define-key evil-hybrid-state-map (kbd "C-o") 'evil-execute-in-normal-state)
+  ;; A more familiar backward and forward jump (sort of)
+  (define-key evil-normal-state-map (kbd "M-<up>") 'evil-jump-backward)
+  (define-key evil-normal-state-map (kbd "M-<down>") 'evil-jump-forward)
 
   ;; A more familiar and less jumpy mouse scroll
   (setq mouse-wheel-scroll-amount '(1))
