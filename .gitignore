@@ -39,3 +39,6 @@ Library/Preferences/com.ragingmenace.MenuMeters.plist
 .atom/packages
 Library/Preferences/com.github.atom.plist
 
+# nvim
+.nvim/.netrwhist
+.nvim/autoload/
