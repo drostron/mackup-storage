@@ -54,3 +54,13 @@ status --is-interactive; and . (pyenv virtualenv-init -|psub)
 for i in ~/.config/fish/generated_completions/*.fish
   . $i
 end
+
+# emacs
+# ansi-term support
+if test -n "$EMACS"
+  set -x TERM eterm-color
+end
+# this function may be required
+function fish_title
+  true
+end
