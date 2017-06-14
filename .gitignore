@@ -37,3 +37,5 @@ Library/Preferences/com.ragingmenace.MenuMeters.plist
 
 # atom
 .atom/packages
+Library/Preferences/com.github.atom.plist
+
