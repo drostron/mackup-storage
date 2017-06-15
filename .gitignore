@@ -32,8 +32,8 @@ Library/Preferences/com.kodowa.LightTable.plist
 Library/Preferences/com.ragingmenace.MenuMeters.plist
 
 # nvim
-.nvim/.netrwhist
-.nvim/autoload/
+.nvim/
+.vim/
 
 # sublime
 Library/Application\ Support/Sublime\ Text\ 2/Installed Packages/
