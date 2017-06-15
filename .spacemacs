@@ -402,6 +402,9 @@ The body of the advice is in BODY."
   ;; Set ensime search to the more useful ensime-helm-search
   (spacemacs/set-leader-keys-for-major-mode 'scala-mode
     "/"      'ensime-helm-search)
+
+  ;; Fish shell — some prompts may need this to work correctly
+  (add-hook 'term-mode-hook 'toggle-truncate-lines)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
