@@ -382,6 +382,9 @@ you should place your code here."
   (global-set-key (kbd "M-.") 'projectile-find-tag)
   (global-set-key (kbd "M-,") 'pop-tag-mark)
 
+  ;; Touch of scala mode customization
+  (setq scala-indent:align-parameters nil)
+
   ;; Touch of evil customization
   (setq evil-move-cursor-back nil) ;; Maintain position upon exiting insert mode
 
