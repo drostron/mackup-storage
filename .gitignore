@@ -2,22 +2,15 @@
 Library/Application Support/Adium 2.0/
 Library/Preferences/com.adiumX.adiumX.plist
 
+# atom
+.atom/packages
+Library/Preferences/com.github.atom.plist
+
 # boom
 Music/Boom/DefaultProfile.boomProfile
 
 # chrome
 Library/Application\ Support/Google/
-
-# sublime
-Library/Application\ Support/Sublime\ Text\ 2/Installed Packages/
-Library/Application\ Support/Sublime\ Text\ 2/Pristine Packages/
-Library/Application\ Support/Sublime\ Text\ 2/Packages/*
-!Library/Application\ Support/Sublime\ Text\ 2/Packages/User/
-Library/Application\ Support/Sublime\ Text\ 2/Packages/User/*
-!Library/Application\ Support/Sublime\ Text\ 2/Packages/User/*.sublime-keymap
-!Library/Application\ Support/Sublime\ Text\ 2/Packages/User/*.sublime-settings
-Library/Application\ Support/Sublime\ Text\ 2/Packages/User/GoSublime-aux.sublime-settings
-Library/Application\ Support/Sublime\ Text\ 2/Packages/User/SublimeREPLHistory/
 
 # idea
 Library/Preferences/IdeaIC13
@@ -38,10 +31,17 @@ Library/Preferences/com.kodowa.LightTable.plist
 # menumeters
 Library/Preferences/com.ragingmenace.MenuMeters.plist
 
-# atom
-.atom/packages
-Library/Preferences/com.github.atom.plist
-
 # nvim
 .nvim/.netrwhist
 .nvim/autoload/
+
+# sublime
+Library/Application\ Support/Sublime\ Text\ 2/Installed Packages/
+Library/Application\ Support/Sublime\ Text\ 2/Pristine Packages/
+Library/Application\ Support/Sublime\ Text\ 2/Packages/*
+!Library/Application\ Support/Sublime\ Text\ 2/Packages/User/
+Library/Application\ Support/Sublime\ Text\ 2/Packages/User/*
+!Library/Application\ Support/Sublime\ Text\ 2/Packages/User/*.sublime-keymap
+!Library/Application\ Support/Sublime\ Text\ 2/Packages/User/*.sublime-settings
+Library/Application\ Support/Sublime\ Text\ 2/Packages/User/GoSublime-aux.sublime-settings
+Library/Application\ Support/Sublime\ Text\ 2/Packages/User/SublimeREPLHistory/
