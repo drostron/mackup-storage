@@ -362,6 +362,26 @@ you should place your code here."
   ;; Never keep current list of tags tables — https://emacs.stackexchange.com/q/14802
   (setq tags-add-tables nil)
 
+  ;; Selection from multiple matching tags
+  (setq projectile-tags-backend 'etags-select)
+
+  ;; From http://ensime.org/editors/emacs/hacks/#tags
+  ;; Fall back to ctags when ensime is unavailable
+  (defun ensime-edit-definition-with-fallback ()
+    "Variant of `ensime-edit-definition' with ctags if ENSIME is not available."
+    (interactive)
+    (unless (and (ensime-connection-or-nil)
+                 (ensime-edit-definition))
+      ;; etags-select appears to need priming — perhaps this deserves an upstream fix
+      (visit-tags-table-buffer)
+      (projectile-find-tag)))
+  (add-hook 'scala-mode
+            (lambda ()
+              (evil-define-key 'normal ensime-mode-map (kbd "M-.") 'ensime-edit-definition-with-fallback)
+              (evil-define-key 'insert ensime-mode-map (kbd "M-.") 'ensime-edit-definition-with-fallback)))
+  (global-set-key (kbd "M-.") 'projectile-find-tag)
+  (global-set-key (kbd "M-,") 'pop-tag-mark)
+
   ;; Touch of evil customization
   (setq evil-move-cursor-back nil) ;; Maintain position upon exiting insert mode
 
