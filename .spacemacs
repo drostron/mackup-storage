@@ -337,7 +337,7 @@ you should place your code here."
   (global-set-key (kbd "s-<left>") 'move-beginning-of-line)
   (global-set-key (kbd "s-<right>") 'move-end-of-line)
   ;; Add familiar end of line
-  (global-set-key (kbd "C-e") 'move-end-of-line)
+  (define-key evil-normal-state-map (kbd "C-e") 'move-end-of-line)
   ;; Additional evil-escape
   (global-set-key (kbd "C-g") 'evil-escape)
   ;; Hybrid (as in Vim mode) — execute next command in normal state
@@ -349,6 +349,23 @@ you should place your code here."
   ;; A more familiar and less jumpy mouse scroll
   (setq mouse-wheel-scroll-amount '(1))
   (setq mouse-wheel-progressive-speed nil)
+
+  ;; A few digraph customizations
+  (setq evil-digraphs-table-user
+        '(
+          ((?= ??) . ?\x225f)
+          ))
+
+  ;; More pleasing powerline separators, 'utf-8 is also reasonable
+  (setq powerline-default-separator 'bar)
+
+  ;; From https://github.com/syl20bnr/spacemacs/issues/5633#issuecomment-203771402
+  ;; Close the vertical gap while in fullscreen
+  (setq frame-resize-pixelwise t)
+
+  ;; Ligatures? Looks like this isn't sufficient
+  ;; https://github.com/tonsky/FiraCode/wiki/Setting-up-Emacs seems to suggest more is required
+  ;; (mac-auto-operator-composition-mode)
 
   ;; Don't conflict with Atom's symbols-view tag file defaults
   (setq projectile-tags-file-name ".tags_emacs")
@@ -384,6 +401,9 @@ you should place your code here."
 
   ;; Touch of scala mode customization
   (setq scala-indent:align-parameters nil)
+
+  ;; Turn off re-indent on return
+  (global-set-key (kbd "RET") 'electric-newline-and-maybe-indent)
 
   ;; Touch of evil customization
   (setq evil-move-cursor-back nil) ;; Maintain position upon exiting insert mode
