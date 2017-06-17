@@ -43,6 +43,7 @@ values."
      auto-completion
      ;; better-defaults
      emacs-lisp
+     haskell
      helm
      git
      lua
@@ -345,6 +346,8 @@ you should place your code here."
   ;; A more familiar backward and forward jump (sort of)
   (define-key evil-normal-state-map (kbd "M-<up>") 'evil-jump-backward)
   (define-key evil-normal-state-map (kbd "M-<down>") 'evil-jump-forward)
+  ;; A more familiar spelling correction
+  (global-set-key (kbd "s-:") 'flyspell-correct-previous-word-generic)
 
   ;; A more familiar and less jumpy mouse scroll
   (setq mouse-wheel-scroll-amount '(1))
@@ -392,7 +395,7 @@ you should place your code here."
       ;; etags-select appears to need priming — perhaps this deserves an upstream fix
       (visit-tags-table-buffer)
       (projectile-find-tag)))
-  (add-hook 'scala-mode
+  (add-hook 'scala-mode-hook
             (lambda ()
               (evil-define-key 'normal ensime-mode-map (kbd "M-.") 'ensime-edit-definition-with-fallback)
               (evil-define-key 'insert ensime-mode-map (kbd "M-.") 'ensime-edit-definition-with-fallback)))
@@ -401,6 +404,9 @@ you should place your code here."
 
   ;; Touch of scala mode customization
   (setq scala-indent:align-parameters nil)
+
+  ;; Spell checking for scala comments
+  (add-hook 'ensime-mode-hook 'flyspell-prog-mode)
 
   ;; Turn off re-indent on return
   (global-set-key (kbd "RET") 'electric-newline-and-maybe-indent)
@@ -452,3 +458,17 @@ The body of the advice is in BODY."
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   (quote
+    (helm magit intero company-ghc flycheck hlint-refactor hindent helm-hoogle haskell-snippets ghc company-ghci haskell-mode company-cabal cmm-mode yaml-mode xterm-color ws-butler winum which-key web-mode web-beautify volatile-highlights vmd-mode vi-tilde-fringe uuidgen use-package toc-org tagedit spaceline smeargle slim-mode shell-pop scss-mode sass-mode reveal-in-osx-finder restart-emacs rainbow-delimiters pug-mode popwin persp-mode pcre2el pbcopy paradox osx-trash osx-dictionary orgit org-bullets open-junk-file noflet neotree multi-term move-text mmm-mode markdown-toc magit-gitflow macrostep lua-mode lorem-ipsum livid-mode linum-relative link-hint less-css-mode launchctl json-mode js2-refactor js-doc insert-shebang info+ indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-gitignore helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md fuzzy flyspell-correct-helm flx-ido fish-mode fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu etags-select eshell-z eshell-prompt-extras esh-help ensime emmet-mode elisp-slime-nav dumb-jump diff-hl company-web company-tern company-statistics company-shell column-enforce-mode coffee-mode clean-aindent-mode auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
