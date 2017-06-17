@@ -405,9 +405,6 @@ you should place your code here."
   ;; Touch of scala mode customization
   (setq scala-indent:align-parameters nil)
 
-  ;; Spell checking for scala comments
-  (add-hook 'ensime-mode-hook 'flyspell-prog-mode)
-
   ;; Turn off re-indent on return
   (global-set-key (kbd "RET") 'electric-newline-and-maybe-indent)
 
