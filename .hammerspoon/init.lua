@@ -62,11 +62,9 @@ function focusApp(name)
 end
 
 appKeyMapping = {
-  -- ["a"] = "Activity Monitor",
   ["a"] = "Emacs",
   ["b"] = "SoundCleod",
   ["c"] = "Google Chrome",
-  -- ["e"] = "Emacs",
   ["e"] = "Gitter",
   ["g"] = "SourceTree",
   ["i"] = "iBooks",
@@ -76,7 +74,7 @@ appKeyMapping = {
   ["r"] = "Spotify",
   ["s"] = "Slack",
   ["t"] = "iTerm2",
-  ["v"] = "IntelliJ IDEA",
+  ["v"] = "Activity Monitor",
   ["x"] = "Atom",
   ["y"] = "Twitter",
   ["z"] = "Nimbus",
@@ -221,8 +219,8 @@ bind({ "ctrl" }, ".", sizeAnchorSide(50, 100, "r"))
 bind({ "ctrl", "shift", "cmd" }, "1", sizeAnchorSide(80, 100, "r"))
 bind({ "ctrl", "shift", "cmd" }, "2", sizeAnchorSide(64.8, 100, "r"))
 bind({ "ctrl", "shift", "cmd" }, "3", function() sizeAnchorSide(75, 70)(); horizontalCenter() end)
-bind({ "ctrl", "shift", "cmd" }, "5", sizeAnchorSide(58, 70, "l"))
-bind({ "ctrl", "shift", "cmd" }, "6", sizeAnchorSide(56, 70, "r"))
+bind({ "ctrl", "shift", "cmd" }, "5", sizeAnchorSide(78, 78, "l"))
+bind({ "ctrl", "shift", "cmd" }, "6", sizeAnchorSide(56, 78, "r"))
 bind({ "ctrl", "shift", "cmd" }, "7", sizeAnchorSide(42.0, 100, "l"))
 bind({ "ctrl", "shift", "cmd" }, "8", sizeAnchorSide(58.1, 100, "r"))
 

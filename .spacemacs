@@ -346,6 +346,9 @@ you should place your code here."
   ;; A more familiar backward and forward jump (sort of)
   (define-key evil-normal-state-map (kbd "M-<up>") 'evil-jump-backward)
   (define-key evil-normal-state-map (kbd "M-<down>") 'evil-jump-forward)
+  ;; A familiar backward and forward word for markdown mode
+  (define-key markdown-mode-map (kbd "M-<left>") 'left-word)
+  (define-key markdown-mode-map (kbd "M-<right>") 'right-word)
   ;; A more familiar spelling correction
   (global-set-key (kbd "s-:") 'flyspell-correct-previous-word-generic)
 
