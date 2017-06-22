@@ -31,34 +31,34 @@ values."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
-     html
-     javascript
-     yaml
-     shell-scripts
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
      ;; <M-m f e R> (Emacs style) to install them.
      ;; ----------------------------------------------------------------
      auto-completion
-     ;; better-defaults
+     better-defaults
      emacs-lisp
+     git
      haskell
      helm
-     git
+     html
+     javascript
      lua
      (markdown :variables
                markdown-live-preview-engine 'vmd)
-     osx
      ;; org
+     osx
      scala
      (shell :variables
             shell-default-position 'bottom
             shell-default-height 30)
+     shell-scripts
      spell-checking
      ;; syntax-checking
      (version-control :variables
                       version-control-global-margin t)
+     yaml
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -326,8 +326,6 @@ you should place your code here."
   ;; A few key bindings
   (global-set-key (kbd "s-<up>") 'scroll-down-line)
   (global-set-key (kbd "s-<down>") 'scroll-up-line)
-  ;; Perhaps these should be left behind
-  (global-set-key (kbd "s-d") (lambda () (interactive) (backward-word) (mark-sexp)))
   (global-set-key (kbd "s-F") 'isearch-backward)
   (global-set-key (kbd "s-G") 'isearch-repeat-backward)
   ;; Too close to evil-insert-digraph's C-k
@@ -347,10 +345,17 @@ you should place your code here."
   (define-key evil-normal-state-map (kbd "M-<up>") 'evil-jump-backward)
   (define-key evil-normal-state-map (kbd "M-<down>") 'evil-jump-forward)
   ;; A familiar backward and forward word for markdown mode
-  (define-key markdown-mode-map (kbd "M-<left>") 'left-word)
-  (define-key markdown-mode-map (kbd "M-<right>") 'right-word)
+  (add-hook 'markdown-mode-hook
+            (lambda ()
+              (define-key markdown-mode-map (kbd "M-<left>") 'left-word)
+              (define-key markdown-mode-map (kbd "M-<right>") 'right-word)))
   ;; A more familiar spelling correction
   (global-set-key (kbd "s-:") 'flyspell-correct-previous-word-generic)
+
+  ;; Not sure why, but including expand-region under
+  ;; dotspacemacs-additional-packages doesn't appear to load er/mark-word
+  (require 'expand-region)
+  (global-set-key (kbd "s-d") 'er/mark-word)
 
   ;; A more familiar and less jumpy mouse scroll
   (setq mouse-wheel-scroll-amount '(1))
@@ -396,8 +401,7 @@ you should place your code here."
     (unless (and (ensime-connection-or-nil)
                  (ensime-edit-definition))
       ;; etags-select appears to need priming — perhaps this deserves an upstream fix
-      (visit-tags-table-buffer)
-      (projectile-find-tag)))
+      (etags-select-find-tag-at-point)))
   (add-hook 'scala-mode-hook
             (lambda ()
               (evil-define-key 'normal ensime-mode-map (kbd "M-.") 'ensime-edit-definition-with-fallback)
@@ -454,21 +458,13 @@ The body of the advice is in BODY."
 
   ;; Fish shell — some prompts may need this to work correctly
   (add-hook 'term-mode-hook 'toggle-truncate-lines)
+
+  ;; A more familiar delete selection upon text entry
+  (delete-selection-mode 1)
+
+  ;; Adjust recenter defaults
+  (setq recenter-positions '(middle 0.08 0.9))
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   (quote
-    (helm magit intero company-ghc flycheck hlint-refactor hindent helm-hoogle haskell-snippets ghc company-ghci haskell-mode company-cabal cmm-mode yaml-mode xterm-color ws-butler winum which-key web-mode web-beautify volatile-highlights vmd-mode vi-tilde-fringe uuidgen use-package toc-org tagedit spaceline smeargle slim-mode shell-pop scss-mode sass-mode reveal-in-osx-finder restart-emacs rainbow-delimiters pug-mode popwin persp-mode pcre2el pbcopy paradox osx-trash osx-dictionary orgit org-bullets open-junk-file noflet neotree multi-term move-text mmm-mode markdown-toc magit-gitflow macrostep lua-mode lorem-ipsum livid-mode linum-relative link-hint less-css-mode launchctl json-mode js2-refactor js-doc insert-shebang info+ indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-gitignore helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md fuzzy flyspell-correct-helm flx-ido fish-mode fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu etags-select eshell-z eshell-prompt-extras esh-help ensime emmet-mode elisp-slime-nav dumb-jump diff-hl company-web company-tern company-statistics company-shell column-enforce-mode coffee-mode clean-aindent-mode auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
