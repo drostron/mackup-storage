@@ -351,6 +351,8 @@ you should place your code here."
               (define-key markdown-mode-map (kbd "M-<right>") 'right-word)))
   ;; A more familiar spelling correction
   (global-set-key (kbd "s-:") 'flyspell-correct-previous-word-generic)
+  ;; Follow attempted usage
+  (define-key evil-normal-state-map (kbd "C-d") 'delete-char)
 
   ;; Not sure why, but including expand-region under
   ;; dotspacemacs-additional-packages doesn't appear to load er/mark-word
@@ -404,10 +406,17 @@ you should place your code here."
       (etags-select-find-tag-at-point)))
   (add-hook 'scala-mode-hook
             (lambda ()
-              (evil-define-key 'normal ensime-mode-map (kbd "M-.") 'ensime-edit-definition-with-fallback)
-              (evil-define-key 'insert ensime-mode-map (kbd "M-.") 'ensime-edit-definition-with-fallback)))
+              (evil-define-key
+                '(normal hybrid) ensime-mode-map
+                (kbd "M-.") 'ensime-edit-definition-with-fallback)))
   (global-set-key (kbd "M-.") 'projectile-find-tag)
   (global-set-key (kbd "M-,") 'pop-tag-mark)
+
+  ;; TODO: Investigate — imenu-auto-rescan being void causing issues with git-timemachine
+  ;; *Messages* "ensime--setup-imenu: Symbol’s value as variable is void: imenu-auto-rescan"
+  (add-hook 'scala-mode-hook
+            (lambda ()
+              (unless (boundp 'imenu-auto-rescan) (setq imenu-auto-rescan t))))
 
   ;; Touch of scala mode customization
   (setq scala-indent:align-parameters nil)
