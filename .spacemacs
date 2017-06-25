@@ -473,6 +473,19 @@ The body of the advice is in BODY."
 
   ;; Adjust recenter defaults
   (setq recenter-positions '(middle 0.08 0.9))
+
+  ;; List tags scoped to current buffer
+  (defun list-buffer-tags ()
+    (interactive)
+    (list-tags (string-remove-prefix (projectile-project-root) buffer-file-name)))
+
+  ;; A smoother list-buffer-tags workflow
+  (push '("*Tags List*" :dedicated t :height 30)
+        popwin:special-display-config)
+
+  ;; Buffer tags as a leader key
+  (spacemacs/set-leader-keys
+    "bt" 'list-buffer-tags)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
