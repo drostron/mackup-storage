@@ -354,10 +354,15 @@ you should place your code here."
   ;; Follow attempted usage
   (define-key evil-normal-state-map (kbd "C-d") 'delete-char)
 
+  ;; A more familiar multi-select. Might move to evil-iedit-state/iedit-mode
   ;; Not sure why, but including expand-region under
   ;; dotspacemacs-additional-packages doesn't appear to load er/mark-word
   (require 'expand-region)
-  (global-set-key (kbd "s-d") 'er/mark-word)
+  (global-set-key (kbd "s-d")
+                  (lambda ()
+                    (interactive)
+                    (cond ((region-active-p) (spacemacs/symbol-highlight))
+                          (t (er/mark-word)))))
 
   ;; A more familiar and less jumpy mouse scroll
   (setq mouse-wheel-scroll-amount '(1))
@@ -484,6 +489,8 @@ The body of the advice is in BODY."
         popwin:special-display-config)
 
   ;; Buffer tags as a leader key
+  ;; Could additionally or alternatively fallback to
+  ;; list-buffer-tags from helm-semantic-or-imenu `SPC s j`
   (spacemacs/set-leader-keys
     "bt" 'list-buffer-tags)
   )
