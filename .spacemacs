@@ -326,6 +326,8 @@ you should place your code here."
   ;; A few key bindings
   (global-set-key (kbd "s-<up>") 'scroll-down-line)
   (global-set-key (kbd "s-<down>") 'scroll-up-line)
+  (global-set-key (kbd "s-S-<up>") (lambda () (interactive) (scroll-down-line 5)))
+  (global-set-key (kbd "s-S-<down>") (lambda () (interactive) (scroll-up-line 5)))
   (global-set-key (kbd "s-F") 'isearch-backward)
   (global-set-key (kbd "s-G") 'isearch-repeat-backward)
   ;; Too close to evil-insert-digraph's C-k
@@ -394,6 +396,13 @@ you should place your code here."
     (add-to-list 'projectile-globally-ignored-directories ".targets"))
   (setq projectile-tags-command "env TMPDIR=/tmp ctags -Re -f \"%s\" %s")
 
+  ;; Without this a few ensime related variables remain void. That leads to
+  ;; issues with git-timemachine and the imenu based file summary, `SPC s j`,
+  ;; due to at least ensime-imenu-index-function and imenu-auto-rescan being
+  ;; uninitialized.
+  ;; Related https://github.com/syl20bnr/spacemacs/issues/6578
+  (require 'ensime)
+
   ;; Never keep current list of tags tables — https://emacs.stackexchange.com/q/14802
   (setq tags-add-tables nil)
 
@@ -406,9 +415,11 @@ you should place your code here."
     "Variant of `ensime-edit-definition' with ctags if ENSIME is not available."
     (interactive)
     (unless (and (ensime-connection-or-nil)
-                 (ensime-edit-definition))
+                 (ensime-edit-definition-of-thing-at-point))
       ;; etags-select appears to need priming — perhaps this deserves an upstream fix
-      (etags-select-find-tag-at-point)))
+      (progn
+        (message "falling back to tags")
+        (etags-select-find-tag-at-point))))
   (add-hook 'scala-mode-hook
             (lambda ()
               (evil-define-key
@@ -416,12 +427,6 @@ you should place your code here."
                 (kbd "M-.") 'ensime-edit-definition-with-fallback)))
   (global-set-key (kbd "M-.") 'projectile-find-tag)
   (global-set-key (kbd "M-,") 'pop-tag-mark)
-
-  ;; TODO: Investigate — imenu-auto-rescan being void causing issues with git-timemachine
-  ;; *Messages* "ensime--setup-imenu: Symbol’s value as variable is void: imenu-auto-rescan"
-  (add-hook 'scala-mode-hook
-            (lambda ()
-              (unless (boundp 'imenu-auto-rescan) (setq imenu-auto-rescan t))))
 
   ;; Touch of scala mode customization
   (with-eval-after-load 'scala-mode
@@ -479,7 +484,7 @@ The body of the advice is in BODY."
   (delete-selection-mode 1)
 
   ;; Adjust recenter defaults
-  (setq recenter-positions '(middle 0.08 0.9))
+  (setq recenter-positions '(middle 0.1 0.9))
 
   ;; List tags scoped to current buffer
   (defun list-buffer-tags ()
