@@ -13,16 +13,17 @@ make_completion gd "git diff"
 make_completion gs "git status"
 make_completion d docker
 
-set PATH                \
-  ~/Library/Haskell/bin \
-  ~/.local/bin          \
-  $PATH                 \
+set PATH                     \
+  # Provide a recent version of makeinfo, required for building at remacs
+  /usr/local/opt/texinfo/bin \
+  ~/Library/Haskell/bin      \
+  ~/.local/bin               \
+  $PATH                      \
+  ~/.cargo/bin               \
   ~/code/purescript/.cabal-sandbox/bin
 
 set -x MANPATH            \
   (cat /etc/manpaths)     \
-  # Appears to be stale once on Sierra
-  # (find /etc/manpaths.d/) \
   /usr/share/man          \
   /usr/local/share/man    \
   ~/.opam/system/man

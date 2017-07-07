@@ -49,6 +49,7 @@ values."
                markdown-live-preview-engine 'vmd)
      ;; org
      osx
+     rust
      scala
      (shell :variables
             shell-default-position 'bottom
@@ -338,7 +339,9 @@ you should place your code here."
   (global-set-key (kbd "s-<left>") 'move-beginning-of-line)
   (global-set-key (kbd "s-<right>") 'move-end-of-line)
   ;; Add familiar end of line
-  (define-key evil-normal-state-map (kbd "C-e") 'move-end-of-line)
+  (define-key evil-visual-state-map (kbd "C-a") 'mwim-beginning-of-code-or-line)
+  (define-key evil-normal-state-map (kbd "C-e") 'mwim-end-of-line-or-code)
+  (define-key evil-visual-state-map (kbd "C-e") 'mwim-end-of-line-or-code)
   ;; Additional evil-escape
   (global-set-key (kbd "C-g") 'evil-escape)
   ;; Hybrid (as in Vim mode) — execute next command in normal state
@@ -346,6 +349,8 @@ you should place your code here."
   ;; A more familiar backward and forward jump (sort of)
   (define-key evil-normal-state-map (kbd "M-<up>") 'evil-jump-backward)
   (define-key evil-normal-state-map (kbd "M-<down>") 'evil-jump-forward)
+  (define-key evil-hybrid-state-map (kbd "M-<up>") 'evil-jump-backward)
+  (define-key evil-hybrid-state-map (kbd "M-<down>") 'evil-jump-forward)
   ;; A familiar backward and forward word for markdown mode
   (add-hook 'markdown-mode-hook
             (lambda ()
@@ -369,6 +374,10 @@ you should place your code here."
   ;; A more familiar and less jumpy mouse scroll
   (setq mouse-wheel-scroll-amount '(1))
   (setq mouse-wheel-progressive-speed nil)
+
+  ;; [WIP] A touch of 3 button mouse emulation
+  (define-key key-translation-map (kbd "<M-mouse-1>") (kbd "<mouse-2>"))
+  (define-key key-translation-map (kbd "<C-mouse-1>") (kbd "<mouse-3>"))
 
   ;; A few digraph customizations
   (setq evil-digraphs-table-user
