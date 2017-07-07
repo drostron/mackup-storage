@@ -140,8 +140,8 @@ values."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(spacemacs-dark
-                         spacemacs-light)
+   dotspacemacs-themes '(spacemacs-light
+                         spacemacs-dark)
    ;; If non nil the cursor color matches the state color in GUI Emacs.
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
@@ -452,7 +452,8 @@ you should place your code here."
   (setq ensime-startup-notification nil)
   (setq ensime-startup-snapshot-notification nil)
 
-  (defun auto-save-command () (save-some-buffers t))
+  ;; Additionally evil-escape to follow common expectation
+  (defun auto-save-command () (progn (evil-escape) (save-some-buffers t)))
 
   ;; From Emacs Prelude — https://github.com/bbatsov/prelude
   (defmacro advise-commands (advice-name commands class &rest body)
@@ -485,6 +486,10 @@ The body of the advice is in BODY."
   ;; Set ensime search to the more useful ensime-helm-search
   (spacemacs/set-leader-keys-for-major-mode 'scala-mode
     "/"      'ensime-helm-search)
+
+  ;; Switch TAB leader to the more commonly used buffer listing
+  (spacemacs/set-leader-keys
+    "TAB"    'helm-mini)
 
   ;; Fish shell — some prompts may need this to work correctly
   (add-hook 'term-mode-hook 'toggle-truncate-lines)
