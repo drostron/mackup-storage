@@ -379,6 +379,11 @@ you should place your code here."
   (define-key key-translation-map (kbd "<M-mouse-1>") (kbd "<mouse-2>"))
   (define-key key-translation-map (kbd "<C-mouse-1>") (kbd "<mouse-3>"))
 
+  ;; Sequester helm to a window instead of taking over full frame width
+  ;; Required spacemacs workaround from https://github.com/syl20bnr/spacemacs/issues/9044
+  (setq-default helm-display-function 'helm-default-display-buffer)
+  (setq helm-split-window-in-side-p t)
+
   ;; A few digraph customizations
   (setq evil-digraphs-table-user
         '(
