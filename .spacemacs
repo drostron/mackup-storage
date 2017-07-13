@@ -56,6 +56,7 @@ values."
             shell-default-height 30)
      shell-scripts
      spell-checking
+     sql
      ;; syntax-checking
      (version-control :variables
                       version-control-global-margin t)
@@ -334,7 +335,7 @@ you should place your code here."
   ;; Too close to evil-insert-digraph's C-k
   (global-unset-key (kbd "s-k"))
   ;; Set C-k to evil-insert-insert for evil hybrid mode
-  (define-key evil-hybrid-state-map (kbd "C-k") 'evil-insert-digraph)
+  (define-key evil-hybrid-state-map (kbd "C-i") 'evil-insert-digraph)
   ;; Add familiar command left and right for beginning and end of line
   (global-set-key (kbd "s-<left>") 'move-beginning-of-line)
   (global-set-key (kbd "s-<right>") 'move-end-of-line)
@@ -360,6 +361,9 @@ you should place your code here."
   (global-set-key (kbd "s-:") 'flyspell-correct-previous-word-generic)
   ;; Follow attempted usage
   (define-key evil-normal-state-map (kbd "C-d") 'delete-char)
+  ;; [WIP] Provide the familiar reverse history search within terminal
+  ;; (global-unset-key (kbd "C-r"))
+
 
   ;; A more familiar multi-select. Might move to evil-iedit-state/iedit-mode
   ;; Not sure why, but including expand-region under
@@ -384,10 +388,13 @@ you should place your code here."
   (setq-default helm-display-function 'helm-default-display-buffer)
   (setq helm-split-window-in-side-p t)
 
+  ;; A more pleasing which-key location
+  (setq which-key-side-window-location '(left bottom))
+
   ;; A few digraph customizations
   (setq evil-digraphs-table-user
         '(
-          ((?= ??) . ?\x225f)
+          ((?= ??) . ?\x225f) ;; =? → ≟
           ))
 
   ;; More pleasing powerline separators, 'utf-8 is also reasonable
