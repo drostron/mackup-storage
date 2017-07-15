@@ -49,6 +49,7 @@ values."
                markdown-live-preview-engine 'vmd)
      ;; org
      osx
+     purescript
      rust
      scala
      (shell :variables
@@ -334,8 +335,10 @@ you should place your code here."
   (global-set-key (kbd "s-G") 'isearch-repeat-backward)
   ;; Too close to evil-insert-digraph's C-k
   (global-unset-key (kbd "s-k"))
-  ;; Set C-k to evil-insert-insert for evil hybrid mode
+  ;; A more useful evil-insert-digraph for evil hybrid mode
   (define-key evil-hybrid-state-map (kbd "C-i") 'evil-insert-digraph)
+  ;; Prevent evil-insert-digraph from taking over TAB
+  (define-key evil-hybrid-state-map (kbd "TAB") nil)
   ;; Add familiar command left and right for beginning and end of line
   (global-set-key (kbd "s-<left>") 'move-beginning-of-line)
   (global-set-key (kbd "s-<right>") 'move-end-of-line)
@@ -362,8 +365,15 @@ you should place your code here."
   ;; Follow attempted usage
   (define-key evil-normal-state-map (kbd "C-d") 'delete-char)
   ;; [WIP] Provide the familiar reverse history search within terminal
-  ;; (global-unset-key (kbd "C-r"))
-
+  (global-unset-key (kbd "C-r"))
+  (add-hook 'term-mode-hook
+            (lambda ()
+              (define-key term-raw-map (kbd "C-r") nil)
+              ;; From https://github.com/syl20bnr/spacemacs/issues/2345#issuecomment-240634646
+              (define-key evil-hybrid-state-map (kbd "C-r")
+                                  (lambda ()
+                                    (interactive)
+                                    (term-send-raw-string "\C-r")))))
 
   ;; A more familiar multi-select. Might move to evil-iedit-state/iedit-mode
   ;; Not sure why, but including expand-region under
@@ -399,6 +409,9 @@ you should place your code here."
 
   ;; More pleasing powerline separators, 'utf-8 is also reasonable
   (setq powerline-default-separator 'bar)
+
+  ;; Display projectile root in spaceline. Is this the preferred way to add a segment?
+  (spaceline-spacemacs-theme 'projectile-root)
 
   ;; From https://github.com/syl20bnr/spacemacs/issues/5633#issuecomment-203771402
   ;; Close the vertical gap while in fullscreen
