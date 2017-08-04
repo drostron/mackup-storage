@@ -69,6 +69,7 @@ values."
    ;; configuration in `dotspacemacs/user-config'.
    dotspacemacs-additional-packages
    '(
+     col-highlight
      etags-select
      )
    ;; A list of packages that cannot be updated.
@@ -329,6 +330,8 @@ you should place your code here."
   ;; A few key bindings
   (global-set-key (kbd "s-<up>") 'scroll-down-line)
   (global-set-key (kbd "s-<down>") 'scroll-up-line)
+  (global-set-key (kbd "M-S-<up>") (lambda () (interactive) (evil-previous-line 5)))
+  (global-set-key (kbd "M-S-<down>") (lambda () (interactive) (evil-next-line 5)))
   (global-set-key (kbd "s-S-<up>") (lambda () (interactive) (scroll-down-line 5)))
   (global-set-key (kbd "s-S-<down>") (lambda () (interactive) (scroll-up-line 5)))
   (global-set-key (kbd "s-F") 'isearch-backward)
@@ -336,9 +339,9 @@ you should place your code here."
   ;; Too close to evil-insert-digraph's C-k
   (global-unset-key (kbd "s-k"))
   ;; A more useful evil-insert-digraph for evil hybrid mode
-  (define-key evil-hybrid-state-map (kbd "C-i") 'evil-insert-digraph)
-  ;; Prevent evil-insert-digraph from taking over TAB
-  (define-key evil-hybrid-state-map (kbd "TAB") nil)
+  (global-set-key (kbd "C-i") 'evil-insert-digraph)
+  ;; Prevent evil-insert-digraph from taking over TAB. Too aggressive?
+  (global-set-key (kbd "TAB") 'ensime-company-complete-or-indent)
   ;; Add familiar command left and right for beginning and end of line
   (global-set-key (kbd "s-<left>") 'move-beginning-of-line)
   (global-set-key (kbd "s-<right>") 'move-end-of-line)
@@ -384,6 +387,7 @@ you should place your code here."
                     (interactive)
                     (cond ((region-active-p) (spacemacs/symbol-highlight))
                           (t (er/mark-word)))))
+  (global-set-key (kbd "s-C") 'flash-column-highlight)
 
   ;; A more familiar and less jumpy mouse scroll
   (setq mouse-wheel-scroll-amount '(1))
@@ -410,8 +414,14 @@ you should place your code here."
   ;; More pleasing powerline separators, 'utf-8 is also reasonable
   (setq powerline-default-separator 'bar)
 
-  ;; Display projectile root in spaceline. Is this the preferred way to add a segment?
-  (spaceline-spacemacs-theme 'projectile-root)
+  ;; Spaceline time
+  (spaceline-define-segment time (format-time-string "%H:%M"))
+
+  ;; Spaceline projectile
+  (spaceline-define-segment projectile 'projectile-root)
+
+  ;; Add time and projectile to spaceline. Is this the preferred way to add a segments?
+  (spaceline-spacemacs-theme 'projectile-root 'time)
 
   ;; From https://github.com/syl20bnr/spacemacs/issues/5633#issuecomment-203771402
   ;; Close the vertical gap while in fullscreen
@@ -462,10 +472,21 @@ you should place your code here."
   (global-set-key (kbd "M-.") 'projectile-find-tag)
   (global-set-key (kbd "M-,") 'pop-tag-mark)
 
+  ;; A workaround due to spacemacs's scala layer approach. Brush up a bit if proven useful.
+  (setq ensime-mode-enabled -1)
+  (defun toggle-ensime-mode ()
+    (interactive)
+    (progn
+      (setq ensime-mode-enabled (- ensime-mode-enabled))
+      (ensime-mode ensime-mode-enabled)))
+  (defun set-ensime-mode () (ensime-mode ensime-mode-enabled))
+
   ;; Touch of scala mode customization
   (with-eval-after-load 'scala-mode
     (setq scala-indent:align-parameters nil)
-    (setq scala-indent:default-run-on-strategy scala-indent:reluctant-strategy))
+    (setq scala-indent:default-run-on-strategy scala-indent:reluctant-strategy)
+    ;; Rarely using ensime atm, so disable minor mode. Heavy handed, adjust when necessary.
+    (add-hook 'scala-mode-hook 'set-ensime-mode))
 
   ;; Turn off re-indent on return
   (global-set-key (kbd "RET") 'electric-newline-and-maybe-indent)
@@ -539,7 +560,31 @@ The body of the advice is in BODY."
   ;; list-buffer-tags from helm-semantic-or-imenu `SPC s j`
   (spacemacs/set-leader-keys
     "bt" 'list-buffer-tags)
+
+  ;; [WIP] Helm tags experiment
+  ;; Files of interest
+  ;;   - ~/.emacs.d/elpa/helm-core-20170727.1245/helm-source.el
+  ;;   - ~/.emacs.d/elpa/helm-20170724.2137/helm-semantic.el (maybe)
+  (defun helm-file-tags ()
+    (interactive)
+    (helm :sources (helm-build-sync-source "test"
+                     :candidates (scala-imenu:create-imenu-index)
+                     :fuzzy-match t
+                     :action '(("open" . goto-char)
+                               ("print info" . (lambda (candidate) (message "selected: %s" candidate)))))
+          ;; :preselect (thing-at-point 'symbol t)
+          :buffer "*helm file tags*"))
+
+  ;; helm-file-tags as a leader key
+  (spacemacs/set-leader-keys
+    "bj" 'helm-file-tags)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(col-highlight ((t (:background "#efeae9")))))
