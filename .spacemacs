@@ -339,7 +339,7 @@ you should place your code here."
   ;; Too close to evil-insert-digraph's C-k
   (global-unset-key (kbd "s-k"))
   ;; A more useful evil-insert-digraph for evil hybrid mode
-  (global-set-key (kbd "C-i") 'evil-insert-digraph)
+  (global-set-key (kbd "C-<tab>") 'evil-insert-digraph)
   ;; Prevent evil-insert-digraph from taking over TAB. Too aggressive?
   (global-set-key (kbd "TAB") 'ensime-company-complete-or-indent)
   ;; Add familiar command left and right for beginning and end of line
@@ -409,13 +409,14 @@ you should place your code here."
   (setq evil-digraphs-table-user
         '(
           ((?= ??) . ?\x225f) ;; =? → ≟
+          ((?+ ?+) . ?\x22b9) ;; ++ → ⊹
           ))
 
   ;; More pleasing powerline separators, 'utf-8 is also reasonable
   (setq powerline-default-separator 'bar)
 
   ;; Spaceline time
-  (spaceline-define-segment time (format-time-string "%H:%M"))
+  (spaceline-define-segment time (format-time-string "%H.%M"))
 
   ;; Spaceline projectile
   (spaceline-define-segment projectile 'projectile-root)
@@ -469,7 +470,8 @@ you should place your code here."
               (evil-define-key
                 '(normal hybrid) ensime-mode-map
                 (kbd "M-.") 'ensime-edit-definition-with-fallback)))
-  (global-set-key (kbd "M-.") 'projectile-find-tag)
+  (define-key evil-normal-state-map (kbd "M-.") nil)
+  (global-set-key (kbd "M-.") 'etags-select-find-tag-at-point)
   (global-set-key (kbd "M-,") 'pop-tag-mark)
 
   ;; A workaround due to spacemacs's scala layer approach. Brush up a bit if proven useful.
