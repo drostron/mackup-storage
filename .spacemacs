@@ -474,21 +474,30 @@ you should place your code here."
   (global-set-key (kbd "M-.") 'etags-select-find-tag-at-point)
   (global-set-key (kbd "M-,") 'pop-tag-mark)
 
-  ;; A workaround due to spacemacs's scala layer approach. Brush up a bit if proven useful.
-  (setq ensime-mode-enabled -1)
-  (defun toggle-ensime-mode ()
-    (interactive)
-    (progn
-      (setq ensime-mode-enabled (- ensime-mode-enabled))
-      (ensime-mode ensime-mode-enabled)))
-  (defun set-ensime-mode () (ensime-mode ensime-mode-enabled))
+  ;; A slimmer ensime modeline string
+  ;; Scrivened from https://github.com/ensime/ensime-emacs/blob/master/ensime-mode.el#L485
+  (defun ensime-modeline-string ()
+    "The string to display in the modeline.
+Only appears if we aren't connected. If connected,
+include connection-name, and possibly some state information."
+    (when ensime-mode
+      (condition-case err
+          (let ((conn (ensime-connection-or-nil)))
+            (cond ((not conn)
+                   (if (ensime-owning-server-process-for-source-file (buffer-file-name-with-indirect))
+                       "♨"
+                     "☉"))
+                  ((ensime-connected-p conn)
+                   (let ((config (ensime-config conn)))
+                     (or (plist-get config :name)
+                         "[Ensime ¯\_(ツ)_/¯ Proj]")))
+                  (t "[Ensime ☠ Cnx]")))
+        (error "[Ensime Error]"))))
 
   ;; Touch of scala mode customization
   (with-eval-after-load 'scala-mode
     (setq scala-indent:align-parameters nil)
-    (setq scala-indent:default-run-on-strategy scala-indent:reluctant-strategy)
-    ;; Rarely using ensime atm, so disable minor mode. Heavy handed, adjust when necessary.
-    (add-hook 'scala-mode-hook 'set-ensime-mode))
+    (setq scala-indent:default-run-on-strategy scala-indent:reluctant-strategy))
 
   ;; Turn off re-indent on return
   (global-set-key (kbd "RET") 'electric-newline-and-maybe-indent)
