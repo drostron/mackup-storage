@@ -65,8 +65,9 @@ appKeyMapping = {
   ["a"] = "Emacs",
   ["b"] = "SoundCleod",
   ["c"] = "Google Chrome",
+  ["d"] = "Dash",
   ["e"] = "Gitter",
-  ["g"] = "SourceTree",
+  ["g"] = "Sourcetree",
   ["i"] = "iBooks",
   ["l"] = "Light Table",
   ["m"] = "Messages",
@@ -77,7 +78,7 @@ appKeyMapping = {
   ["v"] = "Activity Monitor",
   ["x"] = "Atom",
   ["y"] = "Twitter",
-  ["z"] = "Nimbus",
+  ["z"] = "LimeChat",
 }
 
 local bind = hs.hotkey.bind

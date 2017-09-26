@@ -563,8 +563,7 @@ The body of the advice is in BODY."
     (list-tags (string-remove-prefix (projectile-project-root) buffer-file-name)))
 
   ;; A smoother list-buffer-tags workflow
-  (push '("*Tags List*" :dedicated t :height 30)
-        popwin:special-display-config)
+  (push '("*Tags List*" :dedicated t :height 30) popwin:special-display-config)
 
   ;; Buffer tags as a leader key
   ;; Could additionally or alternatively fallback to
@@ -589,6 +588,9 @@ The body of the advice is in BODY."
   ;; helm-file-tags as a leader key
   (spacemacs/set-leader-keys
     "bj" 'helm-file-tags)
+
+  ;; Per Quasar query integration test definitions
+  (add-to-list 'auto-mode-alist '("\\.test\\'" . json-mode))
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
