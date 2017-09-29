@@ -71,6 +71,7 @@ values."
    '(
      col-highlight
      etags-select
+     nix-mode
      )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
