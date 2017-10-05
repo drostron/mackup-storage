@@ -416,8 +416,18 @@ you should place your code here."
   ;; More pleasing powerline separators, 'utf-8 is also reasonable
   (setq powerline-default-separator 'bar)
 
+  ;; Only show time when window is close to the right and bottom edges
+  (defun show-time ()
+    (if (and
+         (< (abs (- (nth 2 (window-edges)) (frame-width))) 7)
+         (< (abs (- (nth 3 (window-edges)) (frame-height))) 7))
+        (format-time-string "%H.%M")
+      ""))
+
+  (show-time)
+
   ;; Spaceline time
-  (spaceline-define-segment time (format-time-string "%H.%M"))
+  (spaceline-define-segment time (show-time))
 
   ;; Spaceline projectile
   (spaceline-define-segment projectile 'projectile-root)
