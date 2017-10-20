@@ -56,12 +56,13 @@ for i in ~/.config/fish/generated_completions/*.fish
   . $i
 end
 
-# emacs
-# ansi-term support
-if test -n "$EMACS"
-  set -x TERM eterm-color
-end
+# ↓ Appears to no longer be necessary?
+# Per https://github.com/syl20bnr/spacemacs/tree/master/layers/%2Btools/shell#fish-shell-and-ansi-term
+# emacs ansi-term support
+# if test -n "$EMACS"
+#   set -x TERM eterm-color
+# end
 # this function may be required
-function fish_title
-  true
-end
+# function fish_title
+#   true
+# end

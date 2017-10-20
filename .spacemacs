@@ -368,6 +368,26 @@ you should place your code here."
   (global-set-key (kbd "s-:") 'flyspell-correct-previous-word-generic)
   ;; Follow attempted usage
   (define-key evil-normal-state-map (kbd "C-d") 'delete-char)
+  ;; Quicker window selection
+  (global-set-key (kbd "C-s-1") 'winum-select-window-1)
+  (global-set-key (kbd "C-s-2") 'winum-select-window-2)
+  (global-set-key (kbd "C-s-3") 'winum-select-window-3)
+  (global-set-key (kbd "C-s-4") 'winum-select-window-4)
+  (global-set-key (kbd "C-s-5") 'winum-select-window-5)
+  (global-set-key (kbd "C-s-6") 'winum-select-window-6)
+  (global-set-key (kbd "C-s-7") 'winum-select-window-7)
+  (global-set-key (kbd "C-s-8") 'winum-select-window-8)
+  (global-set-key (kbd "C-s-9") 'winum-select-window-9)
+  (global-set-key (kbd "C-s-0") 'winum-select-window-0-or-10)
+  ;; Quicker workspace selection
+  (global-set-key (kbd "C-s-!") 'eyebrowse-switch-to-window-config-1)
+  (global-set-key (kbd "C-s-@") 'eyebrowse-switch-to-window-config-2)
+  (global-set-key (kbd "C-s-#") 'eyebrowse-switch-to-window-config-3)
+  (global-set-key (kbd "C-s-$") 'eyebrowse-switch-to-window-config-4)
+  (global-set-key (kbd "C-s-%") 'eyebrowse-switch-to-window-config-5)
+  ;; Auxiliary comment lines
+  (global-set-key (kbd "M-/") 'spacemacs/comment-or-uncomment-lines)
+  (global-set-key (kbd "s-/") 'spacemacs/comment-or-uncomment-lines)
   ;; [WIP] Provide the familiar reverse history search within terminal
   (global-unset-key (kbd "C-r"))
   (add-hook 'term-mode-hook
@@ -378,6 +398,14 @@ you should place your code here."
                                   (lambda ()
                                     (interactive)
                                     (term-send-raw-string "\C-r")))))
+
+  ;; A few term key binding conveniences
+  (add-hook 'term-mode-hook
+            (lambda ()
+              ;; Ensure a familiar page up and down. Looking at you ansi-term.
+              (define-key term-raw-map (kbd "<prior>") 'scroll-down-command)
+              (define-key term-raw-map (kbd "<next>") 'scroll-up-command)
+              (define-key term-raw-map (kbd "s-k") 'erase-buffer)))
 
   ;; A more familiar multi-select. Might move to evil-iedit-state/iedit-mode
   ;; Not sure why, but including expand-region under
@@ -415,6 +443,11 @@ you should place your code here."
 
   ;; More pleasing powerline separators, 'utf-8 is also reasonable
   (setq powerline-default-separator 'bar)
+
+  ;; A slimmer spaceline
+  (spaceline-toggle-buffer-size-off)
+  (spaceline-toggle-major-mode-off)
+  (spaceline-toggle-buffer-encoding-abbrev-off)
 
   ;; Only show time when window is close to the right and bottom edges
   (defun show-time ()
@@ -600,8 +633,64 @@ The body of the advice is in BODY."
   (spacemacs/set-leader-keys
     "bj" 'helm-file-tags)
 
+  ;; [WIP] List project term buffers
+  (defun helm-projectile-switch-to-term ()
+    (interactive)
+    (helm :sources (helm-build-sync-source "project-terms"
+                     :candidates (delete (buffer-name (current-buffer))
+                                         (projectile-project-buffer-names))
+                     :action 'switch-to-buffer)
+          :prompt (projectile-prepend-project-name "Switch to buffer: ")
+          :buffer "*helm projectile*"
+          :input "$*term "))
+
+  ;; project-terms as a leader key
+  (spacemacs/set-leader-keys
+    "pB" 'helm-projectile-switch-to-term)
+
   ;; Per Quasar query integration test definitions
   (add-to-list 'auto-mode-alist '("\\.test\\'" . json-mode))
+
+  ;; [WIP] Display current commit in git timemachine transient display
+  ;; Copied from spacemacs's init-git-timemachine for now. Any reuse possible?
+  ;; Utilize :dynamic-hint to display current commit
+  (use-package git-timemachine
+    :defer t
+    :commands spacemacs/time-machine-transient-state/body
+    :init
+    (spacemacs/set-leader-keys
+      "gt" 'spacemacs/time-machine-transient-state/body)
+    :config
+    (progn
+      (spacemacs|define-transient-state time-machine
+        :title "Git Timemachine Transient State"
+        :doc "
+[_p_/_N_] previous [_n_] next [_c_] current [_g_] goto nth rev [_Y_] copy hash [_q_] quit"
+        :on-enter (let (golden-ratio-mode)
+                    (unless (bound-and-true-p git-timemachine-mode)
+                      (call-interactively 'git-timemachine)))
+        :on-exit (when (bound-and-true-p git-timemachine-mode)
+                   (git-timemachine-quit))
+        :dynamic-hint (if git-timemachine-revision
+                          (let* ((revision git-timemachine-revision)
+                                 (date-relative (nth 3 revision))
+                                 (date-full (nth 4 revision))
+                                 (author (nth 6 revision))
+                                 (sha (car revision))
+                                 (sha-abbrev (git-timemachine-abbreviate sha))
+                                 (subject (nth 5 revision)))
+                            (format "\n\n%s — %s [%s (%s)] %s\n"
+                                    author subject date-full date-relative sha-abbrev))
+                        "")
+        ;; :foreign-keys run
+        :bindings
+        ("c" git-timemachine-show-current-revision)
+        ("g" git-timemachine-show-nth-revision)
+        ("p" git-timemachine-show-previous-revision)
+        ("n" git-timemachine-show-next-revision)
+        ("N" git-timemachine-show-previous-revision)
+        ("Y" git-timemachine-kill-revision)
+        ("q" nil :exit t))))
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
