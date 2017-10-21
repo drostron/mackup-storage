@@ -592,6 +592,9 @@ The body of the advice is in BODY."
   (spacemacs/set-leader-keys
     "TAB"    'helm-mini)
 
+  (spacemacs/set-leader-keys
+    "p#"     'projectile-multi-term-in-root)
+
   ;; Fish shell — some prompts may need this to work correctly
   (add-hook 'term-mode-hook 'toggle-truncate-lines)
 
@@ -646,7 +649,17 @@ The body of the advice is in BODY."
 
   ;; project-terms as a leader key
   (spacemacs/set-leader-keys
-    "pB" 'helm-projectile-switch-to-term)
+    "ps" 'helm-projectile-switch-to-term)
+
+  ;; ag project search hidden
+  (defun helm-ag-project-hidden ()
+    (interactive)
+    (let ((helm-ag-base-command (concat helm-ag-base-command " --hidden")))
+      (spacemacs/helm-project-smart-do-search)))
+
+  ;; project search ag --hidden as a leader key
+  (spacemacs/set-leader-keys
+    "sah" 'helm-ag-project-hidden)
 
   ;; Per Quasar query integration test definitions
   (add-to-list 'auto-mode-alist '("\\.test\\'" . json-mode))
@@ -665,7 +678,7 @@ The body of the advice is in BODY."
       (spacemacs|define-transient-state time-machine
         :title "Git Timemachine Transient State"
         :doc "
-[_p_/_N_] previous [_n_] next [_c_] current [_g_] goto nth rev [_Y_] copy hash [_q_] quit"
+[_p_/_N_] previous [_n_] next [_c_] current [_g_] goto nth rev [_b_] blame [_Y_] copy hash [_q_] quit"
         :on-enter (let (golden-ratio-mode)
                     (unless (bound-and-true-p git-timemachine-mode)
                       (call-interactively 'git-timemachine)))
@@ -689,6 +702,7 @@ The body of the advice is in BODY."
         ("p" git-timemachine-show-previous-revision)
         ("n" git-timemachine-show-next-revision)
         ("N" git-timemachine-show-previous-revision)
+        ("b" git-timemachine-blame :exit t)
         ("Y" git-timemachine-kill-revision)
         ("q" nil :exit t))))
   )
