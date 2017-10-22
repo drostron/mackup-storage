@@ -31,7 +31,8 @@ set -x MANPATH            \
 set fish_greeting ""
 
 # set --export EDITOR "~/code/bin/subl -w"
-set --export EDITOR nvim
+# set --export EDITOR nvim
+set --export EDITOR emacsclient
 
 eval (opam config env)
 

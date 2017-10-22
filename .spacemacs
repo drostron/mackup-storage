@@ -405,7 +405,9 @@ you should place your code here."
               ;; Ensure a familiar page up and down. Looking at you ansi-term.
               (define-key term-raw-map (kbd "<prior>") 'scroll-down-command)
               (define-key term-raw-map (kbd "<next>") 'scroll-up-command)
-              (define-key term-raw-map (kbd "s-k") 'erase-buffer)))
+              (define-key term-raw-map (kbd "s-k") 'erase-buffer)
+              ;; More convenient access to term-line-mode
+              (define-key term-raw-map (kbd "C-c C-l") 'term-line-mode)))
 
   ;; A more familiar multi-select. Might move to evil-iedit-state/iedit-mode
   ;; Not sure why, but including expand-region under
