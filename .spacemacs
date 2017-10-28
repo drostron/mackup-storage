@@ -40,6 +40,7 @@ values."
      better-defaults
      emacs-lisp
      git
+     github
      haskell
      helm
      html
@@ -151,7 +152,7 @@ values."
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
    dotspacemacs-default-font '("Iosevka"
-                                :size 13
+                                :size 12
                                 :weight normal
                                 :width normal
                                 :powerline-scale 1.1)
@@ -421,7 +422,8 @@ you should place your code here."
   (global-set-key (kbd "s-C") 'flash-column-highlight)
 
   ;; A more familiar and less jumpy mouse scroll
-  (setq mouse-wheel-scroll-amount '(1))
+  ;; TODO A buffer size dependent scroll-amount
+  (setq mouse-wheel-scroll-amount '(3))
   (setq mouse-wheel-progressive-speed nil)
 
   ;; [WIP] A touch of 3 button mouse emulation
@@ -594,8 +596,13 @@ The body of the advice is in BODY."
   (spacemacs/set-leader-keys
     "TAB"    'helm-mini)
 
+  ;; A more convenient projectile terminal
   (spacemacs/set-leader-keys
     "p#"     'projectile-multi-term-in-root)
+
+  ;; A more direct workspaces transient state
+  (spacemacs/set-leader-keys
+    "W"      'spacemacs/workspaces-transient-state/body)
 
   ;; Fish shell — some prompts may need this to work correctly
   (add-hook 'term-mode-hook 'toggle-truncate-lines)

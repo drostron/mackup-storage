@@ -21,3 +21,5 @@
 	tool = opendiff
 [commit]
 	template = /Users/dave/.stCommitMsg
+[include]
+    path = /Users/dave/.gitconfig_private

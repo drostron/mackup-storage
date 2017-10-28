@@ -77,7 +77,8 @@ appKeyMapping = {
   ["s"] = "Slack",
   ["t"] = "iTerm2",
   ["v"] = "Activity Monitor",
-  ["x"] = "Atom",
+  -- ["x"] = "Atom",
+  ["x"] = "Discord",
   ["y"] = "Twitter",
   ["z"] = "LimeChat",
 }
