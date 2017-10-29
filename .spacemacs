@@ -430,11 +430,6 @@ you should place your code here."
   (define-key key-translation-map (kbd "<M-mouse-1>") (kbd "<mouse-2>"))
   (define-key key-translation-map (kbd "<C-mouse-1>") (kbd "<mouse-3>"))
 
-  ;; Sequester helm to a window instead of taking over full frame width
-  ;; Required spacemacs workaround from https://github.com/syl20bnr/spacemacs/issues/9044
-  (setq-default helm-display-function 'helm-default-display-buffer)
-  (setq helm-split-window-in-side-p t)
-
   ;; A more pleasing which-key location
   (setq which-key-side-window-location '(left bottom))
 
@@ -557,8 +552,13 @@ include connection-name, and possibly some state information."
   (setq ensime-startup-notification nil)
   (setq ensime-startup-snapshot-notification nil)
 
-  ;; Additionally evil-escape to follow common expectation
-  (defun auto-save-command () (progn (evil-escape) (save-some-buffers t)))
+  ;; Additionally set normal-mode to follow common expectation
+  (defun auto-save-command ()
+    (progn
+      ;; Avoid setting normal-mode on non-file buffers to preserve expected behavior
+      ;; In particular but not limited to term and magit buffers
+      (if (not (string-prefix-p "*" (buffer-name))) (normal-mode))
+      (save-some-buffers t)))
 
   ;; From Emacs Prelude — https://github.com/bbatsov/prelude
   (defmacro advise-commands (advice-name commands class &rest body)
@@ -580,6 +580,12 @@ The body of the advice is in BODY."
 
   ;; Save on buffer and window switch
   (add-hook 'focus-out-hook 'auto-save-command)
+
+  ;; Sequester helm to a window instead of taking over full frame width
+  ;; Required spacemacs workaround from https://github.com/syl20bnr/spacemacs/issues/9044
+  ;; Appears to require being set after "auto-save" advise commands to be effective
+  (setq-default helm-display-function 'helm-default-display-buffer)
+  (setq helm-split-window-in-side-p t)
 
   ;; Experimental — access math keyboard layout
   (setq mac-option-modifier 'none)
