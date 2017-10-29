@@ -423,6 +423,10 @@ you should place your code here."
   ;; A more familiar column highlight
   (global-set-key (kbd "s-C") 'flash-column-highlight)
 
+  ;; Additional and convenient window switching
+  (global-set-key (kbd "s-}") 'evil-window-next)
+  (global-set-key (kbd "s-{") 'evil-window-prev)
+
   ;; TODO Appears to be working nicely without adjustment on the latest Emacs
   ;; A more familiar and less jumpy mouse scroll
   ;; TODO A buffer size dependent scroll-amount
@@ -654,20 +658,38 @@ The body of the advice is in BODY."
   (spacemacs/set-leader-keys
     "bj" 'helm-file-tags)
 
-  ;; [WIP] List project term buffers
-  (defun helm-projectile-switch-to-term ()
+  ;; List term buffers
+  (defun helm-buffers-switch-to-term (prompt-prepend sources)
     (interactive)
-    (helm :sources (helm-build-sync-source "project-terms"
-                     :candidates (delete (buffer-name (current-buffer))
-                                         (projectile-project-buffer-names))
-                     :action 'switch-to-buffer)
-          :prompt (projectile-prepend-project-name "Switch to buffer: ")
+    (helm :sources sources
+          :prompt (funcall prompt-prepend "Switch to buffer: ")
           :buffer "*helm projectile*"
           :input "$*term "))
 
+  ;; List all term buffers
+  (defun helm-switch-to-term ()
+    (interactive)
+    (helm-buffers-switch-to-term
+     'identity
+     (helm-make-source "Term Buffers" 'helm-source-buffers)))
+
+  ;; List projectile term buffers
+  (defun helm-projectile-switch-to-term ()
+    (interactive)
+    (helm-buffers-switch-to-term
+     'projectile-prepend-project-name
+     (helm-build-sync-source "Term Buffers"
+       :candidates (delete (buffer-name (current-buffer)) (projectile-project-buffer-names))
+       :action 'switch-to-buffer)))
+
+  ;; terms as a leader key
+  ;; Why `o`? Available at both base and projectile menu levels.
+  (spacemacs/set-leader-keys
+    "o" 'helm-switch-to-term)
+
   ;; project-terms as a leader key
   (spacemacs/set-leader-keys
-    "ps" 'helm-projectile-switch-to-term)
+    "po" 'helm-projectile-switch-to-term)
 
   ;; ag project search hidden
   (defun helm-ag-project-hidden ()
@@ -723,6 +745,10 @@ The body of the advice is in BODY."
         ("b" git-timemachine-blame :exit t)
         ("Y" git-timemachine-kill-revision)
         ("q" nil :exit t))))
+
+  ;; A few git-messenger customizations
+  (setq git-messenger:use-magit-popup t)
+  (setq git-messenger:show-detail t)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
