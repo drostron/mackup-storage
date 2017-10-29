@@ -419,12 +419,15 @@ you should place your code here."
                     (interactive)
                     (cond ((region-active-p) (spacemacs/symbol-highlight))
                           (t (er/mark-word)))))
+
+  ;; A more familiar column highlight
   (global-set-key (kbd "s-C") 'flash-column-highlight)
 
+  ;; TODO Appears to be working nicely without adjustment on the latest Emacs
   ;; A more familiar and less jumpy mouse scroll
   ;; TODO A buffer size dependent scroll-amount
-  (setq mouse-wheel-scroll-amount '(3))
-  (setq mouse-wheel-progressive-speed nil)
+  ;; (setq mouse-wheel-scroll-amount '(3))
+  ;; (setq mouse-wheel-progressive-speed nil)
 
   ;; [WIP] A touch of 3 button mouse emulation
   (define-key key-translation-map (kbd "<M-mouse-1>") (kbd "<mouse-2>"))
