@@ -72,6 +72,7 @@ values."
    '(
      col-highlight
      etags-select
+     region-convert
      nix-mode
      )
    ;; A list of packages that cannot be updated.
@@ -406,9 +407,11 @@ you should place your code here."
               ;; Ensure a familiar page up and down. Looking at you ansi-term.
               (define-key term-raw-map (kbd "<prior>") 'scroll-down-command)
               (define-key term-raw-map (kbd "<next>") 'scroll-up-command)
-              (define-key term-raw-map (kbd "s-k") 'erase-buffer)
-              ;; More convenient access to term-line-mode
-              (define-key term-raw-map (kbd "C-c C-l") 'term-line-mode)))
+              ;; A familiar clear buffer
+              (define-key term-raw-map (kbd "s-k") 'comint-clear-buffer)
+              ;; More convenient access to term-char-mode and term-line-mode
+              (define-key term-mode-map (kbd "C-c k") 'term-char-mode)
+              (define-key term-raw-map (kbd "C-c l") 'term-line-mode)))
 
   ;; A more familiar multi-select. Might move to evil-iedit-state/iedit-mode
   ;; Not sure why, but including expand-region under
@@ -417,7 +420,10 @@ you should place your code here."
   (global-set-key (kbd "s-d")
                   (lambda ()
                     (interactive)
-                    (cond ((region-active-p) (spacemacs/symbol-highlight))
+                    (cond ((region-active-p)
+                           (progn
+                             (deactivate-mark)
+                             (spacemacs/symbol-highlight)))
                           (t (er/mark-word)))))
 
   ;; A more familiar column highlight
@@ -564,7 +570,10 @@ include connection-name, and possibly some state information."
     (progn
       ;; Avoid setting normal-mode on non-file buffers to preserve expected behavior
       ;; In particular but not limited to term and magit buffers
-      (if (not (string-prefix-p "*" (buffer-name))) (normal-mode))
+      ;; (if (not (string-prefix-p "*" (buffer-name))) (normal-mode))
+      ;; TODO ↑ normal-mode causing issue with symbol-highlight exiting cleanly
+      ;; TODO ↓ perhaps a less useful nowadays?
+      ;; (if (not (string-prefix-p "*" (buffer-name))) (evil-escape))
       (save-some-buffers t)))
 
   ;; From Emacs Prelude — https://github.com/bbatsov/prelude
@@ -581,7 +590,10 @@ The body of the advice is in BODY."
   ;; From Emacs Prelude — https://github.com/bbatsov/prelude
   ;; advise all window switching functions
   (advise-commands "auto-save"
-                   (switch-to-buffer other-window windmove-up windmove-down windmove-left windmove-right)
+                   (switch-to-buffer
+                    other-window
+                    windmove-up windmove-down windmove-left windmove-right
+                    select-window)
                    before
                    (auto-save-command))
 
@@ -612,6 +624,10 @@ The body of the advice is in BODY."
   ;; A more convenient projectile terminal
   (spacemacs/set-leader-keys
     "p#"     'projectile-multi-term-in-root)
+
+  ;; A more convenient projectile switch open project
+  (spacemacs/set-leader-keys
+    "pq"     'projectile-switch-open-project)
 
   ;; A more direct workspaces transient state
   (spacemacs/set-leader-keys
@@ -700,6 +716,10 @@ The body of the advice is in BODY."
   ;; project search ag --hidden as a leader key
   (spacemacs/set-leader-keys
     "sah" 'helm-ag-project-hidden)
+
+  ;; kill-buffer-and-widnwow as a leader keys
+  (spacemacs/set-leader-keys
+    "wx" 'kill-buffer-and-window)
 
   ;; Per Quasar query integration test definitions
   (add-to-list 'auto-mode-alist '("\\.test\\'" . json-mode))
