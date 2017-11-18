@@ -390,6 +390,16 @@ you should place your code here."
   ;; Auxiliary comment lines
   (global-set-key (kbd "M-/") 'spacemacs/comment-or-uncomment-lines)
   (global-set-key (kbd "s-/") 'spacemacs/comment-or-uncomment-lines)
+  ;; [WIP] Utilize the improved spacemacs zoom frm font scaling.
+  ;; Avoids the undesirable linum gutter expansion from the default spacemacs/scale-*-font bindings.
+  ;; TODO Investigate ↑. Something to do with a non-default font or otherwise?
+  ;; Well... frame size gets out of sync with screen size when in full screen.
+  ;; TODO See about getting linum and fringe to remain unchanged when using spacemacs/scale-*-font?
+  ;; Or at least gutter if sufficient.
+  (global-set-key (kbd "s-=") 'spacemacs/zoom-frm-in)
+  (global-set-key (kbd "s-+") 'spacemacs/zoom-frm-in)
+  (global-set-key (kbd "s--") 'spacemacs/zoom-frm-out)
+  (global-set-key (kbd "s-0") 'spacemacs/zoom-frm-unzoom)
   ;; [WIP] Provide the familiar reverse history search within terminal
   (global-unset-key (kbd "C-r"))
   (add-hook 'term-mode-hook
@@ -411,7 +421,23 @@ you should place your code here."
               (define-key term-raw-map (kbd "s-k") 'comint-clear-buffer)
               ;; More convenient access to term-char-mode and term-line-mode
               (define-key term-mode-map (kbd "C-c k") 'term-char-mode)
-              (define-key term-raw-map (kbd "C-c l") 'term-line-mode)))
+              (define-key term-raw-map (kbd "C-c l") 'term-line-mode)
+              ;; A familiar evil-escape
+              (define-key term-raw-map (kbd "C-g") 'evil-escape)))
+
+  ;; More convenient term-char-mode and term-line-mode switching sync'd with visual and hybrid mode
+  (defun evil-insert-term-mode-augmented (count &optional vcount skip-empty-lines)
+    (when (derived-mode-p 'term-mode) (term-char-mode)))
+  (advice-add 'evil-insert :after 'evil-insert-term-mode-augmented)
+  (defun evil-escape-term-mode-augmented ()
+    (when (derived-mode-p 'term-mode) (term-line-mode)))
+  (advice-add 'evil-escape :after 'evil-escape-term-mode-augmented)
+  ;; Additionally handle evil-escape-key-sequence
+  (advice-add 'evil-escape-func :after 'evil-escape-term-mode-augmented)
+  ;; And <escape>
+  (defun evil-normal-state-term-mode-augmented (&optional arg)
+    (when (derived-mode-p 'term-mode) (term-line-mode)))
+  (advice-add 'evil-normal-state :after 'evil-normal-state-term-mode-augmented)
 
   ;; A more familiar multi-select. Might move to evil-iedit-state/iedit-mode
   ;; Not sure why, but including expand-region under
@@ -482,6 +508,9 @@ you should place your code here."
 
   ;; From https://github.com/syl20bnr/spacemacs/issues/5633#issuecomment-203771402
   ;; Close the vertical gap while in fullscreen
+  ;; TODO Is this leading to helm failing to select items or render filtering?
+  ;;      Seems that some combination of (un)full-screening and zooming
+  ;;      returns things to a workable state.
   (setq frame-resize-pixelwise t)
 
   ;; Ligatures? Looks like this isn't sufficient
@@ -496,6 +525,9 @@ you should place your code here."
     (add-to-list 'projectile-globally-ignored-directories "target")
     (add-to-list 'projectile-globally-ignored-directories ".targets"))
   (setq projectile-tags-command "env TMPDIR=/tmp ctags -Re -f \"%s\" %s")
+
+  ;; Reload tags without asking
+  (setq tags-revert-without-query t)
 
   ;; Without this a few ensime related variables remain void. That leads to
   ;; issues with git-timemachine and the imenu based file summary, `SPC s j`,
@@ -629,9 +661,17 @@ The body of the advice is in BODY."
   (spacemacs/set-leader-keys
     "pq"     'projectile-switch-open-project)
 
+  ;; A familiar projectile helm-mini
+  (spacemacs/set-leader-keys
+    "p TAB"   'helm-projectile)
+
   ;; A more direct workspaces transient state
   (spacemacs/set-leader-keys
     "W"      'spacemacs/workspaces-transient-state/body)
+
+  ;; Leader key access to evil-window-set-height
+  (spacemacs/set-leader-keys
+    "w\\"     'evil-window-set-height)
 
   ;; Fish shell — some prompts may need this to work correctly
   (add-hook 'term-mode-hook 'toggle-truncate-lines)
@@ -769,6 +809,9 @@ The body of the advice is in BODY."
   ;; A few git-messenger customizations
   (setq git-messenger:use-magit-popup t)
   (setq git-messenger:show-detail t)
+
+  ;; [WIP] Constrain golden-ration to vertical
+  (setq golden-ratio-adjust-factor 1.7)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
