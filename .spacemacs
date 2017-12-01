@@ -477,6 +477,7 @@ you should place your code here."
         '(
           ((?= ??) . ?\x225f) ;; =? → ≟
           ((?+ ?+) . ?\x22b9) ;; ++ → ⊹
+          ((?| ?>) . ?\x25B9) ;; |> → ▹
           ))
 
   ;; More pleasing powerline separators, 'utf-8 is also reasonable

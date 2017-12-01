@@ -33,8 +33,8 @@ echo set -x MANPATH "$NIX_LINK"/share/man \$MANPATH \;
 echo set -x NIX_PATH ${NIX_PATH_ARRAY[@]} \;
 
 # See https://github.com/NixOS/nixpkgs/issues/5713
-echo set -x NIX_REMOTE daemon
+echo set -x NIX_REMOTE daemon \;
 
-if [ -f "$SSL_CERT_FILE" ]; then
-    echo set -x SSL_CERT_FILE \'$SSL_CERT_FILE\' \;
+if [ -f "$NIX_SSL_CERT_FILE" ]; then
+    echo set -x SSL_CERT_FILE \'$NIX_SSL_CERT_FILE\' \;
 fi
