@@ -813,6 +813,51 @@ The body of the advice is in BODY."
 
   ;; [WIP] Constrain golden-ration to vertical
   (setq golden-ratio-adjust-factor 1.7)
+
+  ;; [WIP] Ligatureish — ligatures instead as unicode glyph substitutions
+
+  ;; FiraCode unicode glyph fallback per https://github.com/tonsky/FiraCode/issues/211#issuecomment-239058632
+  ;; Setting emacs fallback font https://stackoverflow.com/a/6084198, https://github.com/syl20bnr/spacemacs/issues/1390
+  ;; (set-fontset-font t '(#Xe100 . #Xe16f) "FiraCode-Symbol-Regular")
+  ;; NB Too many spacing issue with FiraCode.
+  ;;    Unfortunate since I prefer the bind ligature over iosevka and iosevka doesn't yet have a ligature for === or =/=
+  ;; (defun setup-firacode-ligatures ()
+  ;;   (setq prettify-symbols-alist
+  ;;         (append
+  ;;          prettify-symbols-alist
+  ;;          (mapcar
+  ;;           ;; pad each side of lig via compose-region's special tab handling
+  ;;           ;; compose-region used by prettify-symbols-alist when "CHARACTER" is a list
+  ;;           (lambda (i) (cons (car i) (string ?\t (cdr i) ?\t)))
+  ;;           '(
+  ;;             (":=" . #Xe10c)
+  ;;             )))))
+
+  ;; https://github.com/be5invis/Iosevka/issues/56#issuecomment-291626486
+  ;; From https://gist.github.com/mrkgnao/49c7480e1df42405a36b7ab09fe87f3d
+  (defun setup-iosevka-ligatures ()
+    (setq prettify-symbols-alist
+          '(
+            ("->" . #Xe149)
+            (">>=" . #Xe175)
+            ("===" . #Xe176)
+            ("=/=" . #Xe177)
+            )))
+
+  (setq prettify-symbols-unprettify-at-point 'right-edge)
+
+  (defun refresh-pretty ()
+    (prettify-symbols-mode -1)
+    (prettify-symbols-mode +1))
+
+  ;; Hooks for modes in which to install the Iosevka or FiraCode ligatures/glyphs
+  (mapc (lambda (hook)
+          (add-hook hook (lambda () (setup-iosevka-ligatures) (refresh-pretty))))
+        '(text-mode-hook
+          prog-mode-hook))
+
+  (global-prettify-symbols-mode t)
+
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
