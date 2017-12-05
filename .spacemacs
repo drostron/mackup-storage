@@ -818,13 +818,22 @@ The body of the advice is in BODY."
   ;; [WIP] Ligatureish — ligatures instead as unicode glyph substitutions
   ;; https://github.com/be5invis/Iosevka/issues/56#issuecomment-291626486
   ;; From https://gist.github.com/mrkgnao/49c7480e1df42405a36b7ab09fe87f3d
+  ;; Relies on a custom built font via https://github.com/drostron/Iosevka/tree/customization-lab
+  ;; `gmake custom-config 'design=SCAL v-asterisk-low'`
+  ;  `gmake custom`
   (defun setup-iosevka-ligatures ()
     (setq prettify-symbols-alist
           '(
             ("->" . #Xe149)
+            (">-" . #Xe15b)
+            ("=>" . #Xe161)
+            ("<-" . #Xe179)
             (">>=" . #Xe175)
             ("===" . #Xe176)
             ("=/=" . #Xe177)
+            (">=>" . #Xe1a9)
+            (">==>" . #Xe1ac)
+            (":=" . #Xe1b7)
             )))
 
   (setq prettify-symbols-unprettify-at-point 'right-edge)
