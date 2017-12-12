@@ -154,7 +154,7 @@ values."
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
    dotspacemacs-default-font '("Iosevka"
-                                :size 12
+                                :size 11
                                 :weight normal
                                 :width normal
                                 :powerline-scale 1.1)
@@ -673,7 +673,16 @@ The body of the advice is in BODY."
 
   ;; Leader key access to evil-window-set-height
   (spacemacs/set-leader-keys
-    "w\\"     'evil-window-set-height)
+    "w\\"    'evil-window-set-height)
+
+  ;; Set current window to ⅔ frame height
+  (defun set-window-⅔-height ()
+      (interactive)
+      (evil-window-set-height (floor (* (/ 2 3.0) (frame-height)))))
+
+  ;; Leader key access to evil-window-set-height
+  (spacemacs/set-leader-keys
+    "w'"     'set-window-⅔-height)
 
   ;; Fish shell — some prompts may need this to work correctly
   (add-hook 'term-mode-hook 'toggle-truncate-lines)
