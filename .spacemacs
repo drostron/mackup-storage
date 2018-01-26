@@ -426,6 +426,13 @@ you should place your code here."
               ;; A familiar evil-escape
               (define-key term-raw-map (kbd "C-g") 'evil-escape)))
 
+  ;; An expected etags select escape
+  ;; TODO etags-select-quit appears to not return focus to previously selected window.
+  ;;      Further appears to be it's use of delete-window that doesn't return focus.
+  (add-hook 'etags-select-mode-hook
+    (lambda()
+      (define-key etags-select-mode-map (kbd "C-g") 'etags-select-quit)))
+
   ;; More convenient term-char-mode and term-line-mode switching sync'd with visual and hybrid mode
   (defun evil-insert-term-mode-augmented (count &optional vcount skip-empty-lines)
     (when (derived-mode-p 'term-mode) (term-char-mode)))
@@ -833,16 +840,19 @@ The body of the advice is in BODY."
   (defun setup-iosevka-ligatures ()
     (setq prettify-symbols-alist
           '(
-            ("->" . #Xe149)
-            (">-" . #Xe15b)
-            ("=>" . #Xe161)
-            ("<-" . #Xe179)
-            (">>=" . #Xe175)
-            ("===" . #Xe176)
-            ("=/=" . #Xe177)
-            (">=>" . #Xe1a9)
+            ;; Glyph composition offered to maintain preserve column position and proper replacement width
+            ("->" . (#Xe149 (Bc . Br) ? ))
+            (">-" . (#Xe15b (Bc . Br) ? ))
+            ("=>" . (#Xe161 (Bc . Br) ? ))
+            ("<-" . (#Xe179 (Br Bl -100 0) ? ))
+            ;; TODO unable to get column count to 3 for triple char substitutions
+            ;;      using (Br Bl -100 0) ?a (Br Bl -100 0) ?b)
+            (">>=" . (#Xe175 (Br Bl -100 0) ? ))
+            ("===" . (#Xe176 (Br Bl -100 0) ? ))
+            ("=/=" . (#Xe177 (Br Bl -100 0) ? ))
+            (">=>" . (#Xe1a9 (Br Bl -100 0) ? ))
             (">==>" . #Xe1ac)
-            (":=" . #Xe1b7)
+            (":=" . (#Xe1b7 (Bc . Br) ? ))
             )))
 
   (setq prettify-symbols-unprettify-at-point 'right-edge)
