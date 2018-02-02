@@ -845,6 +845,7 @@ The body of the advice is in BODY."
             (">-" . (#Xe15b (Bc . Br) ? ))
             ("=>" . (#Xe161 (Bc . Br) ? ))
             ("<-" . (#Xe179 (Br Bl -100 0) ? ))
+            ("==" . (#Xe1cc (Bc . Br) ? ))
             ;; TODO unable to get column count to 3 for triple char substitutions
             ;;      using (Br Bl -100 0) ?a (Br Bl -100 0) ?b)
             (">>=" . (#Xe175 (Br Bl -100 0) ? ))
