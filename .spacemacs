@@ -321,6 +321,15 @@ executes.
  This function is mostly useful for variables that need to be set
 before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
+
+  ;; Prevent conflict with desired nix populated PATH when running emacs from nix-shell
+  ;; Revisit when emacs start method is brushed up
+  (setq exec-path-from-shell-variables nil)
+
+  ;; Roll with aspell over ispell due to nix package install/compilation error for ispall
+  (setq ispell-program-name "aspell")
+  ;; From https://www.emacswiki.org/emacs/FlySpell#toc8
+  (setq ispell-list-command "--list")
   )
 
 (defun dotspacemacs/user-config ()
@@ -365,6 +374,7 @@ you should place your code here."
   ;; A familiar backward and forward word for markdown mode
   (add-hook 'markdown-mode-hook
             (lambda ()
+              (setq word-wrap t)
               (define-key markdown-mode-map (kbd "M-<left>") 'left-word)
               (define-key markdown-mode-map (kbd "M-<right>") 'right-word)))
   ;; A more familiar spelling correction
@@ -869,6 +879,9 @@ The body of the advice is in BODY."
           prog-mode-hook))
 
   (global-prettify-symbols-mode t)
+
+  ;; Prevent helm from using a new frame
+  (setq helm-use-frame-when-more-than-two-windows nil)
 
   )
 
