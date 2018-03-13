@@ -62,7 +62,7 @@ function focusApp(name)
 end
 
 appKeyMapping = {
-  ["a"] = "Emacs",
+  ["a"] = "emacs",
   ["b"] = "SoundCleod",
   ["c"] = "Google Chrome",
   ["d"] = "Signal",
