@@ -52,6 +52,7 @@ values."
      ;; org
      osx
      purescript
+     python
      rust
      scala
      (shell :variables

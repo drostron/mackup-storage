@@ -28,6 +28,9 @@ Library/Preferences/org.pqrs.KeyRemap4MacBook.plist
 Library/Application\ Support/LightTable/plugins/
 Library/Preferences/com.kodowa.LightTable.plist
 
+# limechat
+Library/Preferences/net.limechat.LimeChat*.plist
+
 # menumeters
 Library/Preferences/com.ragingmenace.MenuMeters.plist
 

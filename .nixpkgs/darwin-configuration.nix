@@ -1,7 +1,12 @@
 # Bootstrapped from https://github.com/LnL7/nix-darwin/blob/master/modules/examples/lnl.nix
 
 { config, lib, pkgs, ... }:
-{
+
+let
+  # TODO more conventional way to access overlays?
+  nixpkgs = import <nixpkgs> { };
+  aspellWithDict = pkgs.aspellWithDicts(ps: with ps; [ en ]);
+in {
   system.defaults.NSGlobalDomain.AppleKeyboardUIMode = 3;
   system.defaults.NSGlobalDomain.ApplePressAndHoldEnabled = false;
   system.defaults.NSGlobalDomain.InitialKeyRepeat = 15;
@@ -33,6 +38,13 @@
 
   environment.systemPackages =
     [
+    # Emacs
+    # TODO make deps available to emacs app other than globally
+    nixpkgs.emacsHeadCustom
+    # ispell is erroring out on package install/compilation
+    aspellWithDict
+    pkgs.gcc
+
     # pkgs.brotli
     pkgs.ctags
     pkgs.curl
@@ -49,6 +61,7 @@
     pkgs.sbt
     pkgs.shellcheck
     pkgs.silver-searcher
+    pkgs.tree
 
     # pkgs.khd
     # pkgs.kwm
@@ -60,6 +73,13 @@
   programs.bash.enable = true;
   # programs.zsh.enable = true;
   # programs.fish.enable = true;
+
+  # A few shell aliases
+  environment.shellAliases.g = "git";
+  environment.shellAliases.gs = "git status";
+  environment.shellAliases.gd = "git diff";
+  environment.shellAliases.ll = "ls -lh";
+  environment.shellAliases.la = "ls -lah";
 
   # Used for backwards compatibility, please read the changelog before changing.
   # $ darwin-rebuild changelog
