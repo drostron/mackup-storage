@@ -1,1 +1,1 @@
-../../../../code/jwiegley-nix-config/overlays/emacs/site-start.el
+/Users/dave/code/jwiegley-nix-config/overlays/emacs/site-start.el

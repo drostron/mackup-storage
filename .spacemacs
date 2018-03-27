@@ -785,6 +785,9 @@ The body of the advice is in BODY."
   ;; project search ag --hidden as a leader key
   (spacemacs/set-leader-keys
     "sah" 'helm-ag-project-hidden)
+  (spacemacs/set-leader-keys
+    "." 'helm-ag-project-hidden)
+
 
   ;; kill-buffer-and-widnwow as a leader keys
   (spacemacs/set-leader-keys
@@ -884,6 +887,8 @@ The body of the advice is in BODY."
   ;; Prevent helm from using a new frame
   (setq helm-use-frame-when-more-than-two-windows nil)
 
+  ;; Prevent ineffective arrow keys etc that print raw escape seq chars
+  (setq multi-term-program "bash")
   )
 
 ;; Do not write anything past this comment. This is where Emacs will

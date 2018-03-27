@@ -1,1 +1,1 @@
-../../../code/jwiegley-nix-config/overlays/10-emacs.nix
+/Users/dave/code/jwiegley-nix-config/overlays/10-emacs.nix
