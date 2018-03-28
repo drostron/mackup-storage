@@ -38,6 +38,7 @@ values."
      ;; ----------------------------------------------------------------
      auto-completion
      better-defaults
+     col-highlight
      emacs-lisp
      git
      github
@@ -72,7 +73,6 @@ values."
    ;; configuration in `dotspacemacs/user-config'.
    dotspacemacs-additional-packages
    '(
-     col-highlight
      etags-select
      region-convert
      nix-mode
@@ -472,6 +472,8 @@ you should place your code here."
                           (t (er/mark-word)))))
 
   ;; A more familiar column highlight
+  ;; `require` needed here instead of within the custom layer for unknown reason
+  (require 'col-highlight)
   (global-set-key (kbd "s-C") 'flash-column-highlight)
 
   ;; Additional and convenient window switching
@@ -889,6 +891,7 @@ The body of the advice is in BODY."
 
   ;; Prevent ineffective arrow keys etc that print raw escape seq chars
   (setq multi-term-program "bash")
+
   )
 
 ;; Do not write anything past this comment. This is where Emacs will

@@ -48,6 +48,7 @@ in {
     # pkgs.brotli
     pkgs.ctags
     pkgs.curl
+    pkgs.entr
     # pkgs.fzf
     # pkgs.gettext
     pkgs.git
