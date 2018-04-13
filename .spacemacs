@@ -73,9 +73,12 @@ values."
    ;; configuration in `dotspacemacs/user-config'.
    dotspacemacs-additional-packages
    '(
+     ;; dante
      etags-select
+     helm-xref
      region-convert
      nix-mode
+     protobuf-mode
      )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -168,7 +171,7 @@ values."
    dotspacemacs-ex-command-key ":"
    ;; The leader key accessible in `emacs state' and `insert state'
    ;; (default "M-m")
-   dotspacemacs-emacs-leader-key "M-m"
+   dotspacemacs-emacs-leader-key "C-s-SPC"
    ;; Major mode leader key is a shortcut key which is the equivalent of
    ;; pressing `<leader> m`. Set it to `nil` to disable it. (default ",")
    dotspacemacs-major-mode-leader-key ","
@@ -399,6 +402,12 @@ you should place your code here."
   (global-set-key (kbd "C-s-#") 'eyebrowse-switch-to-window-config-3)
   (global-set-key (kbd "C-s-$") 'eyebrowse-switch-to-window-config-4)
   (global-set-key (kbd "C-s-%") 'eyebrowse-switch-to-window-config-5)
+  ;; Quicker buffer selection
+  (global-set-key (kbd "<C-s-tab>") 'helm-mini)
+  ;; Quicker terminal selection
+  (global-set-key (kbd "<C-S-tab>") 'helm-switch-to-term)
+  ;; Quicker project terminal selection
+  (global-set-key (kbd "<C-s-S-tab>") 'helm-projectile-switch-to-term)
   ;; Auxiliary comment lines
   (global-set-key (kbd "M-/") 'spacemacs/comment-or-uncomment-lines)
   (global-set-key (kbd "s-/") 'spacemacs/comment-or-uncomment-lines)
@@ -430,7 +439,12 @@ you should place your code here."
               (define-key term-raw-map (kbd "<prior>") 'scroll-down-command)
               (define-key term-raw-map (kbd "<next>") 'scroll-up-command)
               ;; A familiar clear buffer
-              (define-key term-raw-map (kbd "s-k") 'comint-clear-buffer)
+              (define-key term-raw-map (kbd "s-k")
+                ;; For some reason negates the need for a subsequent C-l for proper scrolling
+                ;; when using this over 'comint-clear-buffer
+                (lambda ()
+                  (interactive)
+                  (comint-clear-buffer)))
               ;; More convenient access to term-char-mode and term-line-mode
               (define-key term-mode-map (kbd "C-c k") 'term-char-mode)
               (define-key term-raw-map (kbd "C-c l") 'term-line-mode)
@@ -521,6 +535,8 @@ you should place your code here."
 
   ;; Spaceline time
   (spaceline-define-segment time (show-time))
+  ;; Keep clock somewhat refreshed
+  (run-at-time "17 sec" 17 #'force-mode-line-update t)
 
   ;; Spaceline projectile
   (spaceline-define-segment projectile 'projectile-root)
@@ -540,7 +556,7 @@ you should place your code here."
   ;; (mac-auto-operator-composition-mode)
 
   ;; Don't conflict with Atom's symbols-view tag file defaults
-  (setq projectile-tags-file-name ".tags_emacs")
+  ;; (setq projectile-tags-file-name ".tags_emacs")
 
   ;; Ignore target so ctags is more reasonable with Scala projects
   (with-eval-after-load 'projectile
@@ -561,8 +577,14 @@ you should place your code here."
   ;; Never keep current list of tags tables — https://emacs.stackexchange.com/q/14802
   (setq tags-add-tables nil)
 
+  ;; TODO something currently broken with etags-select
+  ;;      not showing all tags associated with a tag — working with the default `xref'?
   ;; Selection from multiple matching tags
-  (setq projectile-tags-backend 'etags-select)
+  ;; (setq projectile-tags-backend 'etags-select)
+  ;; TODO A nicer xref select via helm-xref until etags-select is fixed
+  (require 'helm-xref)
+  (setq xref-show-xrefs-function 'helm-xref-show-xrefs)
+  (set-face-attribute 'helm-xref-file-name nil :foreground "systemBlueColor")
 
   ;; From http://ensime.org/editors/emacs/hacks/#tags
   ;; Fall back to ctags when ensime is unavailable
@@ -574,14 +596,19 @@ you should place your code here."
       ;; etags-select appears to need priming — perhaps this deserves an upstream fix
       (progn
         (message "falling back to tags")
-        (etags-select-find-tag-at-point))))
+        ;; Avoiding etags until above mentioned issue is fixed
+        ;; (etags-select-find-tag-at-point)
+        (evil-goto-definition)
+        )))
   (add-hook 'scala-mode-hook
             (lambda ()
               (evil-define-key
                 '(normal hybrid) ensime-mode-map
                 (kbd "M-.") 'ensime-edit-definition-with-fallback)))
   (define-key evil-normal-state-map (kbd "M-.") nil)
-  (global-set-key (kbd "M-.") 'etags-select-find-tag-at-point)
+  ;; Avoiding etags until above mentioned issue is fixed
+  ;; (global-set-key (kbd "M-.") 'etags-select-find-tag-at-point)
+  (global-set-key (kbd "M-.") 'xref-find-definitions)
   (global-set-key (kbd "M-,") 'pop-tag-mark)
 
   ;; A slimmer ensime modeline string
@@ -891,6 +918,9 @@ The body of the advice is in BODY."
 
   ;; Prevent ineffective arrow keys etc that print raw escape seq chars
   (setq multi-term-program "bash")
+
+  ;; Adjust dired listing
+  (setq dired-listing-switches "-alh")
 
   )
 
