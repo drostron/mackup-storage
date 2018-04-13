@@ -64,11 +64,11 @@ end
 appKeyMapping = {
   ["a"] = "emacs",
   ["b"] = "SoundCleod",
-  ["c"] = "Google Chrome",
+  -- ["c"] = "Google Chrome",
+  ["c"] = "Firefox",
   ["d"] = "Signal",
   ["e"] = "Gitter",
   ["g"] = "Sourcetree",
-  ["h"] = "Signal",
   ["i"] = "iBooks",
   ["l"] = "Light Table",
   ["m"] = "Messages",
@@ -77,7 +77,6 @@ appKeyMapping = {
   ["s"] = "Slack",
   ["t"] = "iTerm2",
   ["v"] = "Activity Monitor",
-  -- ["x"] = "Atom",
   ["x"] = "Discord",
   ["y"] = "Twitter",
   ["z"] = "LimeChat",
@@ -278,3 +277,33 @@ bind({ "ctrl", "alt" }, "pageDown", moveSouth)
 bind({"ctrl", "cmd", "shift" }, "space", function()
   hs.reload()
 end)
+
+------------------------------
+-- Remap a keybinding to F1 for Firefox's show/hide Tree Style Tab
+--
+-- TODO refine to be application specific
+--
+-- From https://stackoverflow.com/questions/43383348/remap-apostrophe-to-other-keys-using-hammerspoon
+
+local function keyCode(key, modifiers)
+  modifiers = modifiers or {}
+  return function()
+    hs.eventtap.event.newKeyEvent(modifiers, string.lower(key), true):post()
+    hs.timer.usleep(100)
+    hs.eventtap.event.newKeyEvent(modifiers, string.lower(key), false):post()
+  end
+end
+
+local function remapKey(modifiers, key, keyCode)
+  hs.hotkey.bind(modifiers, key, keyCode, nil, keyCode)
+end
+
+remapKey({"cmd", "shift"}, "e", keyCode("F1", {}))
+
+------------------------------
+
+-- OS wide
+
+remapKey({"ctrl"}, "g", keyCode("escape", {}))
+
+------------------------------
