@@ -405,9 +405,11 @@ you should place your code here."
   ;; Quicker buffer selection
   (global-set-key (kbd "<C-s-tab>") 'helm-mini)
   ;; Quicker terminal selection
-  (global-set-key (kbd "<C-S-tab>") 'helm-switch-to-term)
+  (global-set-key (kbd "C-s-`") 'helm-switch-to-term)
+  ;; Quicker project buffer selection
+  (global-set-key (kbd "<C-S-tab>") 'helm-projectile)
   ;; Quicker project terminal selection
-  (global-set-key (kbd "<C-s-S-tab>") 'helm-projectile-switch-to-term)
+  (global-set-key (kbd "C-~") 'helm-projectile-switch-to-term)
   ;; Auxiliary comment lines
   (global-set-key (kbd "M-/") 'spacemacs/comment-or-uncomment-lines)
   (global-set-key (kbd "s-/") 'spacemacs/comment-or-uncomment-lines)
@@ -440,11 +442,12 @@ you should place your code here."
               (define-key term-raw-map (kbd "<next>") 'scroll-up-command)
               ;; A familiar clear buffer
               (define-key term-raw-map (kbd "s-k")
-                ;; For some reason negates the need for a subsequent C-l for proper scrolling
-                ;; when using this over 'comint-clear-buffer
+                ;; The subsequent C-l handles additional cases where the terminal
+                ;; output is off-screen and doesn't scroll to follow
                 (lambda ()
                   (interactive)
-                  (comint-clear-buffer)))
+                  (comint-clear-buffer)
+                  (term-send-raw-string "\C-l")))
               ;; More convenient access to term-char-mode and term-line-mode
               (define-key term-mode-map (kbd "C-c k") 'term-char-mode)
               (define-key term-raw-map (kbd "C-c l") 'term-line-mode)
@@ -493,8 +496,10 @@ you should place your code here."
   ;; Additional and convenient window switching
   (global-set-key (kbd "s-}") 'evil-window-next)
   (global-set-key (kbd "s-{") 'evil-window-prev)
+  (global-set-key (kbd "C-{") 'evil-window-left)
+  (global-set-key (kbd "C-}") 'evil-window-right)
 
-  ;; TODO Appears to be working nicely without adjustment on the latest Emacs
+  ;; todo Appears to be working nicely without adjustment on the latest Emacs
   ;; A more familiar and less jumpy mouse scroll
   ;; TODO A buffer size dependent scroll-amount
   ;; (setq mouse-wheel-scroll-amount '(3))
@@ -921,6 +926,17 @@ The body of the advice is in BODY."
 
   ;; Adjust dired listing
   (setq dired-listing-switches "-alh")
+
+  ;; Adjust default JS indentation
+  (setq js-indent-level 2)
+
+  ;; Alternate markdown preview command
+  ;; https://jblevins.org/projects/markdown-mode/
+  (setq markdown-command "marked")
+
+  ;; Disable auto indent (undesirable result with some modes)
+  ;; From https://github.com/syl20bnr/spacemacs/issues/4219#issuecomment-323558793
+  (add-to-list 'spacemacs-indent-sensitive-modes 'nix-mode)
 
   )
 
