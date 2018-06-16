@@ -50,7 +50,7 @@ values."
      lua
      (markdown :variables
                markdown-live-preview-engine 'vmd)
-     ;; org
+     org
      osx
      purescript
      python
@@ -356,7 +356,7 @@ you should place your code here."
   ;; Too close to evil-insert-digraph's C-k
   (global-unset-key (kbd "s-k"))
   ;; A more useful evil-insert-digraph for evil hybrid mode
-  (global-set-key (kbd "C-<tab>") 'evil-insert-digraph)
+  (global-set-key (kbd "s-i") 'evil-insert-digraph)
   ;; Prevent evil-insert-digraph from taking over TAB. Too aggressive?
   (global-set-key (kbd "TAB") 'ensime-company-complete-or-indent)
   ;; Add familiar command left and right for beginning and end of line
@@ -379,10 +379,37 @@ you should place your code here."
   (add-hook 'markdown-mode-hook
             (lambda ()
               (setq word-wrap t)
+              (markdown-toggle-url-hiding t)
               (define-key markdown-mode-map (kbd "M-<left>") 'left-word)
               (define-key markdown-mode-map (kbd "M-<right>") 'right-word)))
+  ;; Touch of org-mode customization
+  (add-hook 'org-mode-hook
+            (lambda ()
+              (org-bullets-mode)
+              ;; Retain desired c-tab behavior in org mode
+              (define-key org-mode-map (kbd "<C-tab>") nil)))
+
+  ;; Touch of org-present customization
+  (defun org-present-augmented ()
+    ;; hide mode line
+    (org-present-show-cursor)
+    (setq cursor-type nil)
+    (set (make-local-variable 'local-mode-line-format) mode-line-format)
+    (setq mode-line-format nil))
+  (advice-add 'org-present :after 'org-present-augmented)
+  (add-hook 'org-present-mode-hook
+            (lambda ()
+              (spacemacs/toggle-line-numbers-off)))
+  (add-hook 'org-present-mode-quit-hook
+            (lambda ()
+              (setq mode-line-format local-mode-line-format)
+              (setq cursor-type t)
+              (spacemacs/toggle-line-numbers-on)))
+
   ;; A more familiar spelling correction
   (global-set-key (kbd "s-:") 'flyspell-correct-previous-word-generic)
+  ;; Avoid unintentional fonts window popup, `ns-popup-font-panel`
+  (global-unset-key (kbd "s-t"))
   ;; Follow attempted usage
   (define-key evil-normal-state-map (kbd "C-d") 'delete-char)
   ;; Quicker window selection
@@ -406,10 +433,35 @@ you should place your code here."
   (global-set-key (kbd "<C-s-tab>") 'helm-mini)
   ;; Quicker terminal selection
   (global-set-key (kbd "C-s-`") 'helm-switch-to-term)
+
   ;; Quicker project buffer selection
-  (global-set-key (kbd "<C-S-tab>") 'helm-projectile)
+  (require 'helm-projectile)
+  ;; Culted and adapted from `helm-projectile.el`
+  (defvar helm-source-projectile-recentf-list-sans-current-buffer
+    (helm-build-sync-source "Projectile recent files"
+      :candidates (lambda ()
+                    (with-helm-current-buffer
+                      (helm-projectile--files-display-real
+                       (delete (replace-regexp-in-string (projectile-project-root) "" (or (buffer-file-name) ""))
+                               (projectile-recently-active-files))
+                       (projectile-project-root))))
+      :fuzzy-match helm-projectile-fuzzy-match
+      :keymap helm-projectile-find-file-map
+      :help-message 'helm-ff-help-message
+      :mode-line helm-read-file-name-mode-line-string
+      :action helm-projectile-file-actions
+      :persistent-action #'helm-projectile-file-persistent-action
+      :persistent-help "Preview file")
+    "Helm source definition for recent files in current project.")
+  (helm-projectile-command "recentf-sans-current-buffer"
+                           'helm-source-projectile-recentf-list-sans-current-buffer
+                           "Recently visited file: ")
+ (global-set-key (kbd "<C-tab>")
+                 (lambda ()
+                   (interactive)
+                   (helm-projectile-recentf-sans-current-buffer)))
   ;; Quicker project terminal selection
-  (global-set-key (kbd "C-~") 'helm-projectile-switch-to-term)
+  (global-set-key (kbd "C-`") 'helm-projectile-switch-to-term)
   ;; Auxiliary comment lines
   (global-set-key (kbd "M-/") 'spacemacs/comment-or-uncomment-lines)
   (global-set-key (kbd "s-/") 'spacemacs/comment-or-uncomment-lines)
@@ -498,6 +550,10 @@ you should place your code here."
   (global-set-key (kbd "s-{") 'evil-window-prev)
   (global-set-key (kbd "C-{") 'evil-window-left)
   (global-set-key (kbd "C-}") 'evil-window-right)
+
+  ;; Additional and convenient section switching
+  (global-set-key (kbd "s-]") 'evil-forward-section-begin)
+  (global-set-key (kbd "s-[") 'evil-backward-section-begin)
 
   ;; todo Appears to be working nicely without adjustment on the latest Emacs
   ;; A more familiar and less jumpy mouse scroll
@@ -937,6 +993,15 @@ The body of the advice is in BODY."
   ;; Disable auto indent (undesirable result with some modes)
   ;; From https://github.com/syl20bnr/spacemacs/issues/4219#issuecomment-323558793
   (add-to-list 'spacemacs-indent-sensitive-modes 'nix-mode)
+
+  ;; Babel languages
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((shell . t)))
+
+  ;; Custom projectile project roots
+  (setq projectile-project-root-files-bottom-up
+    '(".projectile" ".git" ".pijul" ".hg" ".fslckout" "_FOSSIL_" ".bzr" "_darcs"))
 
   )
 
