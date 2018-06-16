@@ -1,12 +1,7 @@
 # Bootstrapped from https://github.com/LnL7/nix-darwin/blob/master/modules/examples/lnl.nix
 
 { config, lib, pkgs, ... }:
-
-let
-  # TODO more conventional way to access overlays?
-  nixpkgs = import <nixpkgs> { };
-  aspellWithDict = pkgs.aspellWithDicts(ps: with ps; [ en ]);
-in {
+{
   system.defaults.NSGlobalDomain.AppleKeyboardUIMode = 3;
   system.defaults.NSGlobalDomain.ApplePressAndHoldEnabled = false;
   system.defaults.NSGlobalDomain.InitialKeyRepeat = 15;
@@ -32,19 +27,8 @@ in {
   system.defaults.trackpad.TrackpadRightClick = true;
   system.defaults.trackpad.TrackpadThreeFingerDrag = true;
 
-  # See nix-notes.md ToDo
-  # system.keyboard.enableKeyMapping = true;
-  # system.keyboard.remapCapsLockToControl = true;
-
   environment.systemPackages =
     [
-    # Emacs
-    # TODO make deps available to emacs app other than globally
-    nixpkgs.emacsHeadCustom
-    # ispell is erroring out on package install/compilation
-    aspellWithDict
-    pkgs.gcc
-
     # pkgs.brotli
     pkgs.ctags
     pkgs.curl
@@ -63,11 +47,6 @@ in {
     pkgs.shellcheck
     pkgs.silver-searcher
     pkgs.tree
-
-    # pkgs.khd
-    # pkgs.kwm
-
-    pkgs.nix-repl
     ];
 
   # Create /etc/bashrc that loads the nix-darwin environment.
@@ -93,5 +72,5 @@ in {
 
   # Default of true causing `warning: unknown setting 'signed-binary-caches'`
   # due to `signed-binary-caches = *` in /etc/nix/nix.conf
-  nix.requireSignedBinaryCaches = false;
+  # nix.requireSignedBinaryCaches = false;
 }
