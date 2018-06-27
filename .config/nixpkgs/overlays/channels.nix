@@ -1,5 +1,7 @@
 self: super:
 {
+  local = import ~/code/nixpkgs {};
+
   unstable = import (builtins.fetchTarball
     https://github.com/NixOS/nixpkgs-channels/archive/nixos-unstable.tar.gz
   ) {};
