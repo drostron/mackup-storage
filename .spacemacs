@@ -50,7 +50,8 @@ values."
      lua
      (markdown :variables
                markdown-live-preview-engine 'vmd)
-     org
+     (org :variables
+          org-enable-reveal-js-support t)
      osx
      purescript
      python
@@ -429,6 +430,11 @@ you should place your code here."
   (global-set-key (kbd "C-s-#") 'eyebrowse-switch-to-window-config-3)
   (global-set-key (kbd "C-s-$") 'eyebrowse-switch-to-window-config-4)
   (global-set-key (kbd "C-s-%") 'eyebrowse-switch-to-window-config-5)
+  (global-set-key (kbd "C-s-^") 'eyebrowse-switch-to-window-config-6)
+  ;; originally backward-sexp
+  (global-set-key (kbd "<C-s-left>") 'eyebrowse-prev-window-config)
+  ;; originally forward-sexp
+  (global-set-key (kbd "<C-s-right>") 'eyebrowse-next-window-config)
   ;; Quicker buffer selection
   (global-set-key (kbd "<C-s-tab>") 'helm-mini)
   ;; Quicker terminal selection
@@ -997,11 +1003,27 @@ The body of the advice is in BODY."
   ;; Babel languages
   (org-babel-do-load-languages
    'org-babel-load-languages
-   '((shell . t)))
+   '((shell . t)
+     ;; TODO haskell-mode conf such that a nix-shell based ghc/ghci is available
+     (haskell . t)))
 
   ;; Custom projectile project roots
   (setq projectile-project-root-files-bottom-up
     '(".projectile" ".git" ".pijul" ".hg" ".fslckout" "_FOSSIL_" ".bzr" "_darcs"))
+
+  ;; Default to no line numbers
+  (add-hook 'markdown-mode-hook 'spacemacs/toggle-line-numbers-off)
+  (add-hook 'org-mode-hook 'spacemacs/toggle-line-numbers-off)
+
+  ;; An org-mode compatible word-wrap.
+  (add-hook 'org-mode-hook 'visual-line-mode)
+
+  ;; Touch of org mode customization
+  (setq org-support-shift-select t)
+
+  ;; Towards a less jarring help-mode buffer display when clicking through to an associated file
+  (add-to-list 'display-buffer-alist
+               '("*Help*" display-buffer-same-window))
 
   )
 
