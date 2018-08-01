@@ -74,12 +74,14 @@ values."
    ;; configuration in `dotspacemacs/user-config'.
    dotspacemacs-additional-packages
    '(
+     bazel-mode
      ;; dante
+     dhall-mode
      etags-select
      helm-xref
-     region-convert
      nix-mode
      protobuf-mode
+     region-convert
      )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -379,14 +381,11 @@ you should place your code here."
   ;; A familiar backward and forward word for markdown mode
   (add-hook 'markdown-mode-hook
             (lambda ()
-              (setq word-wrap t)
-              (markdown-toggle-url-hiding t)
               (define-key markdown-mode-map (kbd "M-<left>") 'left-word)
               (define-key markdown-mode-map (kbd "M-<right>") 'right-word)))
   ;; Touch of org-mode customization
   (add-hook 'org-mode-hook
             (lambda ()
-              (org-bullets-mode)
               ;; Retain desired c-tab behavior in org mode
               (define-key org-mode-map (kbd "<C-tab>") nil)))
 
@@ -439,6 +438,8 @@ you should place your code here."
   (global-set-key (kbd "<C-s-tab>") 'helm-mini)
   ;; Quicker terminal selection
   (global-set-key (kbd "C-s-`") 'helm-switch-to-term)
+  ;; Quicker frame switching
+  (global-set-key (kbd "<C-S-tab>") 'other-frame)
 
   ;; Quicker project buffer selection
   (require 'helm-projectile)
@@ -953,17 +954,27 @@ The body of the advice is in BODY."
             ;; Glyph composition offered to maintain preserve column position and proper replacement width
             ("->" . (#Xe149 (Bc . Br) ? ))
             (">-" . (#Xe15b (Bc . Br) ? ))
+            ("-<" . (#Xe15c (Bc . Br) ? ))
             ("=>" . (#Xe161 (Bc . Br) ? ))
             ("<-" . (#Xe179 (Br Bl -100 0) ? ))
             ("==" . (#Xe1cc (Bc . Br) ? ))
+            ("/=" . (#Xe1cd (Bc . Br) ? ))
+            (":=" . (#Xe1b7 (Bc . Br) ? ))
             ;; TODO unable to get column count to 3 for triple char substitutions
             ;;      using (Br Bl -100 0) ?a (Br Bl -100 0) ?b)
             (">>=" . (#Xe175 (Br Bl -100 0) ? ))
+            ("=<<" . (#Xe178 (Br Bl -100 0) ? ))
             ("===" . (#Xe176 (Br Bl -100 0) ? ))
             ("=/=" . (#Xe177 (Br Bl -100 0) ? ))
             (">=>" . (#Xe1a9 (Br Bl -100 0) ? ))
+            ("<=<" . (#Xe1aa (Br Bl -100 0) ? ))
+            (">->" . (#Xe1ab (Br Bl -100 0) ? ))
+            ("<-<" . (#Xe1ad (Br Bl -100 0) ? ))
+            ("->-" . (#Xe15d (Br Bl -100 0) ? ))
+            ("-<-" . (#Xe15e (Br Bl -100 0) ? ))
+            ("=>=" . (#Xe1ae (Br Bl -100 0) ? ))
+            ("=<=" . (#Xe1af (Br Bl -100 0) ? ))
             (">==>" . #Xe1ac)
-            (":=" . (#Xe1b7 (Bc . Br) ? ))
             )))
 
   (setq prettify-symbols-unprettify-at-point 'right-edge)
@@ -1011,19 +1022,65 @@ The body of the advice is in BODY."
   (setq projectile-project-root-files-bottom-up
     '(".projectile" ".git" ".pijul" ".hg" ".fslckout" "_FOSSIL_" ".bzr" "_darcs"))
 
-  ;; Default to no line numbers
-  (add-hook 'markdown-mode-hook 'spacemacs/toggle-line-numbers-off)
-  (add-hook 'org-mode-hook 'spacemacs/toggle-line-numbers-off)
+  ;; A few markdown-mode hook customizations
+  (add-hook 'markdown-mode-hook
+            (lambda ()
+              ;; A more pleasing bullet indentation/alignment
+              ;; NB: Enabling 'word-wrap 'org-indent-mode causing crash when <S-tab>ing `orgtbl-hijacker-command-104`
+              ;;     'visual-line-mode seems to be generally preferable anyway
+              (visual-line-mode)
+              ;; Hide URLs
+              (markdown-toggle-url-hiding t)
+              ;; Default to no line numbers
+              (spacemacs/toggle-line-numbers-off)
+              ))
 
-  ;; An org-mode compatible word-wrap.
-  (add-hook 'org-mode-hook 'visual-line-mode)
+  ;; A few org-mode hook customizations
+  (add-hook 'org-mode-hook
+            (lambda ()
+              ;; "Use UTF8 bullets in Org mode headings."
+              (org-bullets-mode)
+              ;; Default to no line numbers
+              (spacemacs/toggle-line-numbers-off)
+              ;; An org-mode compatible word-wrap.
+              (visual-line-mode)
+              ;; Enable smartparens for the familiar auto surround of quotes, parens, etc
+              (spacemacs/toggle-smartparens-on)))
 
   ;; Touch of org mode customization
+  ;; The familiar shift selection
   (setq org-support-shift-select t)
+  ;; The above defined forward and backward word
+  (define-key org-mode-map (kbd "M-<left>") 'left-word)
+  (define-key org-mode-map (kbd "M-<right>") 'right-word)
 
   ;; Towards a less jarring help-mode buffer display when clicking through to an associated file
   (add-to-list 'display-buffer-alist
                '("*Help*" display-buffer-same-window))
+
+  ;; Show org-mode link under cursor
+  ;; From https://stackoverflow.com/a/30328255
+  ;; TODO is this performant and reasonable
+  ;; Following 'post-command-hook's recommendation by wrapping with 'while-no-input
+  (defun link-message ()
+    (while-no-input
+      (redisplay)
+      (let ((object (org-element-context)))
+        (when (eq (car object) 'link)
+          (message
+           "%s"
+           (org-element-property :raw-link object))))))
+  (add-hook 'org-mode-hook
+            (lambda ()
+              (add-hook 'post-command-hook 'link-message nil 'make-it-local)))
+
+  ;; Touch of dhall-mode customization
+  ;; use newer "dhall format"
+  ;; (setq dhall-format-command nil)
+  ;; disable due the the slows
+  (setq dhall-command nil)
+  (setq dhall-use-header-line nil)
+  (setq dhall-format-command "")
 
   )
 
